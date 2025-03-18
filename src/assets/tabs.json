@@ -1,0 +1,51 @@
+{
+    "my_employment": {
+        "label": "МОЯ СЛУЖБА",
+        "icon": "",
+        "childs": [
+            {
+                "icon": "list-bullet",
+                "label": "my_data",
+                "key": ""
+            },
+            {
+                "icon": "archive-box",
+                "label": "my_surveys",
+                "key": "surveys"
+            },
+            {
+                "icon": "list-bullet",
+                "label": "my_something",
+                "key": "something",
+                "childs": [
+                    {
+                        "label":"month_plan",
+                        "key": "month_plan",
+                        "icon": ""
+                    },
+                    {
+                        "label":"year_plan",
+                        "key": "year_plan",
+                        "icon": ""
+                    }
+                ]
+            }
+        ]
+    },
+    "menegment":{
+        "icon": "",
+        "label":"МЕНЕДЖМЕНТ",
+        "childs":[
+            {
+                "icon": "list-bullet",
+                "label": "my_data2",
+                "key": "data2"
+            },
+            {
+                "icon": "list-bullet",
+                "label": "my_surveys2",
+                "key": "surveys2"
+            }
+        ]
+    }
+}
