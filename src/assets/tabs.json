@@ -45,6 +45,11 @@
                 "icon": "list-bullet",
                 "label": "my_surveys2",
                 "key": "surveys2"
+            },
+            {
+                "icon": "pencil",
+                "label": "Опросы и тесты",
+                "key": "surveys-tests"
             }
         ]
     }

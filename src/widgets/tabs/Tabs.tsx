@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState } from "react";
-import data from "../assets/tabs.json"
-import ButtonTree from "./ButtonTree";
-import Icon from "./Icon";
+import data from "../../assets/tabs.json"
+import ButtonTree from "../../shared/tabs/ButtonTree";
+import Icon from "../../shared/Icon";
 import { useNavigate } from "react-router";
 
 type MenuItem = {

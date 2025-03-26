@@ -1,8 +1,31 @@
 import { useState, useRef } from "react"
 import { Quill } from "react-quill"
-import Editor from "../components/Editor"
-import TabBar from "../components/TabBar"
+import Editor from "../../widgets/editor/Editor"
+import TextEditerTabBar from "../../shared/editor/TextEditerTabBar"
 
+type Text = {
+    ops: [
+        {
+            attributes?: {
+                header?: number,
+                color?: string,
+                bold?: boolean,
+                link?: string,
+                underline? : boolean,
+                strike? : boolean,
+                font? : string,
+                size? : string,
+                background? : string,
+                blockquote? : boolean,
+                'code-block'? : boolean,
+                list? : string,
+                indent? : number,
+                token? : string
+            }
+            insert: string | { image: string },
+        }
+    ]
+}
 const TextEditor = () => {
     const tabButtonStyle = {
         fontFamily: 'Roboto, sans-serif',
@@ -27,7 +50,7 @@ const TextEditor = () => {
     return (
         <div>
             <div className='container border border-solid text-lg border-stone-200 rounded-lg'>
-                <TabBar></TabBar>
+                <TextEditerTabBar></TextEditerTabBar>
                 <Editor
                     ref={quillRef}
                     readOnly={readOnly}

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import Icon from "./Icon";
+import Icon from "../Icon";
 
 type MenuItem = {
     label: string;
@@ -14,7 +14,9 @@ const ButtonTree = ({ item, routTo, openChild }: { item: MenuItem, routTo: any, 
     const className =  (isActive ? (!item.icon ? "bg-[#3E79F71A] border-r-3 border-blue-500 text-blue-500": "text-blue-500") : "")
 
     const toRouter = (router: string | undefined) => {
-        routTo(router)
+        if(item.childs){
+            setIsOpen(!isOpen)
+        }else routTo(router)
     }
 
     const openCloseChild = () => {
@@ -34,7 +36,7 @@ const ButtonTree = ({ item, routTo, openChild }: { item: MenuItem, routTo: any, 
             </div>
             {item.childs && isOpen && item.childs.map((child, index) => (
                 <div key={index}>
-                    <ButtonTree openChild={openChild} routTo={toRouter} item={child}></ButtonTree>
+                    <ButtonTree openChild={openChild} routTo={routTo} item={child}></ButtonTree>
                 </div>
             ))
             }
