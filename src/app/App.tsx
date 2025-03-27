@@ -12,6 +12,7 @@ import { I18nextProvider } from "react-i18next";
 import i18next from "../i18n/i18n";
 import TabBar from '../widgets/tabs/TabBar';
 import Survey from '../pages/surveys/Survey';
+import CreateSurevey from '../pages/surveys/CreateSurvey';
 
 function App() {
   const [isOpenTab, setIsOpenTab] = useState(false)
@@ -32,6 +33,7 @@ function App() {
               <Route path="/surveys" element={<TextEditor />} />
               <Route path="/something" element={<Users />} />
               <Route path='/surveys-tests' element={<Survey />} />
+              <Route path='/surveys2' element={<CreateSurevey/>}/>
               <Route path="/" element={<Home />} />
             </Routes>
           </div>

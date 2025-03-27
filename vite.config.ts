@@ -8,4 +8,18 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
+  server: {
+    proxy: {
+      '/quizzes': {
+        target: 'http://192.168.1.226:8080',
+        changeOrigin: true,
+        secure: false
+      },
+      '/divisions': {
+        target: 'http://192.168.1.226:8080',
+        changeOrigin: true,
+        secure: false
+      }
+    }
+  }
 })
