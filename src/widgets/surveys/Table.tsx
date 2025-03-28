@@ -143,13 +143,6 @@ const Table = ( {dataP,total, activeTab, changeFilter }: {total: number, dataP: 
         console.log(action, " ",  key);
     }
 
-    async function getDivisionById (divisionId : number){
-        const res = (await axios.get(`/divisions/${divisionId}`)).data
-        console.log(res.divisionId);
-        
-        return res.divisionId
-    }
-
     const columns: TableColumnsType<Quiz> = [
         {
             title: "Name",

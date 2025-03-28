@@ -1,3 +1,5 @@
+import CreateSurveyQuestion from "../../widgets/create-survey/CreateSurveyQuestion"
+
 const CreateSurevey = () => {
     return (
         <div className="flex flex-col h-full">
@@ -8,14 +10,13 @@ const CreateSurevey = () => {
                 </div>
                 <div>
                     <div className="pt-4">
-                        cjplfybt jghjcf  Yfcnhjqrf  rfktymlfh 
+                        cjplfybt jghjcf  Yfcnhjqrf  rfktymlfh
                     </div>
                 </div>
             </div>
+
             <div className="h-full flex flex-col items-center bg-[#E6E6FA] pt-3 container">
-                <div className={"bg-white rounded-[10px] border-[#E6EBF1] border-1 p-5  w-3/4"}>
-                    <p className="pb-6">first question</p>
-                </div>
+                <CreateSurveyQuestion />
             </div>
         </div>)
 }

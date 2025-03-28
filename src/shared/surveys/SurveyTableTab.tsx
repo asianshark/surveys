@@ -18,7 +18,7 @@ const SurveyTableTab = ({ tabs, onChange, activeTab }: { tabs: string[], onChang
         return className
     }
     return (
-        <div className="flex">
+        <div className="flex h-[40px]">
             {tabs.map((tab, index) => (
                 <button onClick={() => onChange(tab)} key={index} className={"px-4 py-2 " + classnameForButton(index)}>
                     {t(tab)}
