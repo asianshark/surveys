@@ -1,6 +1,12 @@
-export type Answer = { nameRu: string, nameKz: string, correct: boolean, key: number }
+export type Answer = { 
+    nameRu: string, 
+    nameKz: string, 
+    correct: boolean, 
+    key: number 
+}
 
 export type Question = {
+    key?: number,
     nameRu: string,
     nameKz?: string,
     multipleAns?: boolean,

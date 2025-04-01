@@ -12,7 +12,7 @@ const CreateSurveyQuestionRadioCheckbox = ({ lang, type, getAnswer }: { lang: st
     const [correctAnswerRadio, setCorrectAnswerRadio] = useState(0);
     const [correctAnswerCheckbox, setCorrectAnswerCheckbox] = useState([0]);
     const [answers, setAnswers] = useState<Answer[]>([{ nameRu: "", nameKz: "", correct: true, key: 0 }]);
-
+    const [keys, setKeys] = useState(1)
     const chooseAnswerRadio = (e: RadioChangeEvent) => {
         setAnswers((prev) => {
             return prev.map((answer, index) => ({
@@ -36,7 +36,8 @@ const CreateSurveyQuestionRadioCheckbox = ({ lang, type, getAnswer }: { lang: st
     }
 
     const addVariant = () => {
-        setAnswers((prev) => [...prev, { nameRu: "", nameKz: "", correct: false, key: answers.length + 1 }]);
+        setKeys(keys + 1)
+        setAnswers((prev) => [...prev, { nameRu: "", nameKz: "", correct: false, key: keys }]);
     }
     const changeInput = (value: string, key: number) => {
         setAnswers((prev) => {

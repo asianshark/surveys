@@ -8,21 +8,29 @@ const CreateSurvey = ({ setSurveyQuestions }: { setSurveyQuestions: (survey: Sur
 
     const [surveyName, setSurveyName] = useState("")
     const [surveyDescription, setSurveyDescription] = useState("")
-    const [questions, setQuestions] = useState<Question[] | []>([])
-    const setQuestion = (question: Question, ind: number) => {
-        setQuestions((prev) => {
-            const questions = [...prev];
-            questions[ind] = question;
-            return questions; 
-        });
+    const [questions, setQuestions] = useState<Question[]>([{ nameRu: "", required: false, key: 0 }])
+    const [keys, setKeys] = useState(1)
+
+    const setQuestion = (question: Question, key: number) => {
+        const ind = questions.findIndex((item) => item.key === key);
+        if (ind)
+            setQuestions((prev) => {
+                const questions = [...prev];
+                questions[ind] = { ...question, key: key };
+                return questions;
+            });
     }
-    const addVariant = () =>{
-        const question = {nameRu: "", required: false}
-        setQuestions((prev) => {
-            const questions = [...prev];
-            questions[questions.length] = question;
-            return questions;
-        });
+    const addVariant = () => {
+        setKeys(keys + 1)
+        setQuestions((prev) => [...prev, { key: keys, nameRu: "", required: false }])
+        console.log(questions);
+    }
+    const deleteQuestion = (key: number) => {
+        const ind = questions.findIndex((item) => item.key === key);
+        console.log('key: ', key, 'ind: ', ind, 'q: ', questions);
+
+        if (ind !== -1)
+            setQuestions((prev) => prev.filter((_, index) => index !== ind));
     }
     useEffect(() => {
         setSurveyQuestions({ questions: questions, nameRu: surveyName, nameKz: surveyDescription })
@@ -42,11 +50,11 @@ const CreateSurvey = ({ setSurveyQuestions }: { setSurveyQuestions: (survey: Sur
                     </div>
                 </div>
             </div>
-            {questions.length ?  questions.map((item, ind) =>
-                <CreateSurveyQuestion key={ind} setQuestionP={e => setQuestion(e, ind)} />
-            ) : <CreateSurveyQuestion setQuestionP={e => setQuestion(e, 0)}/>}
+            {questions.map((item) =>
+                <CreateSurveyQuestion key={item.key} deleteQuestionP={() => deleteQuestion(item.key)} setQuestionP={e => setQuestion(e, item.key)} />
+            )}
             <div className="pb-4">
-                <button onClick={addVariant} className="text-2xl text-[#72849A] p-5 rounded-[10px] bg-white flex border-[#E6EBF1] border-1"><PlusCircleOutlined/></button>
+                <button onClick={addVariant} className="text-2xl text-[#72849A] p-5 rounded-[10px] bg-white flex border-[#E6EBF1] border-1"><PlusCircleOutlined /></button>
             </div>
         </div>
     )

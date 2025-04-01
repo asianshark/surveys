@@ -6,7 +6,7 @@ import { SettingOutlined, CopyOutlined, DeleteOutlined } from "@ant-design/icons
 import { Answer, Question } from "../../entities/Survey";
 import CreateSurveyOpenQuestion from "../../shared/create-survey/CreateSurveyOpenQuestion";
 import CreateSurveyScale from "../../shared/create-survey/CreateSurveyScale";
-const CreateSurveyQuestion = ({ setQuestionP }: { setQuestionP: (question: Question) => void }) => {
+const CreateSurveyQuestion = ({ setQuestionP, deleteQuestionP }: { setQuestionP: (question: Question) => void , deleteQuestionP: () => void}) => {
     const [questionType, setQuestionType] = useState('singlechoice')
     const [isRequired, setIsRequired] = useState(false)
     const handleChange = (value: string) => {
@@ -32,10 +32,14 @@ const CreateSurveyQuestion = ({ setQuestionP }: { setQuestionP: (question: Quest
     ]
     const [lang, setLang] = useState("Рус")
     const [question, setQuestion] = useState<{ nameRu: string, nameKz: string }>({ nameRu: "", nameKz: "" })
-    const [answers, setAnswers] = useState<Answer[]>([{ nameRu: "", nameKz: "", correct: true }]);
+    const [answers, setAnswers] = useState<Answer[]>([{ nameRu: "", nameKz: "", correct: true , key: 0}]);
     useEffect(() => {
         setQuestionP({ multipleAns: questionType === 'multiplechoices', required: isRequired, nameRu: question.nameRu, nameKz: question.nameKz,active: true, answers: answers })
     }, [question, answers, isRequired, questionType])
+
+    const deleteQuestion = () =>{
+        deleteQuestionP()
+    }
     return (
         <div className="bg-white rounded-[10px] border-[#E6EBF1] border-1 p-5 flex flex-col gap-4 w-3/4">
             <div className="flex gap-2">
@@ -71,7 +75,7 @@ const CreateSurveyQuestion = ({ setQuestionP }: { setQuestionP: (question: Quest
                         <div className="text-2xl flex gap-6">
                             <SettingOutlined />
                             <CopyOutlined />
-                            <DeleteOutlined />
+                            <DeleteOutlined onClick={deleteQuestion}/>
                         </div>
                     </div>
                     <hr className="w-[24px] text-[#E6EBF1] rotate-90" />
