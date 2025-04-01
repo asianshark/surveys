@@ -52,6 +52,7 @@ const SurveyTable = () => {
         console.log(filter);
     }
     useEffect(() => {
+        setIsLoading(true)
         axios.get('/quizzes', {params: {
             page: filter.pagination ? filter.pagination.current - 1 : 0,
             size: filter.pagination ? filter.pagination.pageSize : 3
@@ -59,6 +60,7 @@ const SurveyTable = () => {
             setData(e.data.content)
             setTotal(e.data.totalElements)
         })
+        setIsLoading(false)
     }, [filter])
     return (
         <div className=" flex flex-col">

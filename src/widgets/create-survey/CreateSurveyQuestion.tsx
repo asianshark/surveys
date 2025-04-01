@@ -1,18 +1,16 @@
-import { Input, Radio, RadioChangeEvent, Select, Space } from "antd"
+import { Input, Select, Space, Switch } from "antd"
 import { useEffect, useState } from "react";
 import SurveyTableTab from "../../shared/surveys/SurveyTableTab";
-const style: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 16,
-};
-const CreateSurveyQuestion = () => {
-    const [value, setValue] = useState(0);
+import CreateSurveyQuestionRadioCheckbox from "../../shared/create-survey/CreateSurveyQuestionRadioCheckbox";
+import { SettingOutlined, CopyOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Answer, Question } from "../../entities/Survey";
+import CreateSurveyOpenQuestion from "../../shared/create-survey/CreateSurveyOpenQuestion";
+import CreateSurveyScale from "../../shared/create-survey/CreateSurveyScale";
+const CreateSurveyQuestion = ({ setQuestionP }: { setQuestionP: (question: Question) => void }) => {
+    const [questionType, setQuestionType] = useState('singlechoice')
+    const [isRequired, setIsRequired] = useState(false)
     const handleChange = (value: string) => {
-        console.log(`selected ${value}`);
-    };
-    const chooseAnswer = (e: RadioChangeEvent) => {
-        setValue(e.target.value);
+        setQuestionType(value)
     };
     const options = [
         {
@@ -33,34 +31,13 @@ const CreateSurveyQuestion = () => {
         }
     ]
     const [lang, setLang] = useState("Рус")
-    const [question, setQuestion] = useState({ nameRu: "", nameKz: "" })
-    const [answers, setAnswers] = useState<{ nameRu: string, nameKz: string }[]>([{ nameRu: "", nameKz: "" }]);
-    const [optionsForRadio, setOptionsForRadio] = useState(1)
-    const addVariant = () => {
-        setOptionsForRadio(optionsForRadio + 1)
-        setAnswers((prev) => [...prev, { nameRu: "", nameKz: "" }]);
-    }
-
-    const changeInput = (value: string, id: number) => {
-        if (lang === "Рус") {
-            setAnswers((prev) => {
-                const newAnswers = [...prev];
-                newAnswers[id] = { nameRu: value, nameKz: newAnswers[id].nameKz };
-                return newAnswers;
-            });
-        } else {
-            setAnswers((prev) => {
-                const newAnswers = [...prev];
-                newAnswers[id] = { nameRu: newAnswers[id].nameRu, nameKz: value };
-                return newAnswers;
-            })
-        }
-    }
-    const getVariants = () => {
-        console.log(answers);
-    }
+    const [question, setQuestion] = useState<{ nameRu: string, nameKz: string }>({ nameRu: "", nameKz: "" })
+    const [answers, setAnswers] = useState<Answer[]>([{ nameRu: "", nameKz: "", correct: true }]);
+    useEffect(() => {
+        setQuestionP({ multipleAns: questionType === 'multiplechoices', required: isRequired, nameRu: question.nameRu, nameKz: question.nameKz,active: true, answers: answers })
+    }, [question, answers, isRequired, questionType])
     return (
-        <div className={"bg-white rounded-[10px] border-[#E6EBF1] border-1 p-5 flex flex-col gap-4  w-3/4"}>
+        <div className="bg-white rounded-[10px] border-[#E6EBF1] border-1 p-5 flex flex-col gap-4 w-3/4">
             <div className="flex gap-2">
                 <div className="flex gap-2 w-full">
                     {lang === "Рус" ?
@@ -69,6 +46,7 @@ const CreateSurveyQuestion = () => {
                     <Select
                         style={{ width: '100%' }}
                         size={'large'}
+                        value={questionType}
                         defaultValue={'multiplechoices'}
                         onChange={handleChange}
                         options={options}
@@ -81,34 +59,30 @@ const CreateSurveyQuestion = () => {
                         )}
                     />
                 </div>
-
                 <SurveyTableTab tabs={["Рус", "Қаз"]} onChange={setLang} activeTab={lang} />
             </div>
-            <Radio.Group
-                style={style}
-                onChange={chooseAnswer}
-                value={value}
-                options={Array.from({ length: optionsForRadio }, (_, i) => ({
-                    value: i,
-                    label: (
-                        <div key={i}>
-                            <Input
-                                variant="borderless"
-                                value={lang === "Рус" ? answers[i]?.nameRu : answers[i]?.nameKz}
-                                key={i}
-                                onChange={e => changeInput(e.target.value, i)}
-                                placeholder="please input"
-                                style={{ width: 120 }}
-                            />
+            {questionType === "text" ? <CreateSurveyOpenQuestion/> : (
+                questionType === "scale" ? <CreateSurveyScale/> :
+                    <CreateSurveyQuestionRadioCheckbox lang={lang} type={questionType} getAnswer={setAnswers} />
+            )}
+            <div className="flex justify-end">
+                <div className="flex gap-6 items-center justify-between">
+                    <div>
+                        <div className="text-2xl flex gap-6">
+                            <SettingOutlined />
+                            <CopyOutlined />
+                            <DeleteOutlined />
                         </div>
-                    )
-                }))}
-            />
-            <div onClick={addVariant}>
-                <a>Добавить вариант  или  добавить вариант “Затрудняюсь ответить”</a>
+                    </div>
+                    <hr className="w-[24px] text-[#E6EBF1] rotate-90" />
+                    <div className="flex items-center gap-4">
+                        <div>
+                            Обязательный вопрос
+                        </div>
+                        <Switch onChange={e => setIsRequired(e)} />
+                    </div>
+                </div>
             </div>
-
-            <button onClick={getVariants}>getVariants</button>
 
         </div>)
 }

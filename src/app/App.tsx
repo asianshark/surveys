@@ -12,7 +12,7 @@ import { I18nextProvider } from "react-i18next";
 import i18next from "../i18n/i18n";
 import TabBar from '../widgets/tabs/TabBar';
 import Survey from '../pages/surveys/Survey';
-import CreateSurevey from '../pages/surveys/CreateSurvey';
+import CreateSurveyMain from '../pages/surveys/CreateSurveyMain';
 
 function App() {
   const [isOpenTab, setIsOpenTab] = useState(false)
@@ -26,14 +26,16 @@ function App() {
         <div className={'w-50 ' + (!isOpenTab && "hidden")}>
           <Tabs closeOpenTab={closeOpenTab} />
         </div>
-        <div className='grow flex flex-col'>
-          <TabBar closeOpenTab={closeOpenTab} isOpenTab={isOpenTab}></TabBar>
-          <div className='bg-[#F9F9FA] h-full'>
+        <div className='grow flex flex-col h-full'>
+          <div>
+            <TabBar closeOpenTab={closeOpenTab} isOpenTab={isOpenTab}></TabBar>
+          </div>
+          <div className='bg-[#F9F9FA] flex flex-col min-h-0 h-full'>
             <Routes>
               <Route path="/surveys" element={<TextEditor />} />
               <Route path="/something" element={<Users />} />
               <Route path='/surveys-tests' element={<Survey />} />
-              <Route path='/surveys2' element={<CreateSurevey/>}/>
+              <Route path='/surveys2' element={<CreateSurveyMain />} />
               <Route path="/" element={<Home />} />
             </Routes>
           </div>

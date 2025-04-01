@@ -19,6 +19,11 @@ export default defineConfig({
         target: 'http://192.168.1.226:8080',
         changeOrigin: true,
         secure: false
+      }, 
+      '/questions': {
+        target: 'http://192.168.1.226:8080',
+        changeOrigin: true,
+        secure: false
       }
     }
   }
