@@ -1,37 +1,49 @@
 import { Button, Tabs } from "antd"
 import CreateSurvey from "../../widgets/create-survey/CreateSurvey"
-import { useState } from "react"
-import { Survey } from "../../entities/Survey"
+import { useEffect, useState } from "react"
+import { Calendar, Survey } from "../../entities/Survey"
 import axios from "axios"
 import SurveySettings from "./SurveySettings"
 import SurveyCalendar from "./SurveyCalendar"
-import { checkValid } from "../../shared/create-survey/CheckValidCreatedSyrvey"
+import { checkValid, checkValidCalendar } from "../../shared/create-survey/CheckValidCreatedSyrvey"
 
 const CreateSurveyMain = () => {
     const [surveyQuestions, setSurveyQuestions] = useState<Survey>()
     const [currentTab, setCurrentTab] = useState<string>("create")
-    const [surveyCalendar, setSurveyCalendar] = useState()
+    const [surveyCalendar, setSurveyCalendar] = useState<Calendar>()
+    const [surveySettings, setSurveySettings] = useState<string>()
+    const [questionsError, setQuestionError] = useState<{ error: string, key?: number }>()
     const sendRequest = () => {
-        if (checkValid(surveyQuestions?.questions, surveyQuestions?.nameRu))
-            axios.post("/quizzes", {
-                ...surveyQuestions,
-                status: "DRAFT",
-                authorId: "1",
-                type: true,
-                everyDay: true,
-                everyWeek: true,
-                everyMonth: true,
-                dayOfWeek: "MONDAY",
-                divisions: [
-                    {
-                        id: 1,
-                        divisionName: "1 Dep"
-                    }
-                ],
-            }
-            ).then(response => console.log(response.data))
-        else sendReport()
+        const error = checkValid(surveyQuestions?.questions, surveyQuestions?.nameRu)
+        if (error.valid)
+            if (checkValidCalendar(surveyCalendar))
+                axios.post("/quizzes", {
+                    ...surveyQuestions,
+                    status: "DRAFT",
+                    authorId: "1",
+                    type: true,
+                    startDate: surveyCalendar?.startDate,
+                    endDate: surveyCalendar?.endDate,
+                    everyDay: surveyCalendar?.everyDay,
+                    everyWeek: surveyCalendar?.everyWeek,
+                    everyMonth: surveyCalendar?.everyMonth,
+                    dayOfWeek: surveyCalendar?.dayOfWeek ? surveyCalendar?.dayOfWeek : "MONDAY",
+                    divisions: [
+                        {
+                            id: 1,
+                            divisionName: "1 Dep"
+                        }
+                    ],
+                }
+                ).then(response => console.log(response.data))
+            else sendReport()
+        else
+            setQuestionError({error: error.error, key: error.key})
     }
+
+    useEffect(()=>{
+        setQuestionError(undefined)
+    }, [surveyQuestions])
 
     const onChange = (key: string) => {
         setCurrentTab(key)
@@ -70,8 +82,11 @@ const CreateSurveyMain = () => {
                     <Tabs style={{ marginBottom: '-16px' }} defaultActiveKey="1" items={items} onChange={onChange} />
                 </div>
             </div>
-            {currentTab === 'create' ? <CreateSurvey setSurveyQuestions={setSurveyQuestions} />
-                : (currentTab === 'settings' ? <SurveySettings /> : <SurveyCalendar />)}
+            {currentTab === 'create' ?
+                <CreateSurvey error={questionsError} setSurveyQuestions={setSurveyQuestions} /> :
+                (currentTab === 'settings' ?
+                    <SurveySettings setSurveySettings={setSurveySettings} /> :
+                    <SurveyCalendar setSurveyCalendar={setSurveyCalendar} />)}
 
         </div>
     )

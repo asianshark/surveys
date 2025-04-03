@@ -8,7 +8,7 @@ const style: React.CSSProperties = {
     gap: 16,
     color: '#1A3353'
 };
-const SurveySettings = () => {
+const SurveySettings = ({setSurveySettings}: {setSurveySettings: (settings: string)=> void}) => {
     const options = [
         {
             value: 'type',

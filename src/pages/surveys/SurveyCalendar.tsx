@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Calendar } from 'antd';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import CreateSurveyCalendarModal from '../../shared/create-survey/CreateSurveyCalendarModal';
+import { Calendar as CalendarType } from '../../entities/Survey';
 
-const SurveyCalendar: React.FC = () => {
+const SurveyCalendar = ({ setSurveyCalendar }: { setSurveyCalendar: (survey: CalendarType) => void }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [repeat, setRepeat] = useState<string>('never');
     const [range, setRange] = useState<[Dayjs | null, Dayjs | null]>([null, null]);
@@ -32,9 +33,16 @@ const SurveyCalendar: React.FC = () => {
         return false;
     };
 
-    const closeModal = (repeat: string) =>{
+    const closeModal = (repeat: string) => {
         setModalVisible(false)
         setRepeat(repeat)
+        setSurveyCalendar({
+            startDate: range[0]?.toISOString() || new Date().toISOString(),
+            endDate: range[0]?.toISOString() || new Date().toISOString(),
+            everyMonth: repeat === 'monthly',
+            everyWeek: repeat === 'weekly',
+            everyDay: repeat === 'daily'
+        })
     }
 
     const dateCellRender = (value: Dayjs) => {

@@ -58,6 +58,7 @@ const CreateSurveyCalendarModal: React.FC<ScheduleModalProps> = ({ visible, onCl
                                 { value: 'never', label: 'Никогда' },
                                 { value: 'daily', label: 'Каждый день' },
                                 { value: 'weekly', label: 'Каждую неделю' },
+                                { value: 'monthly', label: 'Каждый месяц' },
                             ]} />
                         </div>
                     </div>

@@ -35,3 +35,20 @@ export type Survey = {
         }
     ]
 }
+
+export type Settings = {
+    type: boolean,
+    divisions: {
+        divisionName: string,
+        quisIds: number[]
+    }
+}
+
+export type Calendar ={
+    startDate: string,
+    endDate: string,
+    everyDay: boolean,
+    everyWeek: boolean,
+    everyMonth: boolean,
+    dayOfWeek?: string,
+}

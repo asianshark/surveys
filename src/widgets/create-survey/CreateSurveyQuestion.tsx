@@ -11,7 +11,7 @@ const CreateSurveyQuestion = ({ type, questionP, setQuestionP, deleteQuestionP, 
     const [lang, setLang] = useState("Рус")
     const [question, setQuestion] = useState<Question>(questionP)
     const [answers, setAnswers] = useState<Answer[]>([{ nameRu: "", nameKz: "", correct: true, key: 0 }]);
-    const [questionType, setQuestionType] = useState(question.multipleAns ? 'singlechoice' : 'multiplechoices')
+    const [questionType, setQuestionType] = useState(questionP.multipleAns ? 'singlechoice' : 'multiplechoices')
     const [isRequired, setIsRequired] = useState(questionP.required)
     const handleChange = (value: string) => {
         setQuestionType(value)
@@ -35,8 +35,6 @@ const CreateSurveyQuestion = ({ type, questionP, setQuestionP, deleteQuestionP, 
         }
     ]
     useEffect(() => {
-        console.log(question);
-
         if (setQuestionP)
             setQuestionP({ multipleAns: questionType === 'multiplechoices', required: isRequired, nameRu: question?.nameRu, nameKz: question?.nameKz, active: true, answers: answers })
     }, [question, answers, isRequired, questionType])
@@ -51,8 +49,8 @@ const CreateSurveyQuestion = ({ type, questionP, setQuestionP, deleteQuestionP, 
                 <div className="flex gap-2 w-full text-[16px] text-[#455560] items-center">
                     {type === 'create' ?
                         (lang === "Рус" ?
-                            <Input value={question?.nameRu} placeholder="Вопрос" onChange={e => setQuestion({ nameRu: e.target.value, nameKz: question?.nameKz, required: question?.required })} /> :
-                            <Input value={question?.nameKz} placeholder="Вопрос" onChange={e => setQuestion({ nameRu: question?.nameRu, nameKz: e.target.value, required: question?.required })} />)
+                            <Input size={'large'} value={question?.nameRu} placeholder="Вопрос" onChange={e => setQuestion({ nameRu: e.target.value, nameKz: question?.nameKz, required: question?.required })} /> :
+                            <Input size={'large'} value={question?.nameKz} placeholder="Вопрос" onChange={e => setQuestion({ nameRu: question?.nameRu, nameKz: e.target.value, required: question?.required })} />)
                         :
                         (lang === "Рус" ? <div>{question?.nameRu}</div> : <div>{question?.nameKz}</div>)}
                     <Select
