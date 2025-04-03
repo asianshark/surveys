@@ -41,7 +41,7 @@ const SurveyTable = () => {
     const tabs = ['active', 'archive', 'draft']
     const [activeTab, setActiveTab] = useState(tabs[0])
     const [isLoading, setIsLoading] = useState(true)
-    const [data, setData] = useState<Quiz[]>()
+    const [data, setData] = useState<Quiz[]>([])
     const changeTab = (tab: string) => {
         setActiveTab(tab)
     }
@@ -52,7 +52,6 @@ const SurveyTable = () => {
         console.log(filter);
     }
     useEffect(() => {
-        setIsLoading(true)
         axios.get('/quizzes', {params: {
             page: filter.pagination ? filter.pagination.current - 1 : 0,
             size: filter.pagination ? filter.pagination.pageSize : 3
@@ -60,7 +59,6 @@ const SurveyTable = () => {
             setData(e.data.content)
             setTotal(e.data.totalElements)
         })
-        setIsLoading(false)
     }, [filter])
     return (
         <div className=" flex flex-col">

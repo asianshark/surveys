@@ -6,9 +6,13 @@ import { SettingOutlined, CopyOutlined, DeleteOutlined } from "@ant-design/icons
 import { Answer, Question } from "../../entities/Survey";
 import CreateSurveyOpenQuestion from "../../shared/create-survey/CreateSurveyOpenQuestion";
 import CreateSurveyScale from "../../shared/create-survey/CreateSurveyScale";
-const CreateSurveyQuestion = ({ setQuestionP, deleteQuestionP }: { setQuestionP: (question: Question) => void , deleteQuestionP: () => void}) => {
-    const [questionType, setQuestionType] = useState('singlechoice')
-    const [isRequired, setIsRequired] = useState(false)
+const CreateSurveyQuestion = ({ type, questionP, setQuestionP, deleteQuestionP, selectedAns, valid }: { valid?: { valid: boolean, questionId: number | null }, type: string, questionP: Question, setQuestionP?: (question: Question) => void, deleteQuestionP?: () => void, selectedAns?: (ans: number[]) => void }) => {
+
+    const [lang, setLang] = useState("Рус")
+    const [question, setQuestion] = useState<Question>(questionP)
+    const [answers, setAnswers] = useState<Answer[]>([{ nameRu: "", nameKz: "", correct: true, key: 0 }]);
+    const [questionType, setQuestionType] = useState(question.multipleAns ? 'singlechoice' : 'multiplechoices')
+    const [isRequired, setIsRequired] = useState(questionP.required)
     const handleChange = (value: string) => {
         setQuestionType(value)
     };
@@ -30,25 +34,29 @@ const CreateSurveyQuestion = ({ setQuestionP, deleteQuestionP }: { setQuestionP:
             value: "scale"
         }
     ]
-    const [lang, setLang] = useState("Рус")
-    const [question, setQuestion] = useState<{ nameRu: string, nameKz: string }>({ nameRu: "", nameKz: "" })
-    const [answers, setAnswers] = useState<Answer[]>([{ nameRu: "", nameKz: "", correct: true , key: 0}]);
     useEffect(() => {
-        setQuestionP({ multipleAns: questionType === 'multiplechoices', required: isRequired, nameRu: question.nameRu, nameKz: question.nameKz,active: true, answers: answers })
+        console.log(question);
+
+        if (setQuestionP)
+            setQuestionP({ multipleAns: questionType === 'multiplechoices', required: isRequired, nameRu: question?.nameRu, nameKz: question?.nameKz, active: true, answers: answers })
     }, [question, answers, isRequired, questionType])
 
-    const deleteQuestion = () =>{
-        deleteQuestionP()
+    const deleteQuestion = () => {
+        if (deleteQuestionP)
+            deleteQuestionP()
     }
     return (
-        <div className="bg-white rounded-[10px] border-[#E6EBF1] border-1 p-5 flex flex-col gap-4 w-3/4">
+        <div className={"bg-white rounded-[10px] border-1 p-5 flex flex-col gap-4 w-3/4 " + (valid && !valid?.valid && valid?.questionId === questionP.id ? 'border-red-500 border-2' : 'border-[#E6EBF1]')}>
             <div className="flex gap-2">
-                <div className="flex gap-2 w-full">
-                    {lang === "Рус" ?
-                        <Input value={question.nameRu} placeholder="Вопрос" onChange={e => setQuestion({ nameRu: e.target.value, nameKz: question.nameKz })} /> :
-                        <Input value={question.nameKz} placeholder="Вопрос" onChange={e => setQuestion({ nameRu: question.nameRu, nameKz: e.target.value })} />}
+                <div className="flex gap-2 w-full text-[16px] text-[#455560] items-center">
+                    {type === 'create' ?
+                        (lang === "Рус" ?
+                            <Input value={question?.nameRu} placeholder="Вопрос" onChange={e => setQuestion({ nameRu: e.target.value, nameKz: question?.nameKz, required: question?.required })} /> :
+                            <Input value={question?.nameKz} placeholder="Вопрос" onChange={e => setQuestion({ nameRu: question?.nameRu, nameKz: e.target.value, required: question?.required })} />)
+                        :
+                        (lang === "Рус" ? <div>{question?.nameRu}</div> : <div>{question?.nameKz}</div>)}
                     <Select
-                        style={{ width: '100%' }}
+                        style={{ width: '100%', display: type !== 'create' ? 'none' : 'block' }}
                         size={'large'}
                         value={questionType}
                         defaultValue={'multiplechoices'}
@@ -65,28 +73,32 @@ const CreateSurveyQuestion = ({ setQuestionP, deleteQuestionP }: { setQuestionP:
                 </div>
                 <SurveyTableTab tabs={["Рус", "Қаз"]} onChange={setLang} activeTab={lang} />
             </div>
-            {questionType === "text" ? <CreateSurveyOpenQuestion/> : (
-                questionType === "scale" ? <CreateSurveyScale/> :
-                    <CreateSurveyQuestionRadioCheckbox lang={lang} type={questionType} getAnswer={setAnswers} />
+            {questionType === "text" ? <CreateSurveyOpenQuestion /> : (
+                questionType === "scale" ? <CreateSurveyScale /> :
+                    <CreateSurveyQuestionRadioCheckbox surveyType={type} setSelectedAns={selectedAns} answersP={question?.answers} lang={lang} type={questionType} getAnswer={setAnswers} />
             )}
-            <div className="flex justify-end">
-                <div className="flex gap-6 items-center justify-between">
-                    <div>
-                        <div className="text-2xl flex gap-6">
-                            <SettingOutlined />
-                            <CopyOutlined />
-                            <DeleteOutlined onClick={deleteQuestion}/>
+            {
+                type !== 'create' ?
+                    <div className={isRequired ? 'text-red-500' : 'hidden'}>Обязательный вопрос</div> :
+                    <div className="flex justify-end">
+                        <div className="flex gap-6 items-center justify-between">
+                            <div>
+                                <div className="text-2xl flex gap-6">
+                                    <SettingOutlined />
+                                    <CopyOutlined />
+                                    <DeleteOutlined onClick={deleteQuestion} />
+                                </div>
+                            </div>
+                            <hr className="w-[24px] text-[#E6EBF1] rotate-90" />
+                            <div className="flex items-center gap-4">
+                                <div>
+                                    Обязательный вопрос
+                                </div>
+                                <Switch onChange={e => setIsRequired(e)} />
+                            </div>
                         </div>
                     </div>
-                    <hr className="w-[24px] text-[#E6EBF1] rotate-90" />
-                    <div className="flex items-center gap-4">
-                        <div>
-                            Обязательный вопрос
-                        </div>
-                        <Switch onChange={e => setIsRequired(e)} />
-                    </div>
-                </div>
-            </div>
+            }
 
         </div>)
 }

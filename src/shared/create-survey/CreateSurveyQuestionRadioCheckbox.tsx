@@ -8,11 +8,15 @@ const style: React.CSSProperties = {
     flexDirection: 'column',
     gap: 16,
 };
-const CreateSurveyQuestionRadioCheckbox = ({ lang, type, getAnswer }: { lang: string, type: string, getAnswer: (answers: Answer[]) => void }) => {
-    const [correctAnswerRadio, setCorrectAnswerRadio] = useState(0);
-    const [correctAnswerCheckbox, setCorrectAnswerCheckbox] = useState([0]);
+const CreateSurveyQuestionRadioCheckbox = ({ setSelectedAns, answersP, lang, surveyType, type, getAnswer }: { setSelectedAns?: (ans: number[]) => void, answersP?: Answer[], surveyType: string, lang: string, type: string, getAnswer: (answers: Answer[]) => void }) => {
+    const [correctAnswerRadio, setCorrectAnswerRadio] = useState();
+    const [correctAnswerCheckbox, setCorrectAnswerCheckbox] = useState<number[]>();
     const [answers, setAnswers] = useState<Answer[]>([{ nameRu: "", nameKz: "", correct: true, key: 0 }]);
     const [keys, setKeys] = useState(1)
+    useEffect(() => {
+        if (answersP)
+            setAnswers(answersP)
+    }, [])
     const chooseAnswerRadio = (e: RadioChangeEvent) => {
         setAnswers((prev) => {
             return prev.map((answer, index) => ({
@@ -20,11 +24,12 @@ const CreateSurveyQuestionRadioCheckbox = ({ lang, type, getAnswer }: { lang: st
                 correct: index === e.target.value,
             }));
         });
+        if (setSelectedAns)
+            setSelectedAns([e.target.value])
         setCorrectAnswerRadio(e.target.value);
     };
 
     const chooseAnswerCheckbox = (selectedIndexes: number[]) => {
-        const newAnswer: Answer[] = []
         setCorrectAnswerCheckbox(selectedIndexes)
         setAnswers((prev) =>
             prev.map((answer, index) => ({
@@ -32,7 +37,8 @@ const CreateSurveyQuestionRadioCheckbox = ({ lang, type, getAnswer }: { lang: st
                 correct: selectedIndexes.includes(index),
             }))
         );
-        setAnswers(newAnswer)
+        if (setSelectedAns)
+            setSelectedAns(selectedIndexes)
     }
 
     const addVariant = () => {
@@ -63,6 +69,7 @@ const CreateSurveyQuestionRadioCheckbox = ({ lang, type, getAnswer }: { lang: st
                     options={answers.map((item, i) => ({
                         value: i,
                         label: (
+                            surveyType !== 'create' ? <div>{lang === "Рус" ? item?.nameRu : item?.nameKz}</div> :
                             <div key={item.key} className="flex w-full justify-between">
                                 <Input
                                     variant="borderless"
@@ -86,23 +93,24 @@ const CreateSurveyQuestionRadioCheckbox = ({ lang, type, getAnswer }: { lang: st
                     options={answers.map((item, i) => ({
                         value: i,
                         label: (
-                            <div key={item.key}>
-                                <Input
-                                    variant="borderless"
-                                    value={lang === "Рус" ? item?.nameRu : item?.nameKz}
-                                    key={item.key}
-                                    onChange={e => changeInput(e.target.value, item.key)}
-                                    placeholder="please input"
-                                    style={{ width: 120 }}
-                                />
-                                <div className="flex items-center" onClick={() => deleteOption(item.key)}>
-                                    <CloseCircleOutlined />
+                            surveyType !== 'create' ? <div>{lang === "Рус" ? item?.nameRu : item?.nameKz}</div> :
+                                <div className="flex w-full justify-between" key={item.key}>
+                                    <Input
+                                        variant="borderless"
+                                        value={lang === "Рус" ? item?.nameRu : item?.nameKz}
+                                        key={item.key}
+                                        onChange={e => changeInput(e.target.value, item.key)}
+                                        placeholder="please input"
+                                        style={{ width: '100%' }}
+                                    />
+                                    <div className={(surveyType !== 'create' ? 'hidden' : '') + " flex items-center"} onClick={() => deleteOption(item.key)}>
+                                        <CloseCircleOutlined />
+                                    </div>
                                 </div>
-                            </div>
                         )
                     }))} />
             }
-            <div>
+            <div className={surveyType !== 'create' ? 'hidden' : ''}>
                 <a><a onClick={addVariant} className="text-[#366EF6] cursor-pointer">Добавить вариант</a>  или  <a className="text-[#366EF6] cursor-pointer">добавить вариант “Затрудняюсь ответить”</a></a>
             </div>
         </>

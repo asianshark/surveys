@@ -4,14 +4,7 @@ import { Button, Input, Space, Table as TableAntd } from 'antd';
 import { FilterDropdownProps } from 'antd/es/table/interface';
 import { SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
-interface DataType {
-    key: string,
-    name: string;
-    type: string;
-    address: string;
-    date: number
-}
-
+import { useNavigate } from 'react-router';
 interface Division {
     id: number;
     divisionName: string;
@@ -42,43 +35,23 @@ type Filters = Parameters<OnChange>[1];
 type GetSingle<T> = T extends (infer U)[] ? U : never;
 type Sorts = GetSingle<Parameters<OnChange>[2]>;
 
-const data: DataType[] = [
-    {
-        key: "1",
-        name: "test1",
-        type: "123",
-        address: "tes4t",
-        date: 15
-    },
-    {
-        key: "12",
-        name: "test2",
-        type: "1234",
-        address: "tet",
-        date: 15
-    },
-    {
-        key: "15",
-        name: "test3",
-        type: "12345",
-        address: "test1",
-        date: 15
-    }
-]
 type DataIndex = keyof Quiz;
 
-const Table = ( {dataP,total, activeTab, changeFilter }: {total: number, dataP: any, activeTab: string, changeFilter :  OnChange}) => {
+const Table = ({ dataP, total, activeTab, changeFilter }: { total: number, dataP: Quiz[], activeTab: string, changeFilter: OnChange }) => {
     const [sort, setSort] = useState<Sorts>({})
     const [filter, setFilter] = useState<Filters>({})
     const searchInput = useRef<InputRef>(null);
     const [pagination, setPagination] = useState<TablePaginationConfig>({
-          current: 1,
-          pageSize: 3,
-          total: total
-      });
-    useEffect(()=>{const pag = {...pagination, total: total}
-    setPagination(pag)
-    },[total])
+        current: 1,
+        pageSize: 3,
+        total: total
+    });
+
+    const navigate = useNavigate()
+    useEffect(() => {
+        const pag = { ...pagination, total: total }
+        setPagination(pag)
+    }, [total])
     const handleChange: OnChange = (pagination, filters, sorter, extra) => {
         // console.log('Various parameters', pagination, filters, sorter);
         setFilter(filters);
@@ -92,7 +65,7 @@ const Table = ( {dataP,total, activeTab, changeFilter }: {total: number, dataP: 
         confirm();
     };
 
-    const handleReset = (clearFilters: () => void,confirm: FilterDropdownProps['confirm'],) => {
+    const handleReset = (clearFilters: () => void, confirm: FilterDropdownProps['confirm'],) => {
         clearFilters();
         confirm()
     };
@@ -139,10 +112,12 @@ const Table = ( {dataP,total, activeTab, changeFilter }: {total: number, dataP: 
         },
     });
 
-    const handleChoose = (key: any, action: string) => {
-        console.log(action, " ",  key);
+    const handleChoose = (key: number | null, action: string) => {
+        console.log(action, " ", key);
+        if (action === 'pass' && key) {
+            navigate(`/surveys-tests/${key}`)
+        }
     }
-
     const columns: TableColumnsType<Quiz> = [
         {
             title: "Name",
@@ -168,10 +143,10 @@ const Table = ( {dataP,total, activeTab, changeFilter }: {total: number, dataP: 
             sortOrder: sort.columnKey === 'type' ? sort.order : null,
             ellipsis: true,
             render: (_, record) =>
-                data.length >= 1 ? (
-                  <Space key={record.id}>
-                    <p>{record.type ? "open" : "close"}</p>
-                  </Space>
+                dataP.length >= 1 ? (
+                    <Space key={record.id}>
+                        <p>{record.type ? "open" : "close"}</p>
+                    </Space>
                 ) : null,
         },
         {
@@ -185,10 +160,10 @@ const Table = ( {dataP,total, activeTab, changeFilter }: {total: number, dataP: 
             onFilter: () => true,
             ellipsis: true,
             render: (_, record) =>
-                data.length >= 1 ? (
-                  <Space key={record.id}>
-                    <p>{record.divisions[0].divisionName}</p>
-                  </Space>
+                dataP.length >= 1 ? (
+                    <Space key={record.id}>
+                        <p>{record.divisions[0].divisionName}</p>
+                    </Space>
                 ) : null,
         },
         {
@@ -200,24 +175,24 @@ const Table = ( {dataP,total, activeTab, changeFilter }: {total: number, dataP: 
             title: 'operation',
             dataIndex: 'operation',
             render: (_, record) =>
-              data.length >= 1 ? (
-                <Space key={record.id}>
-                  <a onClick={() => handleChoose(record.id, 'results')}>Results</a>
-                  <a onClick={() => handleChoose(record.id, 'archive')}
-                   style={{color: '#FF4D4F'}}>Archive</a>
-                </Space>
-              ) : null,
-          },
+                dataP.length >= 1 ? (
+                    <Space key={record.id}>
+                        <a onClick={() => handleChoose(record.id, 'results')}>Results</a>
+                        <a onClick={() => handleChoose(record.id, 'archive')} style={{ color: '#FF4D4F' }}>Archive</a>
+                        <a onClick={() => handleChoose(record.id, "pass")}>Pass</a>
+                    </Space>
+                ) : null,
+        },
     ];
 
     return (
         <>
-            <TableAntd<Quiz> 
+            <TableAntd<Quiz>
                 pagination={pagination}
-                rowClassName="editable-row" 
-                size="small" 
-                columns={columns} 
-                dataSource={dataP} 
+                rowClassName="editable-row"
+                size="small"
+                columns={columns}
+                dataSource={dataP}
                 onChange={handleChange} />
         </>
     )

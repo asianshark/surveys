@@ -11,20 +11,25 @@ export default defineConfig({
   server: {
     proxy: {
       '/quizzes': {
-        target: 'http://192.168.1.226:8080',
+        target: 'http://192.168.1.59:8080',
         changeOrigin: true,
         secure: false
       },
       '/divisions': {
-        target: 'http://192.168.1.226:8080',
+        target: 'http://192.168.1.59:8080',
         changeOrigin: true,
         secure: false
-      }, 
+      },
       '/questions': {
-        target: 'http://192.168.1.226:8080',
+        target: 'http://192.168.1.59:8080',
         changeOrigin: true,
         secure: false
-      }
+      },
+      '/responses/batch': {
+        target: 'http://192.168.1.59:8080',
+        changeOrigin: true,
+        secure: false
+      },
     }
   }
 })

@@ -13,12 +13,15 @@ const CreateSurvey = ({ setSurveyQuestions }: { setSurveyQuestions: (survey: Sur
 
     const setQuestion = (question: Question, key: number) => {
         const ind = questions.findIndex((item) => item.key === key);
-        if (ind)
-            setQuestions((prev) => {
-                const questions = [...prev];
-                questions[ind] = { ...question, key: key };
-                return questions;
-            });
+        if (ind !== -1)
+            setQuestions((prev) =>
+                prev.map((ques, index) =>
+                    ind === index
+                        ? { ...question, key: key }
+                        : ques
+                )
+            );
+
     }
     const addVariant = () => {
         setKeys(keys + 1)
@@ -27,8 +30,6 @@ const CreateSurvey = ({ setSurveyQuestions }: { setSurveyQuestions: (survey: Sur
     }
     const deleteQuestion = (key: number) => {
         const ind = questions.findIndex((item) => item.key === key);
-        console.log('key: ', key, 'ind: ', ind, 'q: ', questions);
-
         if (ind !== -1)
             setQuestions((prev) => prev.filter((_, index) => index !== ind));
     }
@@ -51,7 +52,7 @@ const CreateSurvey = ({ setSurveyQuestions }: { setSurveyQuestions: (survey: Sur
                 </div>
             </div>
             {questions.map((item) =>
-                <CreateSurveyQuestion key={item.key} deleteQuestionP={() => deleteQuestion(item.key)} setQuestionP={e => setQuestion(e, item.key)} />
+                <CreateSurveyQuestion type="create" questionP={item} key={item.key} deleteQuestionP={() => deleteQuestion(item.key)} setQuestionP={e => setQuestion(e, item.key)} />
             )}
             <div className="pb-4">
                 <button onClick={addVariant} className="text-2xl text-[#72849A] p-5 rounded-[10px] bg-white flex border-[#E6EBF1] border-1"><PlusCircleOutlined /></button>

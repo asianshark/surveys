@@ -6,6 +6,7 @@ export type Answer = {
 }
 
 export type Question = {
+    id?: number,
     key?: number,
     nameRu: string,
     nameKz?: string,
@@ -16,6 +17,7 @@ export type Question = {
 }
 
 export type Survey = {
+    id?: number,
     nameRu?: string,
     nameKz?: string,
     authorId?: string,

@@ -13,6 +13,7 @@ import i18next from "../i18n/i18n";
 import TabBar from '../widgets/tabs/TabBar';
 import Survey from '../pages/surveys/Survey';
 import CreateSurveyMain from '../pages/surveys/CreateSurveyMain';
+import SurveyTestPass from '../pages/surveys/SurveyTestPass';
 
 function App() {
   const [isOpenTab, setIsOpenTab] = useState(false)
@@ -37,6 +38,7 @@ function App() {
               <Route path='/surveys-tests' element={<Survey />} />
               <Route path='/surveys2' element={<CreateSurveyMain />} />
               <Route path="/" element={<Home />} />
+              <Route path='/surveys-tests/:id' element={<SurveyTestPass/>}></Route>
             </Routes>
           </div>
         </div>
