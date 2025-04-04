@@ -1,5 +1,4 @@
 import { useParams } from "react-router";
-import CreateSurvey from "../../widgets/create-survey/CreateSurvey";
 import { useEffect, useState } from "react";
 import { Question, Survey } from "../../entities/Survey";
 import CreateSurveyQuestion from "../../widgets/create-survey/CreateSurveyQuestion";
@@ -11,12 +10,12 @@ const SurveyTestPass = () => {
     const params = useParams()
     const [questions, setQuestions] = useState<Question[]>()
     const [answers, setAnswers] = useState<{
-        userId: string,
-        quizId: number,
-        questionId: number,
+        userId: string | undefined,
+        quizId: number | undefined,
+        questionId: number | undefined,
         selectedAnswerIds: number[]
     }[] | undefined>()
-    const [valid, setValid] = useState<{ valid: boolean, questionId: number | null }>({ valid: true, questionId: null })
+    const [valid, setValid] = useState<{ valid: boolean, questionId: number  | undefined}>({ valid: true, questionId: undefined })
     useEffect(() => {
         axios.get(`/quizzes/${params.id}`).then((res) => {
             setQuestions(res.data.questions)
@@ -65,7 +64,6 @@ const SurveyTestPass = () => {
             setValid(checkValidPass(questions, answers))
         }
         console.log(valid);
-
     }, [answers])
     return (
         <div className="h-full flex flex-col text-[#1A3353]">

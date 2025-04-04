@@ -1,6 +1,6 @@
 import { Button, Tabs } from "antd"
 import CreateSurvey from "../../widgets/create-survey/CreateSurvey"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Calendar, Survey } from "../../entities/Survey"
 import axios from "axios"
 import SurveySettings from "./SurveySettings"
@@ -8,11 +8,14 @@ import SurveyCalendar from "./SurveyCalendar"
 import { checkValid, checkValidCalendar } from "../../shared/create-survey/CheckValidCreatedSyrvey"
 
 const CreateSurveyMain = () => {
-    const [surveyQuestions, setSurveyQuestions] = useState<Survey>()
+    const [surveyQuestions, setSurveyQuestions] = useState<Survey>({
+        nameRu: "",
+        description: "",
+        questions: [{ nameRu: "", required: false, key: 0 }]
+    })
     const [currentTab, setCurrentTab] = useState<string>("create")
     const [surveyCalendar, setSurveyCalendar] = useState<Calendar>()
-    const [surveySettings, setSurveySettings] = useState<string>()
-    const [questionsError, setQuestionError] = useState<{ error: string, key?: number }>()
+    const [surveySettings, setSurveySettings] = useState<string[]>(['multilang', 'randomQuestions', 'type'])
     const sendRequest = () => {
         const error = checkValid(surveyQuestions?.questions, surveyQuestions?.nameRu)
         if (error.valid)
@@ -38,12 +41,10 @@ const CreateSurveyMain = () => {
                 ).then(response => console.log(response.data))
             else sendReport()
         else
-            setQuestionError({error: error.error, key: error.key})
+            alert(`Вы пропустили поле ${error.answerkey ? 'ответа' : 'вопроса'} (${error.error.slice(-2)}) \nВопрос №${error.questionKey} \n${error.answerkey ? `Ответ №${error.answerkey}` : ''}`)
     }
+    // ( error.error.slice(-2) === 'Kz' ? '' : '')
 
-    useEffect(()=>{
-        setQuestionError(undefined)
-    }, [surveyQuestions])
 
     const onChange = (key: string) => {
         setCurrentTab(key)
@@ -83,9 +84,9 @@ const CreateSurveyMain = () => {
                 </div>
             </div>
             {currentTab === 'create' ?
-                <CreateSurvey error={questionsError} setSurveyQuestions={setSurveyQuestions} /> :
+                <CreateSurvey surveyQuestions={surveyQuestions} multilang={surveySettings?.includes('multilang')} setSurveyQuestions={setSurveyQuestions} /> :
                 (currentTab === 'settings' ?
-                    <SurveySettings setSurveySettings={setSurveySettings} /> :
+                    <SurveySettings surveySettings={surveySettings} setSurveySettings={setSurveySettings} /> :
                     <SurveyCalendar setSurveyCalendar={setSurveyCalendar} />)}
 
         </div>

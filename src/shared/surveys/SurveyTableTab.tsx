@@ -1,6 +1,6 @@
 import { t } from "i18next";
 
-const SurveyTableTab = ({ tabs, onChange, activeTab }: { tabs: string[], onChange: (tabs: string) => void, activeTab: string }) => {
+const SurveyTableTab = ({ tabs, onChange, activeTab, disabled }: { tabs: string[], onChange: (tabs: string) => void, activeTab: string, disabled?: boolean }) => {
     const indexAct = tabs.indexOf(activeTab)
     const classnameForButton = (index: number) => {
         let className = "border-1 "
@@ -20,7 +20,7 @@ const SurveyTableTab = ({ tabs, onChange, activeTab }: { tabs: string[], onChang
     return (
         <div className="flex h-[40px]">
             {tabs.map((tab, index) => (
-                <button onClick={() => onChange(tab)} key={index} className={"px-4 py-2 " + classnameForButton(index)}>
+                <button disabled={disabled} onClick={() => onChange(tab)} key={index} className={"px-4 py-2 " + classnameForButton(index) + (disabled ? ' bg-[#f5f5f5] text-[#bfbfbf] cursor-not-allowed': '')}>
                     {t(tab)}
                 </button>
             ))}

@@ -6,12 +6,12 @@ import { SettingOutlined, CopyOutlined, DeleteOutlined } from "@ant-design/icons
 import { Answer, Question } from "../../entities/Survey";
 import CreateSurveyOpenQuestion from "../../shared/create-survey/CreateSurveyOpenQuestion";
 import CreateSurveyScale from "../../shared/create-survey/CreateSurveyScale";
-const CreateSurveyQuestion = ({ type, questionP, setQuestionP, deleteQuestionP, selectedAns, valid }: { valid?: { valid: boolean, questionId: number | null }, type: string, questionP: Question, setQuestionP?: (question: Question) => void, deleteQuestionP?: () => void, selectedAns?: (ans: number[]) => void }) => {
+const CreateSurveyQuestion = ({multilang, type, questionP, setQuestionP, deleteQuestionP, selectedAns, valid }: {multilang?: boolean, valid?: { valid: boolean, questionId: number | undefined }, type: string, questionP: Question, setQuestionP?: (question: Question) => void, deleteQuestionP?: () => void, selectedAns?: (ans: number[]) => void }) => {
 
     const [lang, setLang] = useState("Рус")
     const [question, setQuestion] = useState<Question>(questionP)
     const [answers, setAnswers] = useState<Answer[]>([{ nameRu: "", nameKz: "", correct: true, key: 0 }]);
-    const [questionType, setQuestionType] = useState(questionP.multipleAns ? 'singlechoice' : 'multiplechoices')
+    const [questionType, setQuestionType] = useState(questionP.multipleAns ? 'multiplechoices' : 'singlechoice')
     const [isRequired, setIsRequired] = useState(questionP.required)
     const handleChange = (value: string) => {
         setQuestionType(value)
@@ -69,7 +69,7 @@ const CreateSurveyQuestion = ({ type, questionP, setQuestionP, deleteQuestionP, 
                         )}
                     />
                 </div>
-                <SurveyTableTab tabs={["Рус", "Қаз"]} onChange={setLang} activeTab={lang} />
+                <SurveyTableTab disabled={multilang === false} tabs={["Рус", "Қаз"]} onChange={setLang} activeTab={lang} />
             </div>
             {questionType === "text" ? <CreateSurveyOpenQuestion /> : (
                 questionType === "scale" ? <CreateSurveyScale /> :

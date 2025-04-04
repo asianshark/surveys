@@ -1,7 +1,6 @@
 import { Question } from "../../entities/Survey";
 
-export const checkValidPass = (questions: Question[], answers: { authorId: string, quizId: number, questionId: number, selectedAnswerIds: number[] }[] | undefined) => {
-
+export const checkValidPass = (questions: Question[], answers: { questionId: number | undefined, selectedAnswerIds: number[] }[] | undefined) => {
     for (const ques of questions) {
         if (!answers)
             return { valid: false, questionId: ques.id }
@@ -17,5 +16,5 @@ export const checkValidPass = (questions: Question[], answers: { authorId: strin
             return { valid: false, questionId: ques.id };
         }
     }
-    return { valid: true, questionId: null }
+    return { valid: true, questionId: undefined }
 }

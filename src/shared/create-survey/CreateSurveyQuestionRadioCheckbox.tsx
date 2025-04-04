@@ -1,7 +1,8 @@
-import { RadioChangeEvent, Radio, Input, Checkbox } from "antd";
+import { RadioChangeEvent, Radio, Checkbox } from "antd";
 import { useEffect, useState } from "react";
 import { Answer } from "../../entities/Survey";
 import { CloseCircleOutlined } from "@ant-design/icons";
+import TextArea from "antd/es/input/TextArea";
 
 const style: React.CSSProperties = {
     display: 'flex',
@@ -70,19 +71,20 @@ const CreateSurveyQuestionRadioCheckbox = ({ setSelectedAns, answersP, lang, sur
                         value: i,
                         label: (
                             surveyType !== 'create' ? <div>{lang === "Рус" ? item?.nameRu : item?.nameKz}</div> :
-                            <div key={item.key} className="flex w-full justify-between">
-                                <Input
-                                    variant="borderless"
-                                    value={lang === "Рус" ? item?.nameRu : item?.nameKz}
-                                    key={item.key}
-                                    onChange={e => changeInput(e.target.value, item.key)}
-                                    placeholder="please input"
-                                    style={{ width: '100%' }}
-                                />
-                                <div className="flex items-center" onClick={() => deleteOption(item.key)}>
-                                    <CloseCircleOutlined />
+                                <div key={item.key} className="flex w-full items-center justify-between gap-4">
+                                    <TextArea
+                                        rows={1}
+                                        variant="borderless"
+                                        value={lang === "Рус" ? item?.nameRu : item?.nameKz}
+                                        key={item.key}
+                                        onChange={e => changeInput(e.target.value, item.key)}
+                                        placeholder="please input"
+                                        style={{ width: '100%' }}
+                                    />
+                                    <div className="flex items-center" onClick={() => deleteOption(item.key)}>
+                                        <CloseCircleOutlined />
+                                    </div>
                                 </div>
-                            </div>
                         )
                     }))}
                 /> :
@@ -94,8 +96,9 @@ const CreateSurveyQuestionRadioCheckbox = ({ setSelectedAns, answersP, lang, sur
                         value: i,
                         label: (
                             surveyType !== 'create' ? <div>{lang === "Рус" ? item?.nameRu : item?.nameKz}</div> :
-                                <div className="flex w-full justify-between" key={item.key}>
-                                    <Input
+                                <div className="flex w-full items-center justify-between gap-4" key={item.key}>
+                                    <TextArea
+                                        rows={1}
                                         variant="borderless"
                                         value={lang === "Рус" ? item?.nameRu : item?.nameKz}
                                         key={item.key}

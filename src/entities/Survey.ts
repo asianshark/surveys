@@ -18,7 +18,8 @@ export type Question = {
 
 export type Survey = {
     id?: number,
-    nameRu?: string,
+    nameRu: string,
+    description?: string,
     nameKz?: string,
     authorId?: string,
     status?: 'DRAFT',
@@ -27,7 +28,7 @@ export type Survey = {
     everyWeek?: false | boolean,
     everyMonth?: false | boolean,
     dayOfWeek?: "MONDAY",
-    questions?: Question[],
+    questions: Question[],
     divisions?: [
         {
             id: number,

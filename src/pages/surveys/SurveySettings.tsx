@@ -1,5 +1,4 @@
 import { Checkbox, Select } from "antd"
-import derivative from "antd/es/theme/themes/default";
 import axios from "axios";
 import { useEffect, useState } from "react"
 const style: React.CSSProperties = {
@@ -8,34 +7,42 @@ const style: React.CSSProperties = {
     gap: 16,
     color: '#1A3353'
 };
-const SurveySettings = ({setSurveySettings}: {setSurveySettings: (settings: string)=> void}) => {
+const SurveySettings = ({surveySettings, setSurveySettings }: {surveySettings: string[], setSurveySettings: (settings: string[]) => void }) => {
     const options = [
         {
             value: 'type',
-            label: 'active'
-        },
-        {
-            value: 'feedback',
-            label: 'feedback'
+            label: 'Анонимный опрос'
         },
         {
             value: 'multilang',
-            label: 'vultilang'
+            label: 'Вариант на казахском языке'
+        },
+        {
+            value: 'feedback',
+            label: 'Отчетность'
+        },
+        {
+            value: 'randomQuestions',
+            label: 'Перемешивать вопросы'
         }
+        
     ]
-    
-    const [divisions, setDivisions] = useState<{value: string, label: string}[]>([{value: '', label: ''}])
-    useEffect(()=>{
-        axios.get('/divisions').then((res)=> {
+
+    const [divisions, setDivisions] = useState<{ value: string, label: string }[]>([{ value: '', label: '' }])
+    useEffect(() => {
+        axios.get('/divisions').then((res) => {
             console.log(res.data.content);
-            let opt = []
+            const opt = []
             res.data.content.map(item => {
-                opt.push({value: item.id, label: item.divisionName})
+                opt.push({ value: item.id, label: item.divisionName })
             })
             setDivisions(opt)
         })
-    },[])
-    const [checkBoxAns, setCheckBoxAns] = useState<string[]>()
+    }, [])
+    const [checkBoxAns, setCheckBoxAns] = useState<string[]>(surveySettings)
+    useEffect(()=>{
+        setSurveySettings(checkBoxAns)
+    }, [checkBoxAns])
     return (
         <div className="flex flex-col items-center overflow-y-auto gap-6 pt-3">
             <div className="bg-white rounded-[10px] border-[#E6EBF1] border-1 p-5 flex flex-col gap-4 w-3/4">
@@ -52,8 +59,8 @@ const SurveySettings = ({setSurveySettings}: {setSurveySettings: (settings: stri
                 <div className="font-bold text-lg">Юрисдикция</div>
                 <div>Опрос проводится для:</div>
                 <Select
-                defaultValue={divisions[0].value}
-                options={divisions}>
+                    defaultValue={divisions[0].value}
+                    options={divisions}>
                 </Select>
             </div>
         </div>
