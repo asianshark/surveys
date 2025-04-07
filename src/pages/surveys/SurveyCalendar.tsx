@@ -3,10 +3,11 @@ import { Calendar } from 'antd';
 import type { Dayjs } from 'dayjs';
 import CreateSurveyCalendarModal from '../../shared/create-survey/CreateSurveyCalendarModal';
 import { Calendar as CalendarType } from '../../entities/Survey';
+import dayjs from 'dayjs';
 
-const SurveyCalendar = ({ setSurveyCalendar }: { setSurveyCalendar: (survey: CalendarType) => void }) => {
+const SurveyCalendar = ({surveyCalendar, setSurveyCalendar }: {surveyCalendar: CalendarType | undefined, setSurveyCalendar: (survey: CalendarType) => void }) => {
     const [modalVisible, setModalVisible] = useState(false);
-    const [range, setRange] = useState<[Dayjs | null, Dayjs | null]>([null, null]);
+    const [range, setRange] = useState<[Dayjs | null, Dayjs | null]>([surveyCalendar?.startDate ? dayjs(surveyCalendar?.startDate) : null, surveyCalendar?.endDate ? dayjs(surveyCalendar?.endDate) : null]);
 
     const onSelect = (date: Dayjs) => {
 
@@ -35,7 +36,7 @@ const SurveyCalendar = ({ setSurveyCalendar }: { setSurveyCalendar: (survey: Cal
         setModalVisible(false)
         setSurveyCalendar({
             startDate: range[0]?.toISOString() || new Date().toISOString(),
-            endDate: range[0]?.toISOString() || new Date().toISOString(),
+            endDate: range[1]?.toISOString() || new Date().toISOString(),
             everyMonth: repeat === 'monthly',
             everyWeek: repeat === 'weekly',
             everyDay: repeat === 'daily',

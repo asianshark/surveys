@@ -17,7 +17,7 @@ const CreateSurveyMain = () => {
     const [surveyCalendar, setSurveyCalendar] = useState<Calendar>()
     const [surveySettings, setSurveySettings] = useState<string[]>(['multilang', 'randomQuestions', 'type'])
     const sendRequest = () => {
-        const error = checkValid(surveyQuestions?.questions, surveyQuestions?.nameRu)
+        const error = checkValid(surveyQuestions?.questions, surveyQuestions?.nameRu, surveyQuestions.nameKz, surveySettings.includes('multilang'))
         if (error.valid)
             if (checkValidCalendar(surveyCalendar))
                 axios.post("/quizzes", {
@@ -40,8 +40,12 @@ const CreateSurveyMain = () => {
                 }
                 ).then(response => console.log(response.data))
             else sendReport()
-        else
-            alert(`Вы пропустили поле ${error.answerkey ? 'ответа' : 'вопроса'} (${error.error.slice(-2)}) \nВопрос №${error.questionKey} \n${error.answerkey ? `Ответ №${error.answerkey}` : ''}`)
+        else {
+            if (error.warning)
+                alert(`Вы пропустили поле ${error.warning} ${error.lang ? `(${error.lang})` : ''} \n${error.questionKey ? `Вопрос №${error.questionKey}` : ''} \n${error.answerkey ? `Ответ №${error.answerkey}` : ''}`)
+            else
+                alert(error.error)
+        }
     }
     // ( error.error.slice(-2) === 'Kz' ? '' : '')
 
@@ -87,7 +91,7 @@ const CreateSurveyMain = () => {
                 <CreateSurvey surveyQuestions={surveyQuestions} multilang={surveySettings?.includes('multilang')} setSurveyQuestions={setSurveyQuestions} /> :
                 (currentTab === 'settings' ?
                     <SurveySettings surveySettings={surveySettings} setSurveySettings={setSurveySettings} /> :
-                    <SurveyCalendar setSurveyCalendar={setSurveyCalendar} />)}
+                    <SurveyCalendar surveyCalendar={surveyCalendar} setSurveyCalendar={setSurveyCalendar} />)}
 
         </div>
     )

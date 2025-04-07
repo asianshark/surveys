@@ -6,7 +6,7 @@ import { SettingOutlined, CopyOutlined, DeleteOutlined } from "@ant-design/icons
 import { Answer, Question } from "../../entities/Survey";
 import CreateSurveyOpenQuestion from "../../shared/create-survey/CreateSurveyOpenQuestion";
 import CreateSurveyScale from "../../shared/create-survey/CreateSurveyScale";
-const CreateSurveyQuestion = ({multilang, type, questionP, setQuestionP, deleteQuestionP, selectedAns, valid }: {multilang?: boolean, valid?: { valid: boolean, questionId: number | undefined }, type: string, questionP: Question, setQuestionP?: (question: Question) => void, deleteQuestionP?: () => void, selectedAns?: (ans: number[]) => void }) => {
+const CreateSurveyQuestion = ({ multilang, type, questionP, setQuestionP, deleteQuestionP, duplicateQuestion, selectedAns, valid }: { multilang?: boolean, valid?: { valid: boolean, questionId: number | undefined }, type: string, questionP: Question, setQuestionP?: (question: Question) => void, duplicateQuestion?: () => void, deleteQuestionP?: () => void, selectedAns?: (ans: number[]) => void }) => {
 
     const [lang, setLang] = useState("Рус")
     const [question, setQuestion] = useState<Question>(questionP)
@@ -83,7 +83,7 @@ const CreateSurveyQuestion = ({multilang, type, questionP, setQuestionP, deleteQ
                             <div>
                                 <div className="text-2xl flex gap-6">
                                     <SettingOutlined />
-                                    <CopyOutlined />
+                                    <CopyOutlined onClick={duplicateQuestion} />
                                     <DeleteOutlined onClick={deleteQuestion} />
                                 </div>
                             </div>

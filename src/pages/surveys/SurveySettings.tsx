@@ -32,9 +32,9 @@ const SurveySettings = ({surveySettings, setSurveySettings }: {surveySettings: s
     useEffect(() => {
         axios.get('/divisions').then((res) => {
             console.log(res.data.content);
-            const opt = []
-            res.data.content.map(item => {
-                opt.push({ value: item.id, label: item.divisionName })
+            const opt: { value: string, label: string }[] = []
+            res.data.content.map((item: { id: string | number; divisionName: string; }) => {
+                opt.push({ value: item.id.toString(), label: item.divisionName })
             })
             setDivisions(opt)
         })
