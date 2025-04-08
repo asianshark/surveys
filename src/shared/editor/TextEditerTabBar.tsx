@@ -1,6 +1,6 @@
 const TabBar = () => {
     const tabButtonStyle = {
-        fontFamily: 'Roboto, sans-serif',
+        fontFamily: 'Roboto',
     }
     const tabs = [
         "File",

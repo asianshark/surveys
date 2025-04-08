@@ -13,7 +13,9 @@ import i18next from "../i18n/i18n";
 import TabBar from '../widgets/tabs/TabBar';
 import Survey from '../pages/surveys/Survey';
 import CreateSurveyMain from '../pages/surveys/CreateSurveyMain';
-import SurveyTestPass from '../pages/surveys/SurveyTestPass';
+import SurveyTestPass from '../pages/pass-surveys/SurveyTestPass';
+import SurveyResultsMain from '../pages/my-surveys/SurveyResultsMain';
+import SurveysPassMain from '../pages/pass-surveys/SurveysPassMain';
 
 function App() {
   const [isOpenTab, setIsOpenTab] = useState(false)
@@ -33,12 +35,14 @@ function App() {
           </div>
           <div className='bg-[#F9F9FA] flex flex-col min-h-0 h-full'>
             <Routes>
-              <Route path="/surveys" element={<TextEditor />} />
+              <Route path="/data2" element={<TextEditor />} />
+              <Route path='/surveys-tests/:id' element={<SurveyResultsMain/>}/>
               <Route path="/something" element={<Users />} />
               <Route path='/surveys-tests' element={<Survey />} />
               <Route path='/surveys2' element={<CreateSurveyMain />} />
               <Route path="/" element={<Home />} />
-              <Route path='/surveys-tests/:id' element={<SurveyTestPass/>}></Route>
+              <Route path='/surveys/:id' element={<SurveyTestPass/>} />
+              <Route path='/surveys' element={<SurveysPassMain/>}/>
             </Routes>
           </div>
         </div>

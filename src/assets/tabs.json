@@ -10,7 +10,7 @@
             },
             {
                 "icon": "archive-box",
-                "label": "my_surveys",
+                "label": "Пройти тест",
                 "key": "surveys"
             },
             {
@@ -43,7 +43,7 @@
             },
             {
                 "icon": "list-bullet",
-                "label": "my_surveys2",
+                "label": "Создать опрос",
                 "key": "surveys2"
             },
             {

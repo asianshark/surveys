@@ -1,7 +1,9 @@
 @import "tailwindcss";
-
+@import "@fontsource/roboto";
+@import "@fontsource/roboto/400.css";
+@import "@fontsource/roboto/400-italic.css";
 html, body, #root {
-    font-family: 'Roboto, sans-serif';
+    font-family: 'Roboto';
     font-weight: 500;
     height: 100%;
   }

@@ -1,19 +1,13 @@
 import { useEffect, useState } from "react"
-import SurveyTableTab from "../../shared/surveys/SurveyTableTab"
-import Table from "./Table"
 import type { TableProps } from 'antd';
 import axios from "axios"
 import { Quiz } from "../../entities/Survey";
+import PassTable from "./passTable";
 
 type OnChange = NonNullable<TableProps<Quiz>['onChange']>;
 
-const SurveyTable = () => {
-    const tabs = ['Активный', 'Архив', 'Черновик']
-    const [activeTab, setActiveTab] = useState(tabs[0])
+const PassSurveyTable = () => {
     const [data, setData] = useState<Quiz[]>([])
-    const changeTab = (tab: string) => {
-        setActiveTab(tab)
-    }
     const [filter, setFilter] = useState({})
     const [total, setTotal] = useState(0)
     const changeFilter: OnChange = (pagination, filters, sorter) => {
@@ -33,13 +27,9 @@ const SurveyTable = () => {
     }, [filter])
     return (
         <div className=" flex flex-col">
-            <div className="py-4 px-2">
-                <SurveyTableTab tabs={tabs} onChange={changeTab} activeTab={activeTab}></SurveyTableTab>
-            </div>
-            <Table dataP={data} total={total} activeTab={activeTab} changeFilter={changeFilter}></Table>
-
+            <PassTable dataP={data} total={total} changeFilter={changeFilter}></PassTable> :
         </div>
     )
 }
 
-export default SurveyTable
+export default PassSurveyTable

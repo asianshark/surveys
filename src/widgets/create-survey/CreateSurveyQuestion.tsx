@@ -49,10 +49,10 @@ const CreateSurveyQuestion = ({ multilang, type, questionP, setQuestionP, delete
                 <div className="flex gap-2 w-full text-[16px] text-[#455560] items-center">
                     {type === 'create' ?
                         (lang === "Рус" ?
-                            <Input size={'large'} value={question?.nameRu} placeholder="Вопрос" onChange={e => setQuestion({ nameRu: e.target.value, nameKz: question?.nameKz, required: question?.required })} /> :
-                            <Input size={'large'} value={question?.nameKz} placeholder="Вопрос" onChange={e => setQuestion({ nameRu: question?.nameRu, nameKz: e.target.value, required: question?.required })} />)
+                            <Input style={{ fontFamily: 'Roboto' }} size={'large'} value={question?.nameRu} placeholder="Вопрос" onChange={e => setQuestion({ nameRu: e.target.value, nameKz: question?.nameKz, required: question?.required })} /> :
+                            <Input style={{ fontFamily: 'Roboto' }} size={'large'} value={question?.nameKz} placeholder="Вопрос" onChange={e => setQuestion({ nameRu: question?.nameRu, nameKz: e.target.value, required: question?.required })} />)
                         :
-                        (lang === "Рус" ? <div>{question?.nameRu}</div> : <div>{question?.nameKz}</div>)}
+                        <div className="flex gap-1">{lang === "Рус" ? question?.nameRu : question?.nameKz} <p className={isRequired ? 'text-red-500' : 'hidden'}>*</p></div>}
                     <Select
                         style={{ width: '100%', display: type !== 'create' ? 'none' : 'block' }}
                         size={'large'}
@@ -76,8 +76,7 @@ const CreateSurveyQuestion = ({ multilang, type, questionP, setQuestionP, delete
                     <CreateSurveyQuestionRadioCheckbox surveyType={type} setSelectedAns={selectedAns} answersP={question?.answers} lang={lang} type={questionType} getAnswer={setAnswers} />
             )}
             {
-                type !== 'create' ?
-                    <div className={isRequired ? 'text-red-500' : 'hidden'}>Обязательный вопрос</div> :
+                type !== 'create' ? <></> :
                     <div className="flex justify-end">
                         <div className="flex gap-6 items-center justify-between">
                             <div>

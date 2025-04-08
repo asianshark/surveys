@@ -9,27 +9,30 @@ import { checkValidPass } from "../../shared/passTest/CheckPassValid";
 const SurveyTestPass = () => {
     const params = useParams()
     const [questions, setQuestions] = useState<Question[]>()
+    const [survey, setSurvey] = useState<Survey>()
     const [answers, setAnswers] = useState<{
         userId: string | undefined,
         quizId: number | undefined,
         questionId: number | undefined,
         selectedAnswerIds: number[]
     }[] | undefined>()
-    const [valid, setValid] = useState<{ valid: boolean, questionId: number  | undefined}>({ valid: true, questionId: undefined })
+    const [valid, setValid] = useState<{ valid: boolean, questionId: number | undefined }>({ valid: true, questionId: undefined })
     useEffect(() => {
         axios.get(`/quizzes/${params.id}`).then((res) => {
             setQuestions(res.data.questions)
             setSurvey(res.data)
         })
         console.log(questions);
-        
+
     }, [])
-    const [survey, setSurvey] = useState<Survey>()
 
     const passTest = async () => {
-        if (questions)
-            setValid(checkValidPass(questions, answers))
-        if(valid.valid){
+        let validT
+        if (questions) {
+            validT = checkValidPass(questions, answers)
+            setValid(validT)
+        }
+        if (validT && validT.valid) {
             await axios.post(`/responses/batch`, answers).then((res) => {
                 console.log(res);
             })
@@ -39,7 +42,7 @@ const SurveyTestPass = () => {
     const setselectedAns = (ans: number[], id: number | undefined) => {
         let ind
         if (!answers)
-            setAnswers([{ userId: survey?.authorId, quizId: survey?.id, questionId: id, selectedAnswerIds: ans }])
+            setAnswers([{ userId: "2", quizId: survey?.id, questionId: id, selectedAnswerIds: ans }])
         else {
             ind = answers.find(ans => ans.questionId === id)
             if (ind) {
@@ -52,7 +55,7 @@ const SurveyTestPass = () => {
                 })
             }
             else {
-                setAnswers([...answers, { userId: survey?.authorId, quizId: survey?.id, questionId: id, selectedAnswerIds: ans }])
+                setAnswers([...answers, { userId: "2", quizId: survey?.id, questionId: id, selectedAnswerIds: ans }])
             }
         }
 

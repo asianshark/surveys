@@ -28,7 +28,7 @@ type Text = {
 }
 const TextEditor = () => {
     const tabButtonStyle = {
-        fontFamily: 'Roboto, sans-serif',
+        fontFamily: 'Roboto',
     }
 
     const [content, setContent] = useState("")

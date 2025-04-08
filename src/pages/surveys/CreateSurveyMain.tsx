@@ -57,15 +57,15 @@ const CreateSurveyMain = () => {
     const items = [
         {
             key: 'create',
-            label: 'Create Survey',
+            label: 'Создание опрос',
         },
         {
             key: 'settings',
-            label: 'Settings',
+            label: 'Настройки',
         },
         {
             key: 'calendar',
-            label: 'Calendar',
+            label: 'Календарь',
         },
     ];
 
@@ -76,15 +76,15 @@ const CreateSurveyMain = () => {
         <div className="flex flex-col h-full text-[#1A3353]">
             <div className="px-6 pt-4 bg-white">
                 <div className="flex justify-between">
-                    <p className="text-xl">{items.find(i => i.key === currentTab)?.label}</p>
+                    <p className="text-xl font-medium">{items.find(i => i.key === currentTab)?.label}</p>
                     <div className="flex gap-2">
-                        <Button>Cancel</Button>
-                        <Button onClick={sendReport}>Draft</Button>
-                        <Button onClick={sendRequest} type="primary">Save</Button>
+                        <Button>Отмена</Button>
+                        <Button onClick={sendReport}>Черновик</Button>
+                        <Button onClick={sendRequest} type="primary">Сохранить</Button>
                     </div>
                 </div>
                 <div>
-                    <Tabs style={{ marginBottom: '-16px' }} defaultActiveKey="1" items={items} onChange={onChange} />
+                    <Tabs style={{ marginBottom: '-16px' }} activeKey={currentTab} items={items} onChange={onChange} />
                 </div>
             </div>
             {currentTab === 'create' ?

@@ -6,6 +6,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router';
 import { Quiz } from '../../entities/Survey';
 
+
 type OnChange = NonNullable<TableProps<Quiz>['onChange']>;
 type Filters = Parameters<OnChange>[1];
 
@@ -14,7 +15,7 @@ type Sorts = GetSingle<Parameters<OnChange>[2]>;
 
 type DataIndex = keyof Quiz;
 
-const Table = ({ dataP, total, activeTab, changeFilter }: { total: number, dataP: Quiz[], activeTab: string, changeFilter: OnChange }) => {
+const PassTable = ({ dataP, total, changeFilter }: { total: number, dataP: Quiz[], changeFilter: OnChange }) => {
     const [sort, setSort] = useState<Sorts>({})
     const [filter, setFilter] = useState<Filters>({})
     const searchInput = useRef<InputRef>(null);
@@ -89,9 +90,9 @@ const Table = ({ dataP, total, activeTab, changeFilter }: { total: number, dataP
         },
     });
 
-    const handleChoose = (key: number | null, action: string) => {
-        if (action === 'results' && key)
-            navigate(`/surveys-tests/${key}`)
+    const handleChoose = (key: number | null) => {
+        if (key)
+            navigate(`/surveys/${key}`)
 
     }
     const columns: TableColumnsType<Quiz> = [
@@ -126,35 +127,27 @@ const Table = ({ dataP, total, activeTab, changeFilter }: { total: number, dataP
                 ) : null,
         },
         {
-            title: 'Юрисдикция',
-            dataIndex: 'divisions[0].divisionId',
-            key: 'division',
-            filters: [
-                { text: 'test', value: 'test' },
-            ],
-            filteredValue: filter.address || null,
-            onFilter: () => true,
-            ellipsis: true,
+            title: "Крайний срок",
+            dataIndex: 'endDate',
+            key: "date",
             render: (_, record) =>
                 dataP.length >= 1 ? (
                     <Space key={record.id}>
-                        <p>{record.divisions[0].divisionName}</p>
+                        <p>{record.endDate ? new Date(record.endDate).toLocaleDateString('ru-RU', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric'
+                        }) : record.dayOfWeek}</p>
                     </Space>
                 ) : null,
         },
         {
-            title: "Календарь",
-            dataIndex: 'dayOfWeek',
-            key: "date"
-        },
-        {
-            title: 'Подробнее',
+            title: 'Действия',
             dataIndex: 'operation',
             render: (_, record) =>
                 dataP.length >= 1 ? (
                     <Space key={record.id}>
-                        <a onClick={() => handleChoose(record.id, 'results')}>Результаты</a>
-                        <a onClick={() => handleChoose(record.id, 'archive')} style={{ color: '#FF4D4F' }}>Архивировать</a>
+                        <a onClick={() => handleChoose(record.id)}>Начать тестирование</a>
                     </Space>
                 ) : null,
         },
@@ -172,4 +165,4 @@ const Table = ({ dataP, total, activeTab, changeFilter }: { total: number, dataP
         </>
     )
 }
-export default Table
+export default PassTable

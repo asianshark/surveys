@@ -8,6 +8,7 @@ const style: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     gap: 16,
+    fontFamily: 'Roboto ',
 };
 const CreateSurveyQuestionRadioCheckbox = ({ setSelectedAns, answersP, lang, surveyType, type, getAnswer }: { setSelectedAns?: (ans: number[]) => void, answersP?: Answer[], surveyType: string, lang: string, type: string, getAnswer: (answers: Answer[]) => void }) => {
     const [correctAnswerRadio, setCorrectAnswerRadio] = useState();
@@ -67,10 +68,10 @@ const CreateSurveyQuestionRadioCheckbox = ({ setSelectedAns, answersP, lang, sur
                     style={style}
                     onChange={chooseAnswerRadio}
                     value={correctAnswerRadio}
-                    options={answers.map((item, i) => ({
-                        value: i,
+                    options={answers.map((item) => ({
+                        value: item.key !== undefined ? item.key : item.id,
                         label: (
-                            surveyType !== 'create' ? <div>{lang === "Рус" ? item?.nameRu : item?.nameKz}</div> :
+                            surveyType !== 'create' ? <div style={{ fontFamily: 'Roboto' }}>{lang === "Рус" ? item?.nameRu : item?.nameKz}</div> :
                                 <div key={item.key} className="flex w-full items-center justify-between gap-4">
                                     <TextArea
                                         rows={1}
@@ -79,7 +80,7 @@ const CreateSurveyQuestionRadioCheckbox = ({ setSelectedAns, answersP, lang, sur
                                         key={item.key}
                                         onChange={e => changeInput(e.target.value, item.key)}
                                         placeholder="please input"
-                                        style={{ width: '100%' }}
+                                        style={{ width: '100%', fontFamily: 'Roboto' }}
                                     />
                                     <div className="flex items-center" onClick={() => deleteOption(item.key)}>
                                         <CloseCircleOutlined />
@@ -104,7 +105,7 @@ const CreateSurveyQuestionRadioCheckbox = ({ setSelectedAns, answersP, lang, sur
                                         key={item.key}
                                         onChange={e => changeInput(e.target.value, item.key)}
                                         placeholder="please input"
-                                        style={{ width: '100%' }}
+                                        style={{ width: '100%', fontFamily: 'Roboto' }}
                                     />
                                     <div className={(surveyType !== 'create' ? 'hidden' : '') + " flex items-center"} onClick={() => deleteOption(item.key)}>
                                         <CloseCircleOutlined />
@@ -119,5 +120,4 @@ const CreateSurveyQuestionRadioCheckbox = ({ setSelectedAns, answersP, lang, sur
         </>
     )
 }
-
 export default CreateSurveyQuestionRadioCheckbox

@@ -2,7 +2,8 @@ export type Answer = {
     nameRu: string, 
     nameKz: string, 
     correct: boolean, 
-    key: number 
+    key: number,
+    id? : number,
 }
 
 export type Question = {
@@ -52,4 +53,28 @@ export type Calendar ={
     everyWeek: boolean,
     everyMonth: boolean,
     dayOfWeek?: string,
+}
+
+export interface Division {
+    id: number;
+    divisionName: string;
+    quizIds: number[] | null;
+}
+export interface Quiz {
+    id: number;
+    nameRu: string;
+    nameKz: string;
+    status: "DRAFT" | "PUBLISHED" | "CLOSED"; // Можно уточнить возможные статусы
+    createdAt: string; // ISO формат даты
+    updatedAt: string;
+    authorId: number | null;
+    type: boolean;
+    startDate: string;
+    endDate: string;
+    everyDay: boolean;
+    everyWeek: boolean;
+    everyMonth: boolean;
+    dayOfWeek: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY"; // Ограничение на дни недели
+    questions: Question[] | null; // Можно уточнить, если известна структура вопросов
+    divisions: Division[];
 }
