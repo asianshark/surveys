@@ -36,6 +36,17 @@ export const checkValid = (surveyQuestions: Question[] | undefined, surveyNameRu
 }
 
 export const checkValidCalendar = (calendar: Calendar | undefined) => {
-    console.log(calendar);
-    return true
-} 
+    if (calendar && calendar !== undefined)
+        if (calendar.endDate && calendar.startDate)
+            return true
+    alert('Выберите дни проведения опроса')
+    return false
+}
+
+export const checkValidSettings = (divisions: { id: number, divisionName: string } | undefined) => {
+    if (divisions && divisions !== undefined)
+        if (divisions?.id && divisions?.divisionName)
+            return true
+    alert('Вы не выбрали юрисдикцию')
+    return false
+}

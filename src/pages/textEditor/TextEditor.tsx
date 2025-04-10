@@ -48,7 +48,7 @@ const TextEditor = () => {
     }
 
     return (
-        <div>
+        <div className="flex flex-col">
             <div className='container border border-solid text-lg border-stone-200 rounded-lg'>
                 <TextEditerTabBar></TextEditerTabBar>
                 <Editor

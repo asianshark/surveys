@@ -3,11 +3,9 @@ import SurveyTable from "../../widgets/surveys/SurveyTable"
 const Survey = () =>{
 
     return(
-        <div className="p-6 h-full">
-            <div className="h-full rounded-[10px] bg-white p-5">
-                <div>
+        <div className="p-6 h-full flex flex-col">
+            <div className="h-full flex flex-col rounded-[10px] bg-white p-5">
                     <SurveyTable></SurveyTable>
-                </div>
             </div>
         </div>
     )

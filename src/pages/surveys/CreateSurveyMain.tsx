@@ -1,13 +1,16 @@
 import { Button, Tabs } from "antd"
 import CreateSurvey from "../../widgets/create-survey/CreateSurvey"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Calendar, Survey } from "../../entities/Survey"
 import axios from "axios"
 import SurveySettings from "./SurveySettings"
 import SurveyCalendar from "./SurveyCalendar"
-import { checkValid, checkValidCalendar } from "../../shared/create-survey/CheckValidCreatedSyrvey"
+import { checkValid, checkValidCalendar, checkValidSettings } from "../../shared/create-survey/CheckValidCreatedSyrvey"
+import { useNavigate } from "react-router"
 
 const CreateSurveyMain = () => {
+    const navigate = useNavigate()
+
     const [surveyQuestions, setSurveyQuestions] = useState<Survey>({
         nameRu: "",
         description: "",
@@ -16,40 +19,39 @@ const CreateSurveyMain = () => {
     const [currentTab, setCurrentTab] = useState<string>("create")
     const [surveyCalendar, setSurveyCalendar] = useState<Calendar>()
     const [surveySettings, setSurveySettings] = useState<string[]>(['multilang', 'randomQuestions', 'type'])
+    const [selectedDevesion, setSelectedDevesion] = useState()
     const sendRequest = () => {
         const error = checkValid(surveyQuestions?.questions, surveyQuestions?.nameRu, surveyQuestions.nameKz, surveySettings.includes('multilang'))
-        if (error.valid)
-            if (checkValidCalendar(surveyCalendar))
-                axios.post("/quizzes", {
-                    ...surveyQuestions,
-                    status: "DRAFT",
-                    authorId: "1",
-                    type: true,
-                    startDate: surveyCalendar?.startDate,
-                    endDate: surveyCalendar?.endDate,
-                    everyDay: surveyCalendar?.everyDay,
-                    everyWeek: surveyCalendar?.everyWeek,
-                    everyMonth: surveyCalendar?.everyMonth,
-                    dayOfWeek: surveyCalendar?.dayOfWeek ? surveyCalendar?.dayOfWeek : "MONDAY",
-                    divisions: [
-                        {
-                            id: 1,
-                            divisionName: "1 Dep"
-                        }
-                    ],
-                }
-                ).then(response => console.log(response.data))
-            else sendReport()
+        if (error.valid && checkValidCalendar(surveyCalendar) && checkValidSettings(selectedDevesion))
+            axios.post("/quizzes", {
+                ...surveyQuestions,
+                status: "DRAFT",
+                authorId: "1",
+                type: true,
+                startDate: surveyCalendar?.startDate,
+                endDate: surveyCalendar?.endDate,
+                everyDay: surveyCalendar?.everyDay,
+                everyWeek: surveyCalendar?.everyWeek,
+                everyMonth: surveyCalendar?.everyMonth,
+                dayOfWeek: surveyCalendar?.dayOfWeek ? surveyCalendar?.dayOfWeek : "MONDAY",
+                divisions: [
+                    selectedDevesion
+                ],
+            }
+            ).then(response => {
+                console.log(response.data)
+                navigate('/surveys-tests')
+            }
+            )
         else {
+            sendReport()
             if (error.warning)
                 alert(`Вы пропустили поле ${error.warning} ${error.lang ? `(${error.lang})` : ''} \n${error.questionKey ? `Вопрос №${error.questionKey}` : ''} \n${error.answerkey ? `Ответ №${error.answerkey}` : ''}`)
-            else
+            else if(error.error)
                 alert(error.error)
         }
     }
     // ( error.error.slice(-2) === 'Kz' ? '' : '')
-
-
     const onChange = (key: string) => {
         setCurrentTab(key)
     };
@@ -78,8 +80,8 @@ const CreateSurveyMain = () => {
                 <div className="flex justify-between">
                     <p className="text-xl font-medium">{items.find(i => i.key === currentTab)?.label}</p>
                     <div className="flex gap-2">
-                        <Button>Отмена</Button>
-                        <Button onClick={sendReport}>Черновик</Button>
+                        <Button disabled>Отмена</Button>
+                        <Button disabled onClick={sendReport}>Черновик</Button>
                         <Button onClick={sendRequest} type="primary">Сохранить</Button>
                     </div>
                 </div>
@@ -90,7 +92,7 @@ const CreateSurveyMain = () => {
             {currentTab === 'create' ?
                 <CreateSurvey surveyQuestions={surveyQuestions} multilang={surveySettings?.includes('multilang')} setSurveyQuestions={setSurveyQuestions} /> :
                 (currentTab === 'settings' ?
-                    <SurveySettings surveySettings={surveySettings} setSurveySettings={setSurveySettings} /> :
+                    <SurveySettings selectedDivisionP={selectedDevesion} setSelectedDivisionP={setSelectedDevesion} surveySettings={surveySettings} setSurveySettings={setSurveySettings} /> :
                     <SurveyCalendar surveyCalendar={surveyCalendar} setSurveyCalendar={setSurveyCalendar} />)}
 
         </div>

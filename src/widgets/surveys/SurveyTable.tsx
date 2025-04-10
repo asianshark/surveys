@@ -34,7 +34,7 @@ const SurveyTable = () => {
     return (
         <div className=" flex flex-col">
             <div className="py-4 px-2">
-                <SurveyTableTab tabs={tabs} onChange={changeTab} activeTab={activeTab}></SurveyTableTab>
+                <SurveyTableTab disabled tabs={tabs} onChange={changeTab} activeTab={activeTab}></SurveyTableTab>
             </div>
             <Table dataP={data} total={total} activeTab={activeTab} changeFilter={changeFilter}></Table>
 

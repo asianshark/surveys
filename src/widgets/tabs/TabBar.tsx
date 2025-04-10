@@ -1,10 +1,21 @@
 import { useEffect, useState } from "react"
 import Icon from "../../shared/Icon"
 import i18n from "../../i18n/i18n"
+import { Select } from "antd"
 
-const TabBar = ({isOpenTab, closeOpenTab }: {isOpenTab: boolean,closeOpenTab: () => void }) => {
+const TabBar = ({ isOpenTab, closeOpenTab }: { isOpenTab: boolean, closeOpenTab: () => void }) => {
     const [lang, setLang] = useState("kz")
-    useEffect(()=>{
+    const langs = [
+        {
+            value: 'kz',
+            label: 'kz'
+        },
+        {
+            value: 'ru',
+            label: 'ru'
+        }
+    ]
+    useEffect(() => {
         i18n.changeLanguage(lang);
     }, [lang])
     return (
@@ -12,10 +23,8 @@ const TabBar = ({isOpenTab, closeOpenTab }: {isOpenTab: boolean,closeOpenTab: ()
             <button onClick={closeOpenTab}>
                 <Icon icon={isOpenTab ? 'arrow-right-start-on-rectangle' : "arrow-right-end-on-rectangle"}></Icon>
             </button>
-            <select value={lang} onChange={e => setLang(e.target.value)}>
-                <option value={"kz"}>kazakh</option>
-                <option value={"ru"}>russian</option>
-            </select>
+            <Select value={lang} onChange={setLang} options={langs}>
+            </Select>
         </div>
     )
 }

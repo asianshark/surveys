@@ -26,8 +26,8 @@ interface Result {
 
 const UserSurveyResult: React.FC<UserSurveyResultProps> = ({ quizId, questions }) => {
   const users = [
-    { label: 'user1', value: '1' },
-    { label: 'user2', value: '2' },
+    { label: 'Есимгали', value: '1' },
+    { label: 'Асет', value: '2' },
   ];
 
   const [user, setUser] = useState(users[0].value);

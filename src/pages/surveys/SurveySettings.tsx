@@ -7,7 +7,7 @@ const style: React.CSSProperties = {
     gap: 16,
     color: '#1A3353'
 };
-const SurveySettings = ({surveySettings, setSurveySettings }: {surveySettings: string[], setSurveySettings: (settings: string[]) => void }) => {
+const SurveySettings = ({ selectedDivisionP, setSelectedDivisionP, surveySettings, setSurveySettings }: { selectedDivisionP: { id: number, divisionName: string }, setSelectedDivisionP: ({ id, divisionName }: { id: number, divisionName: string }) => void, surveySettings: string[], setSurveySettings: (settings: string[]) => void }) => {
     const options = [
         {
             value: 'type',
@@ -25,13 +25,13 @@ const SurveySettings = ({surveySettings, setSurveySettings }: {surveySettings: s
             value: 'randomQuestions',
             label: 'Перемешивать вопросы'
         }
-        
+
     ]
 
     const [divisions, setDivisions] = useState<{ value: string, label: string }[]>([{ value: '', label: '' }])
+    const [selectedDevesion, setSelectedDevesion] = useState(selectedDivisionP?.id)
     useEffect(() => {
         axios.get('/divisions').then((res) => {
-            console.log(res.data.content);
             const opt: { value: string, label: string }[] = []
             res.data.content.map((item: { id: string | number; divisionName: string; }) => {
                 opt.push({ value: item.id.toString(), label: item.divisionName })
@@ -40,9 +40,12 @@ const SurveySettings = ({surveySettings, setSurveySettings }: {surveySettings: s
         })
     }, [])
     const [checkBoxAns, setCheckBoxAns] = useState<string[]>(surveySettings)
-    useEffect(()=>{
+    useEffect(() => {
         setSurveySettings(checkBoxAns)
     }, [checkBoxAns])
+    useEffect(() => {
+        setSelectedDivisionP({ id: selectedDevesion, divisionName: divisions.find(e => e.value === selectedDevesion)?.label })
+    }, [selectedDevesion])
     return (
         <div className="flex flex-col items-center overflow-y-auto gap-6 pt-3">
             <div className="bg-white rounded-[10px] border-[#E6EBF1] border-1 p-5 flex flex-col gap-4 w-3/4">
@@ -59,7 +62,8 @@ const SurveySettings = ({surveySettings, setSurveySettings }: {surveySettings: s
                 <div className="font-bold text-lg">Юрисдикция</div>
                 <div>Опрос проводится для:</div>
                 <Select
-                    defaultValue={divisions[0].value}
+                    value={selectedDevesion}
+                    onChange={setSelectedDevesion}
                     options={divisions}>
                 </Select>
             </div>

@@ -11,13 +11,22 @@ const style: React.CSSProperties = {
     fontFamily: 'Roboto ',
 };
 const CreateSurveyQuestionRadioCheckbox = ({ setSelectedAns, answersP, lang, surveyType, type, getAnswer }: { setSelectedAns?: (ans: number[]) => void, answersP?: Answer[], surveyType: string, lang: string, type: string, getAnswer: (answers: Answer[]) => void }) => {
-    const [correctAnswerRadio, setCorrectAnswerRadio] = useState();
-    const [correctAnswerCheckbox, setCorrectAnswerCheckbox] = useState<number[]>();
+    const [correctAnswerRadio, setCorrectAnswerRadio] = useState<number>();
+    const [correctAnswerCheckbox, setCorrectAnswerCheckbox] = useState<number[]>([]);
     const [answers, setAnswers] = useState<Answer[]>([{ nameRu: "", nameKz: "", correct: true, key: 0 }]);
     const [keys, setKeys] = useState(1)
     useEffect(() => {
-        if (answersP)
+        if (answersP) {
             setAnswers(answersP)
+            setKeys(answersP.length)
+            if (surveyType === 'create')
+                answersP.map((item, i) => {
+                    if (item.correct) {
+                        setCorrectAnswerRadio(i)
+                        setCorrectAnswerCheckbox([...correctAnswerCheckbox, i])
+                    }
+                })
+        }
     }, [])
     const chooseAnswerRadio = (e: RadioChangeEvent) => {
         setAnswers((prev) => {
@@ -79,7 +88,7 @@ const CreateSurveyQuestionRadioCheckbox = ({ setSelectedAns, answersP, lang, sur
                                         value={lang === "Рус" ? item?.nameRu : item?.nameKz}
                                         key={item.key}
                                         onChange={e => changeInput(e.target.value, item.key)}
-                                        placeholder="please input"
+                                        placeholder={lang === "Рус" ? 'Введите ответ' : 'Жауабын енгізіңіз'}
                                         style={{ width: '100%', fontFamily: 'Roboto' }}
                                     />
                                     <div className="flex items-center" onClick={() => deleteOption(item.key)}>
@@ -104,7 +113,7 @@ const CreateSurveyQuestionRadioCheckbox = ({ setSelectedAns, answersP, lang, sur
                                         value={lang === "Рус" ? item?.nameRu : item?.nameKz}
                                         key={item.key}
                                         onChange={e => changeInput(e.target.value, item.key)}
-                                        placeholder="please input"
+                                        placeholder={lang === "Рус" ? 'Пожалуйста введите ответ' : 'Жауабын енгізіңіз'}
                                         style={{ width: '100%', fontFamily: 'Roboto' }}
                                     />
                                     <div className={(surveyType !== 'create' ? 'hidden' : '') + " flex items-center"} onClick={() => deleteOption(item.key)}>
@@ -114,8 +123,8 @@ const CreateSurveyQuestionRadioCheckbox = ({ setSelectedAns, answersP, lang, sur
                         )
                     }))} />
             }
-            <div className={surveyType !== 'create' ? 'hidden' : ''}>
-                <a><a onClick={addVariant} className="text-[#366EF6] cursor-pointer">Добавить вариант</a>  или  <a className="text-[#366EF6] cursor-pointer">добавить вариант “Затрудняюсь ответить”</a></a>
+            <div className={surveyType !== 'create' ? 'hidden' : 'pl-7 pt-2'}>
+                <a onClick={addVariant} className="text-[#366EF6] cursor-pointer">Добавить вариант</a>
             </div>
         </>
     )

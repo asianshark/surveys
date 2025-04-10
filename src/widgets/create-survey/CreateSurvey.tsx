@@ -48,13 +48,13 @@ const CreateSurvey = ({ multilang, setSurveyQuestions, surveyQuestions }: { surv
         <div className="flex flex-col items-center bg-[#E6E6FA] h-full overflow-y-auto gap-6 pt-3">
             <div className="bg-white rounded-[10px] border-[#E6EBF1] border-1 p-5 flex flex-col gap-4 w-3/4">
                 <div className="flex justify-between items-center">
-                    <div>Основное</div>
+                    <div>{lang === "Рус" ? 'Основное' : 'Бастысы'}</div>
                     <SurveyTableTab disabled={!multilang} tabs={["Рус", "Қаз"]} onChange={setLang} activeTab={lang} />
                 </div>
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-2">
-                        <div className="text-[14px]">Наименование опроса</div>
-                        <Input style={{ fontFamily: 'Roboto' }} size="large" value={lang === "Рус" ? surveyName.nameRu : surveyName.nameKz} onChange={e => setSurveyName({ ...surveyName, [lang === "Рус" ? 'nameRu' : 'nameKz']: e.target.value })} placeholder="Новый опрос"></Input>
+                        <div className="text-[14px]">{lang === "Рус" ? 'Наименование опроса' : 'Сауалнама аты'}</div>
+                        <Input style={{ fontFamily: 'Roboto' }} size="large" value={lang === "Рус" ? surveyName.nameRu : surveyName.nameKz} onChange={e => setSurveyName({ ...surveyName, [lang === "Рус" ? 'nameRu' : 'nameKz']: e.target.value })} placeholder={lang === "Рус" ? 'Новый опрос' : 'Жаңа сауалнама'}></Input>
 
                     </div>
                     <div className="flex flex-col gap-2">

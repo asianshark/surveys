@@ -29,11 +29,11 @@ function App() {
         <div className={'w-50 ' + (!isOpenTab && "hidden")}>
           <Tabs closeOpenTab={closeOpenTab} />
         </div>
-        <div className='grow flex flex-col h-full'>
+        <div className='grow flex flex-col w-full h-full'>
           <div>
             <TabBar closeOpenTab={closeOpenTab} isOpenTab={isOpenTab}></TabBar>
           </div>
-          <div className='bg-[#F9F9FA] flex flex-col min-h-0 h-full'>
+          <div className='bg-[#F9F9FA] flex flex-col min-w-0 w-full min-h-0 h-full'>
             <Routes>
               <Route path="/data2" element={<TextEditor />} />
               <Route path='/surveys-tests/:id' element={<SurveyResultsMain/>}/>

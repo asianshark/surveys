@@ -26,7 +26,7 @@ const PassSurveyTable = () => {
         })
     }, [filter])
     return (
-        <div className=" flex flex-col">
+        <div className="flex w-full overflow-x-auto">
             <PassTable dataP={data} total={total} changeFilter={changeFilter}></PassTable> :
         </div>
     )

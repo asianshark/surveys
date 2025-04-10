@@ -17,7 +17,7 @@ const Tabs = ({ closeOpenTab }: any) => {
 
     const [router, setRouter] = useState(params.pathname.slice(1))
     const navigate = useNavigate()
-    
+
 
     const menuData: Record<string, MenuItem> = data
     const toRouter = (router: string) => {
@@ -30,7 +30,9 @@ const Tabs = ({ closeOpenTab }: any) => {
     return (
         <div className="flex h-full flex-col border-r-2 border-[#F0F0F0]">
             <div className="flex flex-col h-full">
-                <div className="text-[#366EF6] h-15 flex items-center justify-center">Talday ERP</div>
+                <div className="text-[#366EF6] h-15 flex items-center justify-center py-3">
+                    <img className="h-full object-contain mr-2" alt="Logo" src="src\assets\image.png"></img>Talday ERP
+                </div>
                 <div>
                     {Object.keys(menuData).map((key, index) => (
                         <div key={index}>

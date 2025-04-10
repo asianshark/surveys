@@ -154,7 +154,7 @@ const Table = ({ dataP, total, activeTab, changeFilter }: { total: number, dataP
                 dataP.length >= 1 ? (
                     <Space key={record.id}>
                         <a onClick={() => handleChoose(record.id, 'results')}>Результаты</a>
-                        <a onClick={() => handleChoose(record.id, 'archive')} style={{ color: '#FF4D4F' }}>Архивировать</a>
+                        {/* <a onClick={() => handleChoose(record.id, 'archive')} style={{ color: '#FF4D4F' }}>Архивировать</a> */}
                     </Space>
                 ) : null,
         },

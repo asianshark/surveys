@@ -14,7 +14,8 @@ const CreateSurveyQuestion = ({ multilang, type, questionP, setQuestionP, delete
     const [questionType, setQuestionType] = useState(questionP.multipleAns ? 'multiplechoices' : 'singlechoice')
     const [isRequired, setIsRequired] = useState(questionP.required)
     const handleChange = (value: string) => {
-        setQuestionType(value)
+        if (value === 'singlechoice')
+            setQuestionType(value)
     };
     const options = [
         {
@@ -50,7 +51,7 @@ const CreateSurveyQuestion = ({ multilang, type, questionP, setQuestionP, delete
                     {type === 'create' ?
                         (lang === "Рус" ?
                             <Input style={{ fontFamily: 'Roboto' }} size={'large'} value={question?.nameRu} placeholder="Вопрос" onChange={e => setQuestion({ nameRu: e.target.value, nameKz: question?.nameKz, required: question?.required })} /> :
-                            <Input style={{ fontFamily: 'Roboto' }} size={'large'} value={question?.nameKz} placeholder="Вопрос" onChange={e => setQuestion({ nameRu: question?.nameRu, nameKz: e.target.value, required: question?.required })} />)
+                            <Input style={{ fontFamily: 'Roboto' }} size={'large'} value={question?.nameKz} placeholder="Сұрақ" onChange={e => setQuestion({ nameRu: question?.nameRu, nameKz: e.target.value, required: question?.required })} />)
                         :
                         <div className="flex gap-1">{lang === "Рус" ? question?.nameRu : question?.nameKz} <p className={isRequired ? 'text-red-500' : 'hidden'}>*</p></div>}
                     <Select
