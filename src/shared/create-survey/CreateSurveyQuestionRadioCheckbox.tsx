@@ -52,9 +52,9 @@ const CreateSurveyQuestionRadioCheckbox = ({ setSelectedAns, answersP, lang, sur
             setSelectedAns(selectedIndexes)
     }
 
-    const addVariant = () => {
+    const addVariant = (empty: boolean) => {
         setKeys(keys + 1)
-        setAnswers((prev) => [...prev, { nameRu: "", nameKz: "", correct: false, key: keys }]);
+        setAnswers((prev) => [...prev, { nameRu: empty ? '' : 'Затрудняюсь ответить', nameKz: empty ? '' : 'Маған жауап беру қиын', correct: false, key: keys }]);
     }
     const changeInput = (value: string, key: number) => {
         setAnswers((prev) => {
@@ -124,7 +124,11 @@ const CreateSurveyQuestionRadioCheckbox = ({ setSelectedAns, answersP, lang, sur
                     }))} />
             }
             <div className={surveyType !== 'create' ? 'hidden' : 'pl-7 pt-2'}>
-                <a onClick={addVariant} className="text-[#366EF6] cursor-pointer">Добавить вариант</a>
+                {lang === "Рус" ?
+                    <a><a onClick={() => addVariant(true)} className="text-[#366EF6] cursor-pointer">Добавить вариант</a>  или  <a className="text-[#366EF6] cursor-pointer" onClick={() => addVariant(false)}>добавить вариант “Затрудняюсь ответить”</a></a>
+                    :
+                    <a><a onClick={() => addVariant(true)} className="text-[#366EF6] cursor-pointer">Вариант қосу</a>  немесе  <a className="text-[#366EF6] cursor-pointer" onClick={() => addVariant(false)}>«Маған жауап беру қиын» вариантын қосу</a></a>
+                }
             </div>
         </>
     )

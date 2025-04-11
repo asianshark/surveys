@@ -19,22 +19,27 @@ const CreateSurveyQuestion = ({ multilang, type, questionP, setQuestionP, delete
     };
     const options = [
         {
-            label: 'Текст',
+            labelRu: 'Текст',
+            labelKz: 'Мәтін',
             value: 'text'
         },
         {
-            label: "Один из списка",
+            labelRu: "Один из списка",
+            labelKz: "Тізімнен біреу",
             value: 'singlechoice'
         },
         {
-            label: "Несколько из списка",
+            labelRu: "Несколько из списка",
+            labelKz: "Тізімнен бірнешеу",
             value: "multiplechoices"
         },
         {
-            label: 'Шкала',
+            labelRu: 'Шкала',
+            labelKz: "Шкала",
             value: "scale"
         }
     ]
+
     useEffect(() => {
         if (setQuestionP)
             setQuestionP({ multipleAns: questionType === 'multiplechoices', required: isRequired, nameRu: question?.nameRu, nameKz: question?.nameKz, active: true, answers: answers })
@@ -63,8 +68,8 @@ const CreateSurveyQuestion = ({ multilang, type, questionP, setQuestionP, delete
                         options={options}
                         optionRender={(option) => (
                             <Space>
-                                <span role="img" aria-label={option.data.label}>
-                                    {option.data.label}
+                                <span role="img" aria-label={lang === "Рус" ? option.data.labelRu : option.data.labelKz}>
+                                    {lang === "Рус" ? option.data.labelRu : option.data.labelKz}
                                 </span>
                             </Space>
                         )}
@@ -90,7 +95,7 @@ const CreateSurveyQuestion = ({ multilang, type, questionP, setQuestionP, delete
                             <hr className="w-[24px] text-[#E6EBF1] rotate-90" />
                             <div className="flex items-center gap-4">
                                 <div>
-                                    Обязательный вопрос
+                                    {lang === "Рус" ? 'Обязательный вопрос' : 'Міндетті сұрақ'}
                                 </div>
                                 <Switch onChange={e => setIsRequired(e)} />
                             </div>
