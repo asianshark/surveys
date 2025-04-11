@@ -1,13 +1,7 @@
-import { Radio, Select } from "antd";
+import { Select } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Question } from "../../entities/Survey";
-
-const style: React.CSSProperties = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 16,
-};
+import { Answer, Question } from "../../entities/Survey";
 
 interface UserSurveyResultProps {
   quizId: string | undefined;
@@ -43,11 +37,13 @@ const UserSurveyResult: React.FC<UserSurveyResultProps> = ({ quizId, questions }
     }
   }, [user, quizId]);
 
-  const getCorrectAnswersText = (questionId: number, answers: any[], correctAnswerIds: number[]) => {
-    return answers
-      .filter(ans => correctAnswerIds.includes(ans.id)) 
-      .map(ans => ans.nameRu)
-      .join(', '); 
+  const getCorrectAnswersText = (answers: Answer[] | undefined, correctAnswerIds: number[]) => {
+    if (answers)
+      return answers
+        .filter(ans => ans.id ? correctAnswerIds.includes(ans.id) : false)
+        .map(ans => ans.nameRu)
+        .join(', ');
+    return ''
   };
 
   return (
@@ -67,7 +63,7 @@ const UserSurveyResult: React.FC<UserSurveyResultProps> = ({ quizId, questions }
           const questionResult = results?.questionResults.find((e) => e.questionId === item.id);
 
           return (
-            <div style={{fontFamily: 'Roboto'}}
+            <div style={{ fontFamily: 'Roboto' }}
               key={item.id}
               className="bg-white rounded-[10px] border-1 p-5 flex flex-col gap-4 w-3/4 border-[#E6EBF1]"
             >
@@ -75,9 +71,8 @@ const UserSurveyResult: React.FC<UserSurveyResultProps> = ({ quizId, questions }
                 <div className="flex gap-2 w-full text-[16px] text-[#455560] items-center">{item.nameRu}</div>
               </div>
 
-              {item.answers.map((ans) => {
-                const isCorrect = questionResult?.correctAnswers.includes(ans.id);
-                const isSelected = questionResult?.selectedAnswers.includes(ans.id);
+              {item.answers?.map((ans) => {
+                const isSelected = ans.id ? questionResult?.selectedAnswers.includes(ans.id) : false;
 
                 return (
                   <div key={ans.id} className="space-y-4">
@@ -94,7 +89,7 @@ const UserSurveyResult: React.FC<UserSurveyResultProps> = ({ quizId, questions }
                 );
               })}
               <div className="text-sm text-[#455560]">
-                Правильный ответ: {getCorrectAnswersText(item.id, item.answers, questionResult?.correctAnswers || [])}
+                Правильный ответ: {getCorrectAnswersText(item.answers, questionResult?.correctAnswers || [])}
               </div>
             </div>
           );

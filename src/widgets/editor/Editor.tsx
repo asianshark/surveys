@@ -53,12 +53,14 @@ const Editor = forwardRef(({ readOnly, defaultValue, onTextChange, onSelectionCh
     if (defaultValueRef.current) {
       quill.setContents(defaultValueRef.current);
     }
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
     quill.on(Quill.events.TEXT_CHANGE, (...args) => {
       onTextChangeRef.current?.(...args);
       setContent(quill.getContents())
     });
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
     quill.on(Quill.events.SELECTION_CHANGE, (...args) => {
       onSelectionChangeRef.current?.(...args);
     });

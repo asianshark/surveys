@@ -14,7 +14,7 @@ type Sorts = GetSingle<Parameters<OnChange>[2]>;
 
 type DataIndex = keyof Quiz;
 
-const Table = ({ dataP, total, activeTab, changeFilter }: { total: number, dataP: Quiz[], activeTab: string, changeFilter: OnChange }) => {
+const Table = ({ dataP, total, changeFilter }: { total: number, dataP: Quiz[], activeTab: string, changeFilter: OnChange }) => {
     const [sort, setSort] = useState<Sorts>({})
     const [filter, setFilter] = useState<Filters>({})
     const searchInput = useRef<InputRef>(null);

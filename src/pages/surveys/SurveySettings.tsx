@@ -7,7 +7,7 @@ const style: React.CSSProperties = {
     gap: 16,
     color: '#1A3353'
 };
-const SurveySettings = ({ selectedDivisionP, setSelectedDivisionP, surveySettings, setSurveySettings }: { selectedDivisionP: { id: number, divisionName: string }, setSelectedDivisionP: ({ id, divisionName }: { id: number, divisionName: string }) => void, surveySettings: string[], setSurveySettings: (settings: string[]) => void }) => {
+const SurveySettings = ({ selectedDivisionP, setSelectedDivisionP, surveySettings, setSurveySettings }: { selectedDivisionP: { id: number | undefined, divisionName: string | undefined } | undefined, setSelectedDivisionP: ({ id, divisionName }: { id: number | undefined, divisionName: string | undefined }) => void, surveySettings: string[], setSurveySettings: (settings: string[]) => void }) => {
     const options = [
         {
             value: 'type',
@@ -44,7 +44,7 @@ const SurveySettings = ({ selectedDivisionP, setSelectedDivisionP, surveySetting
         setSurveySettings(checkBoxAns)
     }, [checkBoxAns])
     useEffect(() => {
-        setSelectedDivisionP({ id: selectedDevesion, divisionName: divisions.find(e => e.value === selectedDevesion)?.label })
+        setSelectedDivisionP({ id: selectedDevesion, divisionName: divisions.find(e => e.value === selectedDevesion?.toString())?.label })
     }, [selectedDevesion])
     return (
         <div className="flex flex-col items-center overflow-y-auto gap-6 pt-3">

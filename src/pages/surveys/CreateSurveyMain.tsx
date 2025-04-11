@@ -1,6 +1,6 @@
 import { Button, Tabs } from "antd"
 import CreateSurvey from "../../widgets/create-survey/CreateSurvey"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Calendar, Survey } from "../../entities/Survey"
 import axios from "axios"
 import SurveySettings from "./SurveySettings"
@@ -19,7 +19,7 @@ const CreateSurveyMain = () => {
     const [currentTab, setCurrentTab] = useState<string>("create")
     const [surveyCalendar, setSurveyCalendar] = useState<Calendar>()
     const [surveySettings, setSurveySettings] = useState<string[]>(['multilang', 'randomQuestions', 'type'])
-    const [selectedDevesion, setSelectedDevesion] = useState()
+    const [selectedDevesion, setSelectedDevesion] = useState<{ id: number | undefined, divisionName: string | undefined }>()
     const sendRequest = () => {
         const error = checkValid(surveyQuestions?.questions, surveyQuestions?.nameRu, surveyQuestions.nameKz, surveySettings.includes('multilang'))
         if (error.valid && checkValidCalendar(surveyCalendar) && checkValidSettings(selectedDevesion))

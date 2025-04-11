@@ -43,7 +43,7 @@ export const checkValidCalendar = (calendar: Calendar | undefined) => {
     return false
 }
 
-export const checkValidSettings = (divisions: { id: number, divisionName: string } | undefined) => {
+export const checkValidSettings = (divisions: { id: number | undefined, divisionName: string | undefined } | undefined) => {
     if (divisions && divisions !== undefined)
         if (divisions?.id && divisions?.divisionName)
             return true
