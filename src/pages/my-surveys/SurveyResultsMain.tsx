@@ -4,6 +4,7 @@ import UserSurveyResult from "./UserSurveyResult";
 import { Survey } from "../../entities/Survey";
 import axios from "axios";
 import { useParams } from "react-router";
+import UsersSurveyResultsList from "./UsersSurveyResultsList";
 
 const SurveyResultsMain = () => {
     const [currentTab, setCurrentTab] = useState<string>("user-result")
@@ -42,7 +43,7 @@ const SurveyResultsMain = () => {
                 <Tabs style={{ marginBottom: '-16px' }} activeKey={currentTab} items={items} onChange={onChange} />
             </div>
             <div className="flex flex-col h-full overflow-y-auto mb-6">
-                {currentTab === 'user-result' ? <UserSurveyResult questions={survey?.questions} quizId={params.id} /> : <></>}
+                {currentTab === 'user-result' ? <><UsersSurveyResultsList/> <UserSurveyResult questions={survey?.questions} quizId={params.id} /></> : <></>}
             </div>
         </div>
     )

@@ -6,15 +6,18 @@ import { SettingOutlined, CopyOutlined, DeleteOutlined } from "@ant-design/icons
 import { Answer, Question } from "../../entities/Survey";
 import CreateSurveyOpenQuestion from "../../shared/create-survey/CreateSurveyOpenQuestion";
 import CreateSurveyScale from "../../shared/create-survey/CreateSurveyScale";
-const CreateSurveyQuestion = ({ multilang, type, questionP, setQuestionP, deleteQuestionP, duplicateQuestion, selectedAns, valid }: { multilang?: boolean, valid?: { valid: boolean, questionId: number | undefined }, type: string, questionP: Question, setQuestionP?: (question: Question) => void, duplicateQuestion?: () => void, deleteQuestionP?: () => void, selectedAns?: (ans: number[]) => void }) => {
+import QuestionSettingsModal from "../../shared/create-survey/QuestionSettingsModal/QuestionSettingsModal";
+const CreateSurveyQuestion = ({ settings, type, questionP, setQuestionP, deleteQuestionP, duplicateQuestion, selectedAns, valid }: { settings?: string[], valid?: { valid: boolean, questionId: number | undefined }, type: string, questionP: Question, setQuestionP?: (question: Question) => void, duplicateQuestion?: () => void, deleteQuestionP?: () => void, selectedAns?: (ans: number[]) => void }) => {
 
     const [lang, setLang] = useState("Рус")
     const [question, setQuestion] = useState<Question>(questionP)
     const [answers, setAnswers] = useState<Answer[]>([{ nameRu: "", nameKz: "", correct: true, key: 0 }]);
     const [questionType, setQuestionType] = useState(questionP.multipleAns ? 'multiplechoices' : 'singlechoice')
     const [isRequired, setIsRequired] = useState(questionP.required)
+    const [visible, setVisible] = useState(false)
+    const [settingsModal, setSettingsModal] = useState<string[]>()
+
     const handleChange = (value: string) => {
-        if (value === 'singlechoice')
             setQuestionType(value)
     };
     const options = [
@@ -49,6 +52,9 @@ const CreateSurveyQuestion = ({ multilang, type, questionP, setQuestionP, delete
         if (deleteQuestionP)
             deleteQuestionP()
     }
+    const onClose = () => {
+        setVisible(false)
+    }
     return (
         <div className={"bg-white rounded-[10px] border-1 p-5 flex flex-col gap-4 w-3/4 " + (valid && !valid?.valid && valid?.questionId === questionP.id ? 'border-red-500 border-2' : 'border-[#E6EBF1]')}>
             <div className="flex gap-2">
@@ -65,17 +71,20 @@ const CreateSurveyQuestion = ({ multilang, type, questionP, setQuestionP, delete
                         value={questionType}
                         defaultValue={'multiplechoices'}
                         onChange={handleChange}
-                        options={options}
+                        options={options.map(opt => ({
+                            label: lang === "Рус" ? opt.labelRu : opt.labelKz,
+                            value: opt.value,
+                        }))}
                         optionRender={(option) => (
                             <Space>
-                                <span role="img" aria-label={lang === "Рус" ? option.data.labelRu : option.data.labelKz}>
-                                    {lang === "Рус" ? option.data.labelRu : option.data.labelKz}
+                                <span role="img" aria-label={option.data.label}>
+                                    {option.data.label}
                                 </span>
                             </Space>
                         )}
                     />
                 </div>
-                <SurveyTableTab disabled={multilang === false} tabs={["Рус", "Қаз"]} onChange={setLang} activeTab={lang} />
+                <SurveyTableTab disabled={!settings?.includes('multilang')} tabs={["Рус", "Қаз"]} onChange={setLang} activeTab={lang} />
             </div>
             {questionType === "text" ? <CreateSurveyOpenQuestion /> : (
                 questionType === "scale" ? <CreateSurveyScale /> :
@@ -87,7 +96,7 @@ const CreateSurveyQuestion = ({ multilang, type, questionP, setQuestionP, delete
                         <div className="flex gap-6 items-center justify-between">
                             <div>
                                 <div className="text-2xl flex gap-6">
-                                    <SettingOutlined />
+                                    {settings?.includes('feedback') ? <SettingOutlined onClick={()=> setVisible(true)}/> : <></>}
                                     <CopyOutlined onClick={duplicateQuestion} />
                                     <DeleteOutlined onClick={deleteQuestion} />
                                 </div>
@@ -102,7 +111,7 @@ const CreateSurveyQuestion = ({ multilang, type, questionP, setQuestionP, delete
                         </div>
                     </div>
             }
-
+            <QuestionSettingsModal answers={answers} onClose={onClose} onSettingsChange={setSettingsModal} settings={settings} settingsModal={settingsModal} visible={visible} />
         </div>)
 }
 

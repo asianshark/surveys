@@ -125,9 +125,9 @@ const CreateSurveyQuestionRadioCheckbox = ({ setSelectedAns, answersP, lang, sur
             }
             <div className={surveyType !== 'create' ? 'hidden' : 'pl-7 pt-2'}>
                 {lang === "Рус" ?
-                    <a><a onClick={() => addVariant(true)} className="text-[#366EF6] cursor-pointer">Добавить вариант</a>  или  <a className="text-[#366EF6] cursor-pointer" onClick={() => addVariant(false)}>добавить вариант “Затрудняюсь ответить”</a></a>
+                    <p><a onClick={() => addVariant(true)} className="text-[#366EF6] cursor-pointer">Добавить вариант</a>  или  <a className="text-[#366EF6] cursor-pointer" onClick={() => addVariant(false)}>добавить вариант “Затрудняюсь ответить”</a></p>
                     :
-                    <a><a onClick={() => addVariant(true)} className="text-[#366EF6] cursor-pointer">Вариант қосу</a>  немесе  <a className="text-[#366EF6] cursor-pointer" onClick={() => addVariant(false)}>«Маған жауап беру қиын» вариантын қосу</a></a>
+                    <p><a onClick={() => addVariant(true)} className="text-[#366EF6] cursor-pointer">Вариант қосу</a>  немесе  <a className="text-[#366EF6] cursor-pointer" onClick={() => addVariant(false)}>«Маған жауап беру қиын» вариантын қосу</a></p>
                 }
             </div>
         </>

@@ -18,7 +18,7 @@ const CreateSurveyMain = () => {
     })
     const [currentTab, setCurrentTab] = useState<string>("create")
     const [surveyCalendar, setSurveyCalendar] = useState<Calendar>()
-    const [surveySettings, setSurveySettings] = useState<string[]>(['multilang', 'randomQuestions', 'type'])
+    const [surveySettings, setSurveySettings] = useState<string[]>(['multilang', 'randomQuestions', 'type', 'feedback'])
     const [selectedDevesion, setSelectedDevesion] = useState<{ id: number | undefined, divisionName: string | undefined }>()
     const sendRequest = () => {
         const error = checkValid(surveyQuestions?.questions, surveyQuestions?.nameRu, surveyQuestions.nameKz, surveySettings.includes('multilang'))
@@ -90,7 +90,7 @@ const CreateSurveyMain = () => {
                 </div>
             </div>
             {currentTab === 'create' ?
-                <CreateSurvey surveyQuestions={surveyQuestions} multilang={surveySettings?.includes('multilang')} setSurveyQuestions={setSurveyQuestions} /> :
+                <CreateSurvey surveyQuestions={surveyQuestions} settings={surveySettings} setSurveyQuestions={setSurveyQuestions} /> :
                 (currentTab === 'settings' ?
                     <SurveySettings selectedDivisionP={selectedDevesion} setSelectedDivisionP={setSelectedDevesion} surveySettings={surveySettings} setSurveySettings={setSurveySettings} /> :
                     <SurveyCalendar surveyCalendar={surveyCalendar} setSurveyCalendar={setSurveyCalendar} />)}

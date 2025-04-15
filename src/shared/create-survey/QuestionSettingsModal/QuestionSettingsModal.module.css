@@ -1,0 +1,8 @@
+th, td {
+    background-color: #ffffff !important;
+    border-bottom: none !important;
+  }
+  
+  .custom-table .ant-table-cell {
+    border-bottom: none !important;
+  }
