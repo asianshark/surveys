@@ -1,22 +1,22 @@
 {
     "my_employment": {
-        "label": "МОЯ СЛУЖБА",
+        "label": "my-employment",
         "icon": "",
         "childs": [
             {
                 "icon": "archive-box",
-                "label": "Пройти тест",
+                "label": "pass-test",
                 "key": "surveys"
             }
         ]
     },
     "menegment":{
         "icon": "",
-        "label":"МЕНЕДЖМЕНТ",
+        "label":"menegment",
         "childs":[
             {
                 "icon": "list-bullet",
-                "label": "Опросы и тесты",
+                "label": "surveys-tests",
                 "key": "surveys-tests"
             }
         ]

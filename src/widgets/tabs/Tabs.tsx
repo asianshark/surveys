@@ -5,6 +5,7 @@ import data from "../../assets/tabs.json"
 import ButtonTree from "../../shared/tabs/ButtonTree";
 import Icon from "../../shared/Icon";
 import { useLocation, useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 
 type MenuItem = {
     label: string;
@@ -13,6 +14,7 @@ type MenuItem = {
     childs?: MenuItem[];
 };
 const Tabs = ({ closeOpenTab }: any) => {
+    const { t } = useTranslation();
     const params = useLocation()
 
     const [router, setRouter] = useState(params.pathname.slice(1))
@@ -28,7 +30,7 @@ const Tabs = ({ closeOpenTab }: any) => {
         closeOpenTab()
     }
     return (
-        <div className="flex h-full flex-col border-r-2 border-[#F0F0F0]" style={{boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)'}}>
+        <div className="flex h-full flex-col">
             <div className="flex flex-col h-full">
                 <div className="text-[#366EF6] h-15 flex items-center justify-center py-3">
                     <img className="h-full object-contain mr-2" alt="Logo" src="src\assets\image.png"></img>Talday ERP
@@ -37,7 +39,7 @@ const Tabs = ({ closeOpenTab }: any) => {
                     {Object.keys(menuData).map((key, index) => (
                         <div key={index}>
                             <div className="text-[#1A335399] px-4 h-10 flex items-center">
-                                {menuData[key].label}
+                                {t(menuData[key].label)}
                             </div>
                             <div>
                                 {menuData[key].childs && menuData[key].childs.map((child, index) => (

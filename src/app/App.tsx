@@ -26,7 +26,11 @@ function App() {
     <I18nextProvider i18n={i18next}>
 
       <div className='flex h-full'>
-        <div className={'w-50 ' + (!isOpenTab && "hidden")}>
+        <div className={'w-60 ' + (!isOpenTab && "hidden")} 
+        style={{
+          boxShadow: isOpenTab ? '1px 0 5px rgba(0, 0, 0, 0.05)' : 'none',
+          zIndex: 10,
+        }}>
           <Tabs closeOpenTab={closeOpenTab} />
         </div>
         <div className='grow flex flex-col w-full h-full'>

@@ -1,7 +1,7 @@
 import { Button, Tabs } from "antd"
 import CreateSurvey from "../../widgets/create-survey/CreateSurvey"
 import { useState } from "react"
-import { Calendar, Survey } from "../../entities/Survey"
+import { Calendar, Jurisdiction, Survey } from "../../entities/Survey"
 import axios from "axios"
 import SurveySettings from "./SurveySettings"
 import SurveyCalendar from "./SurveyCalendar"
@@ -19,13 +19,13 @@ const CreateSurveyMain = () => {
         description: "",
         questions: [{ nameRu: "", required: false, key: 0 }]
     })
-    const [currentTab, setCurrentTab] = useState<string>("create")
+    const [currentTab, setCurrentTab] = useState<string>("settings")
     const [surveyCalendar, setSurveyCalendar] = useState<Calendar>()
     const [surveySettings, setSurveySettings] = useState<string[]>(['multilang', 'randomQuestions', 'type', 'feedback'])
-    const [selectedDevesion, setSelectedDevesion] = useState<{ id: number | undefined, divisionName: string | undefined }>()
+    const [selectedJurisdiction, setSelectedJurisdiction] = useState<Jurisdiction>()
     const sendRequest = () => {
         const error = checkValid(surveyQuestions?.questions, surveyQuestions?.nameRu, surveyQuestions.nameKz, surveySettings.includes('multilang'))
-        if (error.valid && checkValidCalendar(surveyCalendar) && checkValidSettings(selectedDevesion))
+        if (error.valid && checkValidCalendar(surveyCalendar) && checkValidSettings(selectedJurisdiction?.division))
             axios.post("/quizzes", {
                 ...surveyQuestions,
                 status: "DRAFT",
@@ -38,7 +38,7 @@ const CreateSurveyMain = () => {
                 everyMonth: surveyCalendar?.everyMonth,
                 dayOfWeek: surveyCalendar?.dayOfWeek ? surveyCalendar?.dayOfWeek : "MONDAY",
                 divisions: [
-                    selectedDevesion
+                    selectedJurisdiction?.division
                 ],
             }
             ).then(response => {
@@ -81,7 +81,7 @@ const CreateSurveyMain = () => {
     }
     return (
         <div className="flex flex-col h-full text-[#1A3353]">
-            <div className="px-6 pt-4 bg-white">
+            <div className="px-6 pt-4 bg-white z-10">
                 <div className="flex justify-between">
                     <p className="text-xl font-medium">{items.find(i => i.key === currentTab)?.label}</p>
                     <div className="flex gap-2">
@@ -97,7 +97,7 @@ const CreateSurveyMain = () => {
             {currentTab === 'create' ?
                 <CreateSurvey quizzType={quizzType} surveyQuestions={surveyQuestions} settings={surveySettings} setSurveyQuestions={setSurveyQuestions} /> :
                 (currentTab === 'settings' ?
-                    <SurveySettings quizzType={quizzType} selectedDivisionP={selectedDevesion} setSelectedDivisionP={setSelectedDevesion} surveySettings={surveySettings} setSurveySettings={setSurveySettings} /> :
+                    <SurveySettings quizzType={quizzType} selectedJurisdiction={selectedJurisdiction} setSelectedJurisdiction={setSelectedJurisdiction} surveySettings={surveySettings} setSurveySettings={setSurveySettings} /> :
                     <SurveyCalendar surveyCalendar={surveyCalendar} setSurveyCalendar={setSurveyCalendar} />)}
 
         </div>

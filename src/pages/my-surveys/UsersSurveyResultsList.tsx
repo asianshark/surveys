@@ -57,7 +57,7 @@ const UsersSurveyResultsList = ({ quizId, choosenResult }: {choosenResult: (user
     }
   ]
   return (
-    <div>
+    <div className="p-5 rounded-[10px] bg-white h-full">
       <Table
         columns={colums}
         rowClassName="editable-row"

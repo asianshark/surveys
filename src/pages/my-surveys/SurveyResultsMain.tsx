@@ -36,13 +36,13 @@ const SurveyResultsMain = () => {
 
     return (
         <div className="flex flex-col h-full text-[#1A3353]">
-            <div className="px-6 pt-4 bg-white">
+            <div className="px-6 pt-4 bg-white z-10">
                 <div className="flex justify-between">
                     <p className="text-xl font-medium">{survey?.nameRu}</p>
                 </div>
                 <Tabs style={{ marginBottom: '-16px' }} activeKey={currentTab} items={items} onChange={onChange} />
             </div>
-            <div className="flex flex-col h-full overflow-y-auto mb-6">
+            <div className="flex flex-col h-full overflow-y-auto p-6 ">
                 {currentTab === 'user-result' && !isResultPage && (
                     <UsersSurveyResultsList choosenResult={choosenResult} quizId={params.id} />
                 )}

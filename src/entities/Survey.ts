@@ -56,9 +56,9 @@ export type Calendar ={
 }
 
 export interface Division {
-    id: number;
-    divisionName: string;
-    quizIds: number[] | null;
+    id: number | undefined;
+    divisionName: string | undefined;
+    quizIds?: number[] | null;
 }
 export interface Quiz {
     id: number;
@@ -77,4 +77,11 @@ export interface Quiz {
     dayOfWeek: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY"; // Ограничение на дни недели
     questions: Question[] | null; // Можно уточнить, если известна структура вопросов
     divisions: Division[];
+}
+
+export interface Jurisdiction {
+    division?: Division | undefined,
+    jurisdiction: string | undefined,
+    officialPosition?: string | undefined,
+    users?: string[] | undefined
 }

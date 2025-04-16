@@ -20,7 +20,7 @@ interface Result {
 
 const UserSurveyResult: React.FC<UserSurveyResultProps> = () => {
   const location = useLocation();
-  const { questions, quizId } = useOutletContext<{quizId: string | undefined, questions: Question[] | undefined}>();
+  const { questions, quizId } = useOutletContext<{ quizId: string | undefined, questions: Question[] | undefined }>();
   const { userId, attemptNumber } = location.state || {};
   const [results, setResults] = useState<Result | null>(null);
 
@@ -33,7 +33,7 @@ const UserSurveyResult: React.FC<UserSurveyResultProps> = () => {
       });
     }
     console.log(questions);
-    
+
   }, [quizId]);
 
   const getCorrectAnswersText = (answers: Answer[] | undefined, correctAnswerIds: number[]) => {
@@ -47,10 +47,8 @@ const UserSurveyResult: React.FC<UserSurveyResultProps> = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="p-5 flex justify-between">
-        <div>
-          Процент правильных ответов: {results?.percentage}%
-        </div>
+      <div className="p-5 pt-0 flex justify-between">
+        Процент правильных ответов: {results?.percentage}%
       </div>
       <div className="flex h-full flex-col items-center gap-6">
         {questions?.map((item) => {

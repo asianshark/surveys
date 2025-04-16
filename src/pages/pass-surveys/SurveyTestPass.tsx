@@ -83,7 +83,7 @@ const SurveyTestPass = () => {
     }, [answers])
     return (
         <div className="h-full flex flex-col text-[#1A3353]">
-            <div className="px-6 py-4 bg-white flex justify-between">
+            <div className="px-6 py-4 bg-white flex justify-between z-10">
                 <div className="text-[20px]">{survey?.nameRu}</div>
                 {!isTestPassed &&
                     <Button onClick={passTest} size="middle" type="primary">Сдать тест</Button>

@@ -27,5 +27,19 @@
     "every-week": "Каждую неделю",
     "every-month": "Каждый месяц",
     "jurisdiction": "Юрисдикция",
-    "survey-conductedfor": "Опрос проводится для"
+    "survey-conductedfor": "Опрос проводится для",
+    "pass-test": "Пройти тест",
+    "surveys-tests": "Опросы и тесты",
+    "my-employment": "МОЯ СЛУЖБА",
+    "menegment": "МЕНЕДЖМЕНТ",
+    "regular-department": "Штатное подразделение",
+    "certain-participant": "Определенный участник",
+    "select-jurisdiction": "Выберите юрисдикцию",
+    "official-position": "Служебное положение",
+    "all": "Все",
+    "personnel-only": "Только личный состав",
+    "only-management-team": "Только руководящий состав",
+    "choose": "Выберите",
+    "employees-list": "Список сотрудников",
+    "add-division": "Добавить подразделение"
 }
