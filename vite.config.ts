@@ -32,7 +32,7 @@ export default defineConfig({
         changeOrigin: true,
         secure: false
       },
-      '/responses/result/detailed': {
+      '/responses/result': {
         target: url,
         changeOrigin: true,
         secure: false

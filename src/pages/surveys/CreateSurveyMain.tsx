@@ -6,11 +6,14 @@ import axios from "axios"
 import SurveySettings from "./SurveySettings"
 import SurveyCalendar from "./SurveyCalendar"
 import { checkValid, checkValidCalendar, checkValidSettings } from "../../shared/create-survey/CheckValidCreatedSyrvey"
-import { useNavigate } from "react-router"
+import { useNavigate, useParams } from "react-router"
+import { useTranslation } from "react-i18next";
 
 const CreateSurveyMain = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate()
-
+    const quizzType = useParams().type
+    const surveyName = quizzType === 'test' ? t('creating-test') : quizzType === 'competence' ? t('creating-competence-blank') : t('creating-survey')
     const [surveyQuestions, setSurveyQuestions] = useState<Survey>({
         nameRu: "",
         description: "",
@@ -47,11 +50,10 @@ const CreateSurveyMain = () => {
             sendReport()
             if (error.warning)
                 alert(`Вы пропустили поле ${error.warning} ${error.lang ? `(${error.lang})` : ''} \n${error.questionKey ? `Вопрос №${error.questionKey}` : ''} \n${error.answerkey ? `Ответ №${error.answerkey}` : ''}`)
-            else if(error.error)
+            else if (error.error)
                 alert(error.error)
         }
     }
-    // ( error.error.slice(-2) === 'Kz' ? '' : '')
     const onChange = (key: string) => {
         setCurrentTab(key)
     };
@@ -59,20 +61,23 @@ const CreateSurveyMain = () => {
     const items = [
         {
             key: 'create',
-            label: 'Создание опрос',
+            label: surveyName,
         },
         {
             key: 'settings',
-            label: 'Настройки',
+            label: t('settings'),
         },
         {
             key: 'calendar',
-            label: 'Календарь',
+            label: t('calendar'),
         },
     ];
 
     const sendReport = () => {
         console.log("Incorrect survey");
+    }
+    const cancel = () => {
+        navigate('/surveys-tests')
     }
     return (
         <div className="flex flex-col h-full text-[#1A3353]">
@@ -80,9 +85,9 @@ const CreateSurveyMain = () => {
                 <div className="flex justify-between">
                     <p className="text-xl font-medium">{items.find(i => i.key === currentTab)?.label}</p>
                     <div className="flex gap-2">
-                        <Button disabled>Отмена</Button>
+                        <Button onClick={cancel}>{t('cancel')}</Button>
                         <Button disabled onClick={sendReport}>Черновик</Button>
-                        <Button onClick={sendRequest} type="primary">Сохранить</Button>
+                        <Button onClick={sendRequest} type="primary">{t('save')}</Button>
                     </div>
                 </div>
                 <div>
@@ -90,9 +95,9 @@ const CreateSurveyMain = () => {
                 </div>
             </div>
             {currentTab === 'create' ?
-                <CreateSurvey surveyQuestions={surveyQuestions} settings={surveySettings} setSurveyQuestions={setSurveyQuestions} /> :
+                <CreateSurvey quizzType={quizzType} surveyQuestions={surveyQuestions} settings={surveySettings} setSurveyQuestions={setSurveyQuestions} /> :
                 (currentTab === 'settings' ?
-                    <SurveySettings selectedDivisionP={selectedDevesion} setSelectedDivisionP={setSelectedDevesion} surveySettings={surveySettings} setSurveySettings={setSurveySettings} /> :
+                    <SurveySettings quizzType={quizzType} selectedDivisionP={selectedDevesion} setSelectedDivisionP={setSelectedDevesion} surveySettings={surveySettings} setSurveySettings={setSurveySettings} /> :
                     <SurveyCalendar surveyCalendar={surveyCalendar} setSurveyCalendar={setSurveyCalendar} />)}
 
         </div>

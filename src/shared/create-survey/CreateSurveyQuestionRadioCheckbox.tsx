@@ -10,10 +10,10 @@ const style: React.CSSProperties = {
     gap: 16,
     fontFamily: 'Roboto ',
 };
-const CreateSurveyQuestionRadioCheckbox = ({ setSelectedAns, answersP, lang, surveyType, type, getAnswer }: { setSelectedAns?: (ans: number[]) => void, answersP?: Answer[], surveyType: string, lang: string, type: string, getAnswer: (answers: Answer[]) => void }) => {
+const CreateSurveyQuestionRadioCheckbox = ({ quizzType, setSelectedAns, answersP, lang, surveyType, type, getAnswer }: { quizzType: string | undefined, setSelectedAns?: (ans: number[]) => void, answersP?: Answer[], surveyType: string, lang: string, type: string, getAnswer: (answers: Answer[]) => void }) => {
     const [correctAnswerRadio, setCorrectAnswerRadio] = useState<number>();
     const [correctAnswerCheckbox, setCorrectAnswerCheckbox] = useState<number[]>([]);
-    const [answers, setAnswers] = useState<Answer[]>([{ nameRu: "", nameKz: "", correct: true, key: 0 }]);
+    const [answers, setAnswers] = useState<Answer[]>([{ nameRu: "", nameKz: "", key: 0 }]);
     const [keys, setKeys] = useState(1)
     useEffect(() => {
         if (answersP) {
@@ -29,12 +29,13 @@ const CreateSurveyQuestionRadioCheckbox = ({ setSelectedAns, answersP, lang, sur
         }
     }, [])
     const chooseAnswerRadio = (e: RadioChangeEvent) => {
-        setAnswers((prev) => {
-            return prev.map((answer, index) => ({
-                ...answer,
-                correct: index === e.target.value,
-            }));
-        });
+        if (quizzType !== 'survey')
+            setAnswers((prev) => {
+                return prev.map((answer, index) => ({
+                    ...answer,
+                    correct: index === e.target.value,
+                }));
+            });
         if (setSelectedAns)
             setSelectedAns([e.target.value])
         setCorrectAnswerRadio(e.target.value);
@@ -42,19 +43,20 @@ const CreateSurveyQuestionRadioCheckbox = ({ setSelectedAns, answersP, lang, sur
 
     const chooseAnswerCheckbox = (selectedIndexes: number[]) => {
         setCorrectAnswerCheckbox(selectedIndexes)
-        setAnswers((prev) =>
-            prev.map((answer, index) => ({
-                ...answer,
-                correct: selectedIndexes.includes(index),
-            }))
-        );
+        if (quizzType !== 'survey')
+            setAnswers((prev) =>
+                prev.map((answer, index) => ({
+                    ...answer,
+                    correct: selectedIndexes.includes(index),
+                }))
+            );
         if (setSelectedAns)
             setSelectedAns(selectedIndexes)
     }
 
     const addVariant = (empty: boolean) => {
         setKeys(keys + 1)
-        setAnswers((prev) => [...prev, { nameRu: empty ? '' : 'Затрудняюсь ответить', nameKz: empty ? '' : 'Маған жауап беру қиын', correct: false, key: keys }]);
+        setAnswers((prev) => [...prev, { nameRu: empty ? '' : 'Затрудняюсь ответить', nameKz: empty ? '' : 'Маған жауап беру қиын', key: keys }]);
     }
     const changeInput = (value: string, key: number) => {
         setAnswers((prev) => {

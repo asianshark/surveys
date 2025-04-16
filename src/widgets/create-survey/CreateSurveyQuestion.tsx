@@ -7,8 +7,7 @@ import { Answer, Question } from "../../entities/Survey";
 import CreateSurveyOpenQuestion from "../../shared/create-survey/CreateSurveyOpenQuestion";
 import CreateSurveyScale from "../../shared/create-survey/CreateSurveyScale";
 import QuestionSettingsModal from "../../shared/create-survey/QuestionSettingsModal/QuestionSettingsModal";
-const CreateSurveyQuestion = ({ settings, type, questionP, setQuestionP, deleteQuestionP, duplicateQuestion, selectedAns, valid }: { settings?: string[], valid?: { valid: boolean, questionId: number | undefined }, type: string, questionP: Question, setQuestionP?: (question: Question) => void, duplicateQuestion?: () => void, deleteQuestionP?: () => void, selectedAns?: (ans: number[]) => void }) => {
-
+const CreateSurveyQuestion = ({ quizzType, settings, type, questionP, setQuestionP, deleteQuestionP, duplicateQuestion, selectedAns, valid }: { quizzType?: string | undefined, settings?: string[], valid?: { valid: boolean, questionId: number | undefined }, type: string, questionP: Question, setQuestionP?: (question: Question) => void, duplicateQuestion?: () => void, deleteQuestionP?: () => void, selectedAns?: (ans: number[]) => void }) => {
     const [lang, setLang] = useState("Рус")
     const [question, setQuestion] = useState<Question>(questionP)
     const [answers, setAnswers] = useState<Answer[]>([{ nameRu: "", nameKz: "", correct: true, key: 0 }]);
@@ -18,9 +17,9 @@ const CreateSurveyQuestion = ({ settings, type, questionP, setQuestionP, deleteQ
     const [settingsModal, setSettingsModal] = useState<string[]>()
 
     const handleChange = (value: string) => {
-            setQuestionType(value)
+        setQuestionType(value)
     };
-    const options = [
+    const options = quizzType === 'survey' ? [
         {
             labelRu: 'Текст',
             labelKz: 'Мәтін',
@@ -41,7 +40,17 @@ const CreateSurveyQuestion = ({ settings, type, questionP, setQuestionP, deleteQ
             labelKz: "Шкала",
             value: "scale"
         }
-    ]
+    ] : [
+        {
+            labelRu: "Один из списка",
+            labelKz: "Тізімнен біреу",
+            value: 'singlechoice'
+        },
+        {
+            labelRu: "Несколько из списка",
+            labelKz: "Тізімнен бірнешеу",
+            value: "multiplechoices"
+        }]
 
     useEffect(() => {
         if (setQuestionP)
@@ -88,31 +97,31 @@ const CreateSurveyQuestion = ({ settings, type, questionP, setQuestionP, deleteQ
             </div>
             {questionType === "text" ? <CreateSurveyOpenQuestion /> : (
                 questionType === "scale" ? <CreateSurveyScale /> :
-                    <CreateSurveyQuestionRadioCheckbox surveyType={type} setSelectedAns={selectedAns} answersP={question?.answers} lang={lang} type={questionType} getAnswer={setAnswers} />
+                    <CreateSurveyQuestionRadioCheckbox quizzType={quizzType} surveyType={type} setSelectedAns={selectedAns} answersP={question?.answers} lang={lang} type={questionType} getAnswer={setAnswers} />
             )}
             {
-                type !== 'create' ? <></> :
-                    <div className="flex justify-end">
-                        <div className="flex gap-6 items-center justify-between">
-                            <div>
-                                <div className="text-2xl flex gap-6">
-                                    {settings?.includes('feedback') ? <SettingOutlined onClick={()=> setVisible(true)}/> : <></>}
-                                    <CopyOutlined onClick={duplicateQuestion} />
-                                    <DeleteOutlined onClick={deleteQuestion} />
-                                </div>
-                            </div>
-                            <hr className="w-[24px] text-[#E6EBF1] rotate-90" />
-                            <div className="flex items-center gap-4">
-                                <div>
-                                    {lang === "Рус" ? 'Обязательный вопрос' : 'Міндетті сұрақ'}
-                                </div>
-                                <Switch onChange={e => setIsRequired(e)} />
+                !(type !== 'create') &&
+                < div className="flex justify-end">
+                    <div className="flex gap-6 items-center justify-between">
+                        <div>
+                            <div className="text-2xl flex gap-6">
+                                {settings?.includes('feedback') && <SettingOutlined onClick={() => setVisible(true)} />}
+                                <CopyOutlined onClick={duplicateQuestion} />
+                                <DeleteOutlined onClick={deleteQuestion} />
                             </div>
                         </div>
+                        <hr className="w-[24px] text-[#E6EBF1] rotate-90" />
+                        <div className="flex items-center gap-4">
+                            <div>
+                                {lang === "Рус" ? 'Обязательный вопрос' : 'Міндетті сұрақ'}
+                            </div>
+                            <Switch onChange={e => setIsRequired(e)} />
+                        </div>
                     </div>
+                </div>
             }
             <QuestionSettingsModal answers={answers} onClose={onClose} onSettingsChange={setSettingsModal} settings={settings} settingsModal={settingsModal} visible={visible} />
-        </div>)
+        </div >)
 }
 
 export default CreateSurveyQuestion

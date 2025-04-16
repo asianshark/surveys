@@ -1,7 +1,7 @@
 export type Answer = { 
     nameRu: string, 
     nameKz: string, 
-    correct: boolean, 
+    correct?: boolean, 
     key: number,
     id? : number,
 }

@@ -3,7 +3,7 @@ import { Modal, Checkbox, Button, Table, Input } from 'antd';
 import SurveyTableTab from '../../surveys/SurveyTableTab';
 import { CloseOutlined } from '@ant-design/icons';
 import { Answer } from '../../../entities/Survey';
-import './QuestionSettingsModal.module.css';
+import styles from './QuestionSettingsModal.module.css';
 // filepath: d:/app/survey/src/shared/create-survey/QuestionSettingsModal.tsx
 
 interface QuestionSettingsModalProps {
@@ -67,7 +67,7 @@ const QuestionSettingsModal: React.FC<QuestionSettingsModalProps> = ({ answers, 
                 </Button>,
             ]}
         >
-            <div className='flex flex-col gap-5'>
+            <div className={`flex flex-col gap-5 ${styles.settingsModule}`}>
                 <Checkbox
                     checked={randomizeAnswers}
                     onChange={(e) => setRandomizeAnswers(e.target.checked)}
@@ -84,7 +84,7 @@ const QuestionSettingsModal: React.FC<QuestionSettingsModalProps> = ({ answers, 
                             title: 'Описание в диаграммах',
                             dataIndex: 'diogramm',
                             key: 'diogramm',
-                            render: (_, record) => <Input size='large' key={record.id} />
+                            render: (_, record) => <Input onChange={e => onSettingsChange([e.target.value])} size='large' key={record.id} />
                         },
                         {
                             title: 'Описание в справке',

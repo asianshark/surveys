@@ -28,7 +28,7 @@ const Tabs = ({ closeOpenTab }: any) => {
         closeOpenTab()
     }
     return (
-        <div className="flex h-full flex-col border-r-2 border-[#F0F0F0]">
+        <div className="flex h-full flex-col border-r-2 border-[#F0F0F0]" style={{boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)'}}>
             <div className="flex flex-col h-full">
                 <div className="text-[#366EF6] h-15 flex items-center justify-center py-3">
                     <img className="h-full object-contain mr-2" alt="Logo" src="src\assets\image.png"></img>Talday ERP

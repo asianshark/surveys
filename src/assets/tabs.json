@@ -15,11 +15,6 @@
         "label":"МЕНЕДЖМЕНТ",
         "childs":[
             {
-                "icon": "pencil",
-                "label": "Создать опрос",
-                "key": "surveys2"
-            },
-            {
                 "icon": "list-bullet",
                 "label": "Опросы и тесты",
                 "key": "surveys-tests"

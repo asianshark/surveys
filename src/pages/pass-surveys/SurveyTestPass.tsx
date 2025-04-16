@@ -85,9 +85,9 @@ const SurveyTestPass = () => {
         <div className="h-full flex flex-col text-[#1A3353]">
             <div className="px-6 py-4 bg-white flex justify-between">
                 <div className="text-[20px]">{survey?.nameRu}</div>
-                {!isTestPassed ? 
+                {!isTestPassed &&
                     <Button onClick={passTest} size="middle" type="primary">Сдать тест</Button>
-                : <></>}
+                }
             </div>
             <div className="flex flex-col items-center bg-[#E6E6FA] h-full overflow-y-auto gap-6 pt-3">
                 {!isTestPassed ?

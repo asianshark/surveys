@@ -16,7 +16,8 @@ export const checkValid = (surveyQuestions: Question[] | undefined, surveyNameRu
                 return { valid: !isValid, warning: 'вопроса', questionKey: ind, lang: 'kz' }
             else {
                 let i = 0
-                if (item.answers && item.answers.length > 0)
+                if (item.answers && item.answers.length > 0) {
+                    let correctAns = false
                     for (const ans of item.answers) {
                         ++i
                         if (!(ans.nameRu && ans.nameRu !== '' && ans.nameRu.length > 0))
@@ -24,7 +25,13 @@ export const checkValid = (surveyQuestions: Question[] | undefined, surveyNameRu
                         else if (multilang && !(ans.nameKz && ans.nameKz !== '' && ans.nameKz.length > 0)) {
                             return { valid: !isValid, questionKey: ind, warning: 'ответа', answerkey: i, lang: 'kz' }
                         }
+                        else if (ans.correct) {
+                            correctAns = true
+                        }
                     }
+                    if(!correctAns)
+                        return {valid : !isValid, error: 'Укажите правильный ответ. Вопрос №' + ind}
+                }
                 else {
                     return { valid: !isValid, questionKey: ind, warning: 'ответа', answerkey: i, lang: 'kz' }
                 }
@@ -44,6 +51,7 @@ export const checkValidCalendar = (calendar: Calendar | undefined) => {
 }
 
 export const checkValidSettings = (divisions: { id: number | undefined, divisionName: string | undefined } | undefined) => {
+    return true
     if (divisions && divisions !== undefined)
         if (divisions?.id && divisions?.divisionName)
             return true

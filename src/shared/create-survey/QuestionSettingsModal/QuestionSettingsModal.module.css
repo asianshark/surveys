@@ -1,8 +1,9 @@
-th, td {
-    background-color: #ffffff !important;
-    border-bottom: none !important;
-  }
-  
-  .custom-table .ant-table-cell {
-    border-bottom: none !important;
-  }
+.settingsModule :global(th),
+.settingsModule :global(td) {
+  background-color: #ffffff !important;
+  border-bottom: none !important;
+}
+
+.settingsModule .custom-table :global(.ant-table-cell) {
+  border-bottom: none !important;
+}

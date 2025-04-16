@@ -1,11 +1,11 @@
-import { Select } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Answer, Question } from "../../entities/Survey";
+import { useLocation, useOutletContext } from "react-router";
 
 interface UserSurveyResultProps {
-  quizId: string | undefined;
-  questions: Question[] | undefined;
+  quizId?: string | undefined;
+  questions?: Question[] | undefined;
 }
 
 interface Result {
@@ -18,24 +18,23 @@ interface Result {
   }[];
 }
 
-const UserSurveyResult: React.FC<UserSurveyResultProps> = ({ quizId, questions }) => {
-  const users = [
-    { label: 'Есимгали', value: '1' },
-    { label: 'Асет', value: '2' },
-  ];
-
-  const [user, setUser] = useState(users[0].value);
+const UserSurveyResult: React.FC<UserSurveyResultProps> = () => {
+  const location = useLocation();
+  const { questions, quizId } = useOutletContext<{quizId: string | undefined, questions: Question[] | undefined}>();
+  const { userId, attemptNumber } = location.state || {};
   const [results, setResults] = useState<Result | null>(null);
 
   useEffect(() => {
     if (quizId) {
-      axios.get('/responses/result/detailed', {
-        params: { userId: user, quizId },
+      axios.get('/responses/result/attempt', {
+        params: { userId: userId, quizId, attempt: attemptNumber },
       }).then((res) => {
         setResults(res.data);
       });
     }
-  }, [user, quizId]);
+    console.log(questions);
+    
+  }, [quizId]);
 
   const getCorrectAnswersText = (answers: Answer[] | undefined, correctAnswerIds: number[]) => {
     if (answers)
@@ -49,11 +48,6 @@ const UserSurveyResult: React.FC<UserSurveyResultProps> = ({ quizId, questions }
   return (
     <div className="flex flex-col h-full">
       <div className="p-5 flex justify-between">
-        <Select
-          value={user}
-          onChange={setUser}
-          options={users}
-        />
         <div>
           Процент правильных ответов: {results?.percentage}%
         </div>

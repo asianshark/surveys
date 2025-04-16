@@ -6,7 +6,7 @@ import PlusCircleOutlined from "@ant-design/icons/lib/icons/PlusCircleOutlined"
 import SurveyTableTab from "../../shared/surveys/SurveyTableTab"
 import TextArea from "antd/es/input/TextArea"
 
-const CreateSurvey = ({ settings, setSurveyQuestions, surveyQuestions }: { surveyQuestions: Survey, settings: string[], setSurveyQuestions: (survey: Survey) => void }) => {
+const CreateSurvey = ({ quizzType, settings, setSurveyQuestions, surveyQuestions }: { quizzType: string | undefined, surveyQuestions: Survey, settings: string[], setSurveyQuestions: (survey: Survey) => void }) => {
     const [lang, setLang] = useState("Рус")
     const [surveyName, setSurveyName] = useState<{ nameRu: string, nameKz: string }>({ nameRu: surveyQuestions.nameRu, nameKz: surveyQuestions.nameKz || '' })
     const [surveyDescription, setSurveyDescription] = useState(surveyQuestions.description)
@@ -44,6 +44,11 @@ const CreateSurvey = ({ settings, setSurveyQuestions, surveyQuestions }: { surve
     useEffect(() => {
         setSurveyQuestions({ questions: questions, nameRu: surveyName.nameRu, nameKz: surveyName.nameKz, description: surveyDescription })
     }, [questions, surveyName, surveyDescription])
+    const quizName = (name : string) => {
+        if(name === 'plaseholder')
+            return lang === "Рус" ? ('Новый '  + (quizzType === 'survey' ? 'опрос' : 'тест')) : ('Жаңа ' + (quizzType === 'survey' ? 'сауалнама' : 'тест'))
+        return lang === "Рус" ? ('Наименование ' + (quizzType === 'survey' ? 'опроса' : 'теста')) : ((quizzType === 'survey' ? 'Сауалнама' : 'Тест') + ' аты')
+    }
     return (
         <div className="flex flex-col items-center bg-[#E6E6FA] h-full overflow-y-auto gap-6 pt-3">
             <div className="bg-white rounded-[10px] border-[#E6EBF1] border-1 p-5 flex flex-col gap-4 w-3/4">
@@ -53,8 +58,8 @@ const CreateSurvey = ({ settings, setSurveyQuestions, surveyQuestions }: { surve
                 </div>
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-2">
-                        <div className="text-[14px]">{lang === "Рус" ? 'Наименование опроса' : 'Сауалнама аты'}</div>
-                        <Input style={{ fontFamily: 'Roboto' }} size="large" value={lang === "Рус" ? surveyName.nameRu : surveyName.nameKz} onChange={e => setSurveyName({ ...surveyName, [lang === "Рус" ? 'nameRu' : 'nameKz']: e.target.value })} placeholder={lang === "Рус" ? 'Новый опрос' : 'Жаңа сауалнама'}></Input>
+                        <div className="text-[14px]">{quizName('name')}</div>
+                        <Input style={{ fontFamily: 'Roboto' }} size="large" value={lang === "Рус" ? surveyName.nameRu : surveyName.nameKz} onChange={e => setSurveyName({ ...surveyName, [lang === "Рус" ? 'nameRu' : 'nameKz']: e.target.value })} placeholder={quizName('placeholder')}></Input>
 
                     </div>
                     <div className="flex flex-col gap-2">
@@ -64,7 +69,7 @@ const CreateSurvey = ({ settings, setSurveyQuestions, surveyQuestions }: { surve
                 </div>
             </div>
             {questions.map((item) =>
-                <CreateSurveyQuestion duplicateQuestion={() => duplicateQuestion(item.key)} settings={settings} type="create" questionP={item} key={item.key} deleteQuestionP={() => deleteQuestion(item.key)} setQuestionP={e => setQuestion(e, item.key)} />
+                <CreateSurveyQuestion quizzType={quizzType} duplicateQuestion={() => duplicateQuestion(item.key)} settings={settings} type="create" questionP={item} key={item.key} deleteQuestionP={() => deleteQuestion(item.key)} setQuestionP={e => setQuestion(e, item.key)} />
             )}
             <div className="pb-4">
                 <button onClick={addVariant} className="text-2xl text-[#72849A] p-5 rounded-[10px] bg-white flex border-[#E6EBF1] border-1"><PlusCircleOutlined /></button>
