@@ -4,7 +4,7 @@ import i18n from "../../i18n/i18n"
 import { Select } from "antd"
 
 const TabBar = ({ isOpenTab, closeOpenTab }: { isOpenTab: boolean, closeOpenTab: () => void }) => {
-    const [lang, setLang] = useState("kz")
+    const [lang, setLang] = useState(localStorage.getItem('i18nextLng') || 'kz')
     const langs = [
         {
             value: 'kz',
@@ -17,6 +17,7 @@ const TabBar = ({ isOpenTab, closeOpenTab }: { isOpenTab: boolean, closeOpenTab:
     ]
     useEffect(() => {
         i18n.changeLanguage(lang);
+        localStorage.setItem('i18nextLng', lang);
     }, [lang])
     return (
         <div className='h-[48px] px-4 border-b-1 border-[#F0F0F0] flex items-center justify-between'>

@@ -147,7 +147,7 @@ const SurveySettings = ({ quizzType, selectedJurisdiction, setSelectedJurisdicti
                             </Card >
                         </div>}
                     {jurisdiction === 'users' &&
-                        <div>
+                        <div className="flex flex-col gap-5">
                             <div className="flex flex-col">
                                 <div className="h-8 flex gap-1"><p className="text-red-500">*</p>{t('employees-list')}:</div>
                                 <Select
@@ -157,6 +157,12 @@ const SurveySettings = ({ quizzType, selectedJurisdiction, setSelectedJurisdicti
                                     options={divisions}>
                                 </Select>
                             </div>
+                            <Card size="small" className="">
+                                {selectedJurisdiction?.division &&
+                                    <Tag className="rounded-md" color="processing">
+                                        {selectedJurisdiction?.division?.divisionName} <CloseOutlined onClick={deleteChoosen} />
+                                    </Tag>}
+                            </Card >
                         </div>}
                 </div>
             </div>
