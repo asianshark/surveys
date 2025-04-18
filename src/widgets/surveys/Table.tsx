@@ -163,6 +163,7 @@ const Table = ({ dataP, total, changeFilter }: { total: number, dataP: Quiz[], a
     return (
         <>
             <TableAntd<Quiz>
+                rowKey={(record) => record.id}
                 pagination={pagination}
                 rowClassName="editable-row"
                 size="small"

@@ -157,6 +157,7 @@ const PassTable = ({ dataP, total, changeFilter }: { total: number, dataP: Quiz[
         <>
             <TableAntd<Quiz>
                 pagination={pagination}
+                rowKey={(record) => record.id}
                 rowClassName="editable-row"
                 size="small"
                 columns={columns}
