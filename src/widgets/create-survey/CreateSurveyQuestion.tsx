@@ -14,7 +14,6 @@ const CreateSurveyQuestion = ({ quizzType, settings, type, questionP, setQuestio
     const [questionType, setQuestionType] = useState(questionP.multipleAns ? 'multiplechoices' : 'singlechoice')
     const [isRequired, setIsRequired] = useState(questionP.required)
     const [visible, setVisible] = useState(false)
-    const [settingsModal, setSettingsModal] = useState<string[]>()
 
     const handleChange = (value: string) => {
         setQuestionType(value)
@@ -63,6 +62,15 @@ const CreateSurveyQuestion = ({ quizzType, settings, type, questionP, setQuestio
     }
     const onClose = () => {
         setVisible(false)
+    }
+    const setSettingsModal = (value: string, key: number, diagram: boolean, lang: string) => {
+        setAnswers((prev) => {
+            return prev.map(answer =>
+                answer.key === key
+                    ? { ...answer, [lang === "Рус" ? (diagram ? "diagramsNameRu": 'noteNameRu') : (diagram ? "diagramsNameKz": 'noteNameKz')]: value }
+                    : answer
+            );
+        });
     }
     return (
         <div className={"bg-white rounded-[10px] border-1 p-5 flex flex-col gap-4 w-3/4 " + (valid && !valid?.valid && valid?.questionId === questionP.id ? 'border-red-500 border-2' : 'border-[#E6EBF1]')}>
@@ -120,7 +128,7 @@ const CreateSurveyQuestion = ({ quizzType, settings, type, questionP, setQuestio
                     </div>
                 </div>
             }
-            <QuestionSettingsModal answers={answers} onClose={onClose} onSettingsChange={setSettingsModal} settings={settings} settingsModal={settingsModal} visible={visible} />
+            <QuestionSettingsModal answers={answers} onClose={onClose} onSettingsChange={setSettingsModal} settings={settings} visible={visible} />
         </div >)
 }
 

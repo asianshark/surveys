@@ -4,9 +4,10 @@ import { Survey } from "../../entities/Survey";
 import axios from "axios";
 import { useParams, useNavigate, Outlet, useLocation } from "react-router-dom";
 import UsersSurveyResultsList from "./UsersSurveyResultsList";
+import ChartMain from "../../widgets/graph-analytics/ChartMain";
 
 const SurveyResultsMain = () => {
-    const [currentTab, setCurrentTab] = useState<string>("user-result");
+    const [currentTab, setCurrentTab] = useState<string>("analyse");
     const [survey, setSurvey] = useState<Survey>();
     const params = useParams();
     const navigate = useNavigate();
@@ -46,6 +47,8 @@ const SurveyResultsMain = () => {
                 {currentTab === 'user-result' && !isResultPage && (
                     <UsersSurveyResultsList choosenResult={choosenResult} quizId={params.id} />
                 )}
+                {currentTab === 'analyse' && !isResultPage &&
+                    <ChartMain />}
                 <Outlet context={{ questions: survey?.questions, quizId: params.id }} />
             </div>
         </div>

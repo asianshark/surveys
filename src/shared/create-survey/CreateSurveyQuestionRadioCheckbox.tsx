@@ -104,8 +104,8 @@ const CreateSurveyQuestionRadioCheckbox = ({ quizzType, setSelectedAns, answersP
                     style={style}
                     onChange={chooseAnswerCheckbox}
                     value={correctAnswerCheckbox}
-                    options={answers.map((item, i) => ({
-                        value: i,
+                    options={answers.map((item) => ({
+                        value:item.id !== undefined ? item.id : item.key,
                         label: (
                             surveyType !== 'create' ? <div>{lang === "Рус" ? item?.nameRu : item?.nameKz}</div> :
                                 <div className="flex w-full items-center justify-between gap-4" key={item.key}>

@@ -56,6 +56,8 @@ const SurveyTestPass = () => {
     }
 
     const setselectedAns = (ans: number[], id: number | undefined) => {
+    console.log(ans);
+    
         let ind
         if (!answers)
             setAnswers([{ userId: "2", quizId: survey?.id, questionId: id, selectedAnswerIds: ans }])

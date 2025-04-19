@@ -1,6 +1,6 @@
 import { Calendar, Question } from "../../entities/Survey"
 
-export const checkValid = (surveyQuestions: Question[] | undefined, surveyNameRu: string | undefined, surveyNameKz: string | undefined, multilang: boolean) => {
+export const checkValid = (surveyQuestions: Question[] | undefined, surveyNameRu: string | undefined, surveyNameKz: string | undefined, multilang: boolean, quizzType: string | undefined) => {
     const isValid = true
     if (surveyQuestions && surveyQuestions.length > 0) {
         if (!(surveyNameRu && surveyNameRu !== '' && surveyNameRu.length > 0))
@@ -29,7 +29,7 @@ export const checkValid = (surveyQuestions: Question[] | undefined, surveyNameRu
                             correctAns = true
                         }
                     }
-                    if(!correctAns)
+                    if(!correctAns && quizzType !== 'survey')
                         return {valid : !isValid, error: 'Укажите правильный ответ. Вопрос №' + ind}
                 }
                 else {
@@ -51,7 +51,6 @@ export const checkValidCalendar = (calendar: Calendar | undefined) => {
 }
 
 export const checkValidSettings = (divisions: { id: number | undefined, divisionName: string | undefined } | undefined) => {
-    return true
     if (divisions && divisions !== undefined)
         if (divisions?.id && divisions?.divisionName)
             return true

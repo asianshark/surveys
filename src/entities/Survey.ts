@@ -1,6 +1,10 @@
 export type Answer = { 
     nameRu: string, 
-    nameKz: string, 
+    nameKz: string,
+    diagramsNameRu?: string,
+    diagramsNameKz?: string,
+    noteNameRu?: string,
+    noteNameKz?: string,
     correct?: boolean, 
     key: number,
     id? : number,

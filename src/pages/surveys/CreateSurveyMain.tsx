@@ -24,12 +24,13 @@ const CreateSurveyMain = () => {
     const [surveySettings, setSurveySettings] = useState<string[]>(['multilang', 'randomQuestions', 'type', 'feedback'])
     const [selectedJurisdiction, setSelectedJurisdiction] = useState<Jurisdiction>()
     const sendRequest = () => {
-        const error = checkValid(surveyQuestions?.questions, surveyQuestions?.nameRu, surveyQuestions.nameKz, surveySettings.includes('multilang'))
+        const error = checkValid(surveyQuestions?.questions, surveyQuestions?.nameRu, surveyQuestions.nameKz, surveySettings.includes('multilang'), quizzType)
         if (error.valid && checkValidCalendar(surveyCalendar) && checkValidSettings(selectedJurisdiction?.division))
-            axios.post("/quizzes", {
+            axios.post("/quizzes/v2", {
                 ...surveyQuestions,
                 status: "DRAFT",
                 authorId: "1",
+                test: quizzType === 'test',
                 type: true,
                 startDate: surveyCalendar?.startDate,
                 endDate: surveyCalendar?.endDate,
