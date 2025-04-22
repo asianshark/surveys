@@ -16,7 +16,6 @@ const PassSurveyTable = () => {
     const [total, setTotal] = useState(0)
     const changeFilter: OnChange = (pagination, filters, sorter) => {
         setFilter({ pagination, filters, sorter })
-        console.log(filter);
     }
     useEffect(() => {
         axios.get('/quizzes', {

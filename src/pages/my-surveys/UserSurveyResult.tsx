@@ -32,8 +32,6 @@ const UserSurveyResult: React.FC<UserSurveyResultProps> = () => {
         setResults(res.data);
       });
     }
-    console.log(questions);
-
   }, [quizId]);
 
   const getCorrectAnswersText = (answers: Answer[] | undefined, correctAnswerIds: number[]) => {

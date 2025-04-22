@@ -45,7 +45,6 @@ const SurveyTestPass = () => {
         }
         if (validT && validT.valid) {
             await axios.post(`/responses/batch`, answers).then((res) => {
-                console.log(res);
             }).then(() => setIsTestPassed(true))
             await axios.get('/responses/result/detailed', {
                 params: { userId: 2, quizId: params.id },
@@ -56,8 +55,6 @@ const SurveyTestPass = () => {
     }
 
     const setselectedAns = (ans: number[], id: number | undefined) => {
-    console.log(ans);
-    
         let ind
         if (!answers)
             setAnswers([{ userId: "2", quizId: survey?.id, questionId: id, selectedAnswerIds: ans }])
@@ -81,7 +78,6 @@ const SurveyTestPass = () => {
         if (answers && questions && !valid.valid) {
             setValid(checkValidPass(questions, answers))
         }
-        console.log(valid);
     }, [answers])
     return (
         <div className="h-full flex flex-col text-[#1A3353]">

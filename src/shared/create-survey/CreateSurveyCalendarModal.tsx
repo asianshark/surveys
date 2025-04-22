@@ -19,9 +19,6 @@ const CreateSurveyCalendarModal: React.FC<ScheduleModalProps> = ({ visible, onCl
     const [repeat, setRepeat] = useState<string>('never');
     const dateFormat = "DD-MM"
     const handleSave = () => {
-        console.log('Время начала:', startTime?.format('HH:mm'));
-        console.log('Время окончания:', endTime?.format('HH:mm'));
-        console.log('Повтор:', repeat);
         onClose(repeat);
     };
     const modalStyles = {

@@ -28,7 +28,6 @@ const CreateSurvey = ({ quizzType, settings, setSurveyQuestions, surveyQuestions
     const addVariant = () => {
         setKeys(keys + 1)
         setQuestions((prev) => [...prev, { key: keys, nameRu: "", required: false }])
-        console.log(questions);
     }
     const deleteQuestion = (key: number | undefined) => {
         const ind = questions.findIndex((item) => item.key === key);

@@ -31,7 +31,6 @@ const PassTable = ({ dataP, total, changeFilter }: { total: number, dataP: Quiz[
         setPagination(pag)
     }, [total])
     const handleChange: OnChange = (pagination, filters, sorter, extra) => {
-        // console.log('Various parameters', pagination, filters, sorter);
         setFilter(filters);
         setPagination(pagination)
         changeFilter(pagination, filters, sorter, extra)
