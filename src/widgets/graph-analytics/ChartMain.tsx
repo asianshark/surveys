@@ -100,8 +100,10 @@ const ChartMain = ({ answers }: { answers?: Answer[] }) => {
         ],
     };
     return (
-        <div className="bg-white h-full flex flex-col rounded-[10px] p-5" style={{ height: '350px', width: '100%' }}>
-            <Bar options={options} data={data}></Bar>
+        <div className="flex flex-col items-center">
+            <div className="bg-white h-full flex flex-col rounded-[10px] w-5/6 p-5" style={{ height: '350px' }}>
+                <Bar options={options} data={data}></Bar>
+            </div>
         </div>
     );
 };
