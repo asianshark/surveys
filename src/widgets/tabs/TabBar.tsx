@@ -24,8 +24,7 @@ const TabBar = ({ isOpenTab, closeOpenTab }: { isOpenTab: boolean, closeOpenTab:
             <button onClick={closeOpenTab}>
                 <Icon icon={isOpenTab ? 'arrow-right-start-on-rectangle' : "arrow-right-end-on-rectangle"}></Icon>
             </button>
-            <Select value={lang} onChange={setLang} options={langs}>
-            </Select>
+            <Select value={lang} onChange={setLang} options={langs}/>
         </div>
     )
 }

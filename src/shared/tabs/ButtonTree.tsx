@@ -12,7 +12,7 @@ type MenuItem = {
 const ButtonTree = ({ item, routTo, openChild }: { item: MenuItem, routTo: any, openChild: string }) => {
     const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false)
-    const isActive = openChild == item.key || item.childs?.some((child: any) => child.key === openChild)
+    const isActive = (openChild === item.key) || item.childs?.some((child: any) => openChild.includes(child.key))
     const className = (isActive ? (!item.icon ? "bg-[#3E79F71A] border-r-3 border-blue-500 text-blue-500" : "text-blue-500") : "")
 
     const toRouter = (router: string | undefined) => {

@@ -16,7 +16,6 @@ const UsersSurveyResultsList = ({ quizId, choosenResult }: {choosenResult: (user
   const [usersList, setUsersList] = useState<UserList[]>([]);
   useEffect(() => {
     axios.get('/responses/result/response_list', { params: { 'quizId': quizId } }).then((res) => {
-      console.log(res.data);
       setUsersList(res.data);
     });
   }, [])

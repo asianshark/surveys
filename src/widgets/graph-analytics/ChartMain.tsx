@@ -2,11 +2,15 @@ import { Chart as ChartJS, CategoryScale, Title, LinearScale, BarElement, Legend
 import { Bar } from "react-chartjs-2";
 import { Answer } from "../../entities/Survey";
 import questions from './questions.json'
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-const ChartMain = ({ answers }: { answers: Answer[] }) => {
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ChartDataLabels);
+const ChartMain = ({ answers }: { answers?: Answer[] }) => {
     const lang = localStorage.getItem('lang') || 'Рус';
 
     const options = {
+        responsive: true,
+        maintainAspectRatio: false,
         plugins: {
             title: {
                 display: true,
@@ -21,12 +25,18 @@ const ChartMain = ({ answers }: { answers: Answer[] }) => {
                 color: '#1A3353',
             },
             tooltip: {
-                backgroundColor: '#FFFFFF',
-                bodyColor: '#112E49',
+                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                bodyColor: '#000',
+                borderColor: '#ccc',
+                borderWidth: 0.5,
+                usePointStyle: true,
+                pointStyle: 'circle',
+                bodyFont: {
+                    family: 'Roboto'
+                },
                 callbacks: {
                     title: () => '',
-                    label: (tooltipItem) => {
-                        // You can customize the label content here
+                    label: (tooltipItem: { dataset: { label: string; }; raw: string; }) => {
                         return `${tooltipItem.dataset.label} (${tooltipItem.raw}%)`;
                     },
                 },
@@ -34,8 +44,23 @@ const ChartMain = ({ answers }: { answers: Answer[] }) => {
             legend: {
                 display: true,
                 position: "top",
-                align: 'end'
-            }
+                align: 'end',
+                labels: {
+                    color: '#1A3353',
+                    font: {
+                        family: 'Roboto',
+                        size: 16,
+                    },
+                },
+            },
+            datalabels: {
+                color: '#fff',
+                anchor: 'center',
+                font: {
+                    size: 14,
+                },
+                formatter: (value: string) => `${value}`,
+            },
         },
         responsive: true,
         scales: {
@@ -46,7 +71,7 @@ const ChartMain = ({ answers }: { answers: Answer[] }) => {
                         size: 14,
                         decoration: 'underline',
                     },
-                    color: "#000",
+                    color: "#1A3353",
                     autoSkip: false,
                 },
                 border: { display: false },
@@ -54,15 +79,12 @@ const ChartMain = ({ answers }: { answers: Answer[] }) => {
             y: {
                 ticks: {
                     stepSize: 20,
-                    callback: (value) => `${value}%`, // 👈 add % here
+                    callback: (value: string) => `${value}%`,
                     font: { size: 14 },
-                    color: '#000',
+                    color: '#1A3353',
                 },
                 max: 100,
                 beginAtZero: true,
-                grid: {
-                    color: '#eee',
-                },
             },
         },
     };
@@ -78,8 +100,7 @@ const ChartMain = ({ answers }: { answers: Answer[] }) => {
         ],
     };
     return (
-        <div className="bg-white h-full flex flex-col rounded-[10px] p-5">
-            <div>Graph Main</div>
+        <div className="bg-white h-full flex flex-col rounded-[10px] p-5" style={{ height: '350px', width: '100%' }}>
             <Bar options={options} data={data}></Bar>
         </div>
     );

@@ -17,7 +17,7 @@ const Tabs = ({ closeOpenTab }: any) => {
     const { t } = useTranslation();
     const params = useLocation()
 
-    const [router, setRouter] = useState(params.pathname.slice(1))
+    const [router, setRouter] = useState(params.pathname.split('/')[1])
     const navigate = useNavigate()
 
 
