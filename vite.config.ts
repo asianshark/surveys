@@ -37,6 +37,11 @@ export default defineConfig({
         changeOrigin: true,
         secure: false
       },
+      '/analytics/quizzes': {
+        target: url,
+        changeOrigin: true,
+        secure: false
+      },
     }
   }
 })

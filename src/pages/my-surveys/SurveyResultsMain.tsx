@@ -20,6 +20,7 @@ const SurveyResultsMain = () => {
     ];
 
     const onChange = (key: string) => {
+        navigate(`/surveys-tests/${params.id}`);
         setCurrentTab(key);
     };
 

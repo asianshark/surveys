@@ -44,7 +44,7 @@ const SurveyTestPass = () => {
             setValid(validT)
         }
         if (validT && validT.valid) {
-            await axios.post(`/responses/batch`, answers).then((res) => {
+            await axios.post(`/responses/batch`, answers).then(() => {
             }).then(() => setIsTestPassed(true))
             await axios.get('/responses/result/detailed', {
                 params: { userId: 2, quizId: params.id },
