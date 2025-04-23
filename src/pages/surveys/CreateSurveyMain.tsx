@@ -17,7 +17,7 @@ const CreateSurveyMain = () => {
     const [surveyQuestions, setSurveyQuestions] = useState<Survey>({
         nameRu: "",
         description: "",
-        questions: [{ nameRu: "", required: false, key: 0 }]
+        questions: [{  nameRu: "Неизвестный вопрос",nameKz: "Белгісіз сұрақ", required: false, key: 0 }]
     })
     const [currentTab, setCurrentTab] = useState<string>("settings")
     const [surveyCalendar, setSurveyCalendar] = useState<Calendar>()

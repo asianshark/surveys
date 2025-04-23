@@ -1,0 +1,12 @@
+.inputStyle :global(.ant-radio-label) {
+    width: 100%;
+    display: block;
+}
+
+.inputStyle :global(.ant-checkbox-label) {
+    width: 100%;
+    display: block;
+}
+.inputStyle :global(.ant-input) {
+    border-radius: 10px;
+}

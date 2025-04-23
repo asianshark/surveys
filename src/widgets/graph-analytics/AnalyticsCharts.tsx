@@ -53,7 +53,7 @@ const AnalyticsCharts = ({ question }: { question: Question }) => {
                     label: (tooltipItem: TooltipItem<'bar'>) => {
                         const label = tooltipItem.dataset.label ?? '';
                         const value = tooltipItem.raw ?? '';
-                        return `${label} (${value}%)`;
+                        return `${label} (${value})`;
                     }
                 },
             },

@@ -12,6 +12,7 @@ const CreateSurvey = ({ quizzType, settings, setSurveyQuestions, surveyQuestions
     const [surveyDescription, setSurveyDescription] = useState(surveyQuestions.description)
     const [questions, setQuestions] = useState<Question[]>(surveyQuestions.questions)
     const [keys, setKeys] = useState(1)
+    const [focused, setFocused] = useState<number | undefined>(keys)
 
     const setQuestion = (question: Question, key: number | undefined) => {
         const ind = questions.findIndex((item) => item.key === key);
@@ -27,7 +28,8 @@ const CreateSurvey = ({ quizzType, settings, setSurveyQuestions, surveyQuestions
     }
     const addVariant = () => {
         setKeys(keys + 1)
-        setQuestions((prev) => [...prev, { key: keys, nameRu: "", required: false }])
+        setQuestions((prev) => [...prev, { key: keys, nameRu: "Неизвестный вопрос",nameKz: "Белгісіз сұрақ", required: false }])
+        setFocused(keys)
     }
     const deleteQuestion = (key: number | undefined) => {
         const ind = questions.findIndex((item) => item.key === key);
@@ -43,9 +45,9 @@ const CreateSurvey = ({ quizzType, settings, setSurveyQuestions, surveyQuestions
     useEffect(() => {
         setSurveyQuestions({ questions: questions, nameRu: surveyName.nameRu, nameKz: surveyName.nameKz, description: surveyDescription })
     }, [questions, surveyName, surveyDescription])
-    const quizName = (name : string) => {
-        if(name === 'plaseholder')
-            return lang === "Рус" ? ('Новый '  + (quizzType === 'survey' ? 'опрос' : 'тест')) : ('Жаңа ' + (quizzType === 'survey' ? 'сауалнама' : 'тест'))
+    const quizName = (name: string) => {
+        if (name === 'plaseholder')
+            return lang === "Рус" ? ('Новый ' + (quizzType === 'survey' ? 'опрос' : 'тест')) : ('Жаңа ' + (quizzType === 'survey' ? 'сауалнама' : 'тест'))
         return lang === "Рус" ? ('Наименование ' + (quizzType === 'survey' ? 'опроса' : 'теста')) : ((quizzType === 'survey' ? 'Сауалнама' : 'Тест') + ' аты')
     }
     return (
@@ -67,8 +69,8 @@ const CreateSurvey = ({ quizzType, settings, setSurveyQuestions, surveyQuestions
                     </div>
                 </div>
             </div>
-            {questions.map((item) =>
-                <CreateSurveyQuestion quizzType={quizzType} duplicateQuestion={() => duplicateQuestion(item.key)} settings={settings} type="create" questionP={item} key={item.key} deleteQuestionP={() => deleteQuestion(item.key)} setQuestionP={e => setQuestion(e, item.key)} />
+            {questions.map((item, i) =>
+                <CreateSurveyQuestion onClick={e => e!== undefined ? setFocused(e) : setFocused(keys)} disabled={i !== focused} quizzType={quizzType} duplicateQuestion={() => duplicateQuestion(item.key)} settings={settings} type="create" questionP={item} key={item.key} deleteQuestionP={() => deleteQuestion(item.key)} setQuestionP={e => setQuestion(e, item.key)} />
             )}
             <div className="pb-4">
                 <button onClick={addVariant} className="text-2xl text-[#72849A] p-5 rounded-[10px] bg-white flex border-[#E6EBF1] border-1"><PlusCircleOutlined /></button>
