@@ -15,8 +15,6 @@ const CreateSurveyQuestionRadioCheckbox = ({ disabled, quizzType, setSelectedAns
     const [correctAnswerCheckbox, setCorrectAnswerCheckbox] = useState<number[]>([]);
     const [answers, setAnswers] = useState<Answer[]>([{ nameRu: "Неизвестный ответ", nameKz: "Белгісіз жауап", key: 0 }]);
     const [keys, setKeys] = useState(1)
-    console.log(answers);
-
     useEffect(() => {
         if (answersP) {
             setCorrectAnswerCheckbox([])
@@ -144,14 +142,14 @@ const CreateSurveyQuestionRadioCheckbox = ({ disabled, quizzType, setSelectedAns
                     }))} />
             }
             {type === "singlechoice" ?
-                (correctAnswerRadio === undefined && <div className="text-[12px] text-[#1A3353]">
+                (correctAnswerRadio === undefined && quizzType !== 'survey' && <div className="text-[12px] text-[#1A3353]">
                     {lang === "Рус" ?
                         <p>Выберите правильный ответ из вышесозданных</p> :
                         <p>Жоғарыдағылардан дұрыс жауапты таңдаңыз</p>
                     }
                 </div>)
                 :
-                (correctAnswerCheckbox.length <= 0 && <div className="text-[12px] text-[#1A3353]">
+                (correctAnswerCheckbox.length <= 0 && quizzType !== 'survey' && <div className="text-[12px] text-[#1A3353]">
                     {lang === "Рус" ?
                         <p>Выберите один или более правильный ответ из вышесозданных</p> :
                         <p>Жоғарыдағылардың ішінен бір немесе одан да көп дұрыс жауапты таңдаңыз</p>
