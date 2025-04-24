@@ -1,4 +1,4 @@
-import { RadioChangeEvent, Radio, Checkbox } from "antd";
+import { Radio, Checkbox } from "antd";
 import { useEffect, useState } from "react";
 import { Answer } from "../../../entities/Survey";
 import { CloseCircleOutlined } from "@ant-design/icons";
@@ -15,8 +15,12 @@ const CreateSurveyQuestionRadioCheckbox = ({ disabled, quizzType, setSelectedAns
     const [correctAnswerCheckbox, setCorrectAnswerCheckbox] = useState<number[]>([]);
     const [answers, setAnswers] = useState<Answer[]>([{ nameRu: "Неизвестный ответ", nameKz: "Белгісіз жауап", key: 0 }]);
     const [keys, setKeys] = useState(1)
+    console.log(answers);
+
     useEffect(() => {
         if (answersP) {
+            setCorrectAnswerCheckbox([])
+            setCorrectAnswerRadio(undefined)
             setAnswers(answersP)
             setKeys(answersP.length)
             if (surveyType === 'create')
@@ -28,17 +32,25 @@ const CreateSurveyQuestionRadioCheckbox = ({ disabled, quizzType, setSelectedAns
                 })
         }
     }, [])
-    const chooseAnswerRadio = (e: RadioChangeEvent) => {
+    useEffect(() => {
+        if (type === "singlechoice") {
+            if (correctAnswerRadio !== undefined)
+                chooseAnswerRadio(correctAnswerRadio)
+        }
+        else
+            chooseAnswerCheckbox(correctAnswerCheckbox)
+    }, [type])
+    const chooseAnswerRadio = (selectedIndex: number) => {
         if (quizzType !== 'survey')
             setAnswers((prev) => {
-                return prev.map((answer, index) => ({
+                return prev.map((answer) => ({
                     ...answer,
-                    correct: index === e.target.value,
+                    correct: answer.key === selectedIndex || answer.id === selectedIndex,
                 }));
             });
         if (setSelectedAns)
-            setSelectedAns([e.target.value])
-        setCorrectAnswerRadio(e.target.value);
+            setSelectedAns([selectedIndex])
+        setCorrectAnswerRadio(selectedIndex);
     };
 
     const chooseAnswerCheckbox = (selectedIndexes: number[]) => {
@@ -68,6 +80,12 @@ const CreateSurveyQuestionRadioCheckbox = ({ disabled, quizzType, setSelectedAns
         });
     }
     const deleteOption = (key: number) => {
+        if (key === correctAnswerRadio) {
+            setCorrectAnswerRadio(undefined)
+        }
+        if (correctAnswerCheckbox.includes(key)) {
+            setCorrectAnswerCheckbox(correctAnswerCheckbox.filter(item => item !== key))
+        }
         setAnswers((prev) => prev.filter(item => item.key !== key))
     }
 
@@ -78,7 +96,7 @@ const CreateSurveyQuestionRadioCheckbox = ({ disabled, quizzType, setSelectedAns
                 <Radio.Group
                     className={inputStyle.inputStyle}
                     style={style}
-                    onChange={chooseAnswerRadio}
+                    onChange={e => chooseAnswerRadio(e.target.value)}
                     value={correctAnswerRadio}
                     options={answers.map((item) => ({
                         value: item.key !== undefined ? item.key : item.id,
@@ -91,7 +109,7 @@ const CreateSurveyQuestionRadioCheckbox = ({ disabled, quizzType, setSelectedAns
                                         key={item.key}
                                         onChange={e => changeInput(e.target.value, item.key)}
                                         placeholder={lang === "Рус" ? 'Введите ответ' : 'Жауабын енгізіңіз'}
-                                        style={{ width: '100%', fontFamily: 'Roboto' }}
+                                        style={{ width: '100%', fontFamily: 'Roboto', fontSize: '14px' }}
                                     />
                                     <div className="flex items-center" onClick={() => deleteOption(item.key)}>
                                         <CloseCircleOutlined />
@@ -116,7 +134,7 @@ const CreateSurveyQuestionRadioCheckbox = ({ disabled, quizzType, setSelectedAns
                                         key={item.key}
                                         onChange={e => changeInput(e.target.value, item.key)}
                                         placeholder={lang === "Рус" ? 'Пожалуйста введите ответ' : 'Жауабын енгізіңіз'}
-                                        style={{ width: '100%', fontFamily: 'Roboto' }}
+                                        style={{ width: '100%', fontFamily: 'Roboto', fontSize: '14px' }}
                                     />
                                     <div className={(surveyType !== 'create' ? 'hidden' : '') + " flex items-center"} onClick={() => deleteOption(item.key)}>
                                         <CloseCircleOutlined />
@@ -125,7 +143,21 @@ const CreateSurveyQuestionRadioCheckbox = ({ disabled, quizzType, setSelectedAns
                         )
                     }))} />
             }
-            <div className={(surveyType !== 'create' || disabled) ? 'hidden' : 'pl-7 pt-2'}>
+            {type === "singlechoice" ?
+                (correctAnswerRadio === undefined && <div className="text-[12px] text-[#1A3353]">
+                    {lang === "Рус" ?
+                        <p>Выберите правильный ответ из вышесозданных</p> :
+                        <p>Жоғарыдағылардан дұрыс жауапты таңдаңыз</p>
+                    }
+                </div>)
+                :
+                (correctAnswerCheckbox.length <= 0 && <div className="text-[12px] text-[#1A3353]">
+                    {lang === "Рус" ?
+                        <p>Выберите один или более правильный ответ из вышесозданных</p> :
+                        <p>Жоғарыдағылардың ішінен бір немесе одан да көп дұрыс жауапты таңдаңыз</p>
+                    }
+                </div>)}
+            <div className={(surveyType !== 'create' || disabled) ? 'hidden' : 'text-[14px]'}>
                 {lang === "Рус" ?
                     <p><a onClick={() => addVariant(true)} className="text-[#366EF6] cursor-pointer">Добавить вариант</a>  или  <a className="text-[#366EF6] cursor-pointer" onClick={() => addVariant(false)}>добавить вариант “Затрудняюсь ответить”</a></p>
                     :

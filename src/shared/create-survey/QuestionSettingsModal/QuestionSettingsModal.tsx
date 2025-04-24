@@ -163,8 +163,8 @@ const QuestionSettingsModal: React.FC<QuestionSettingsModalProps> = ({
                                 <div className='flex flex-col gap-3 text-[#1A3353]'>
                                     <div className='font-medium text-sm leading-5'>Справка</div>
                                     <div className="flex flex-col gap-2 font-normal text-sm leading-tight">
-                                        <div>{Math.floor(Math.random() * 100)}% {answers ? (lang === 'Рус' ? answers[0].noteNameRu : answers[0].noteNameKz) : 'Здесь будут отображатся описание в справке'}</div>
-                                        <div>{Math.floor(Math.random() * 100)}% {answers ? (lang === 'Рус' ? answers[answers.length - 1].noteNameRu : answers[answers.length - 1].noteNameKz) : 'Здесь будут отображатся описание в справке'}</div>
+                                        <div>{Math.floor(Math.random() * 100)}% {answers ? (lang === 'Рус' ? answers[0]?.noteNameRu : answers[0].noteNameKz) : 'Здесь будут отображатся описание в справке'}</div>
+                                        <div>{Math.floor(Math.random() * 100)}% {answers ? (lang === 'Рус' ? answers[answers.length - 1]?.noteNameRu : answers[answers.length - 1].noteNameKz) : 'Здесь будут отображатся описание в справке'}</div>
                                     </div>
                                 </div>
                             </div>
