@@ -100,7 +100,7 @@ const SurveyTestPass = () => {
                     >
                         <div className="flex flex-col gap-2">
                             <div className="flex justify-around gap-2 w-full text-[16px] text-[#455560] items-center">
-                                <Progress type="dashboard" percent={results?.percentage} />
+                                <Progress strokeColor="#366EF6" type="dashboard" percent={results?.percentage} format={(percent) => <span style={{ color: "rgba(0, 0, 0, 0.88)" }}>{`${percent}%`}</span>}/>
                                 <div className="flex flex-col gap-5">
                                     <div className="flex items-center">
                                         <div className="w-full border-l-[1px] border-[#E6EBF1] pl-5 flex flex-col">
