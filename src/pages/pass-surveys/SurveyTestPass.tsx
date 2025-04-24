@@ -1,11 +1,14 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { Question, Survey } from "../../entities/Survey";
 import CreateSurveyQuestion from "../../widgets/create-survey/CreateSurveyQuestion";
 import axios from "axios";
-import { Button } from "antd";
+import { Button, Progress } from "antd";
 import { checkValidPass } from "../../shared/passTest/CheckPassValid";
+import { t } from "i18next";
 interface Result {
+    userId: string,
+    attemptNumber: number,
     percentage: number;
     totalQuestions: number,
     correctAnswers: number,
@@ -17,6 +20,7 @@ interface Result {
     }[];
 }
 const SurveyTestPass = () => {
+    const navigate = useNavigate();
     const params = useParams()
     const [questions, setQuestions] = useState<Question[]>()
     const [survey, setSurvey] = useState<Survey>()
@@ -47,17 +51,16 @@ const SurveyTestPass = () => {
             await axios.post(`/responses/batch`, answers).then(() => {
             }).then(() => setIsTestPassed(true))
             await axios.get('/responses/result/detailed', {
-                params: { userId: 2, quizId: params.id },
+                params: { userId: localStorage.getItem('selectedUser') || '2', quizId: params.id },
             }).then((res) => {
                 setResults(res.data);
             });
         }
     }
-
     const setselectedAns = (ans: number[], id: number | undefined) => {
         let ind
         if (!answers)
-            setAnswers([{ userId: "2", quizId: survey?.id, questionId: id, selectedAnswerIds: ans }])
+            setAnswers([{ userId: localStorage.getItem('selectedUser') || '2', quizId: survey?.id, questionId: id, selectedAnswerIds: ans }])
         else {
             ind = answers.find(ans => ans.questionId === id)
             if (ind) {
@@ -70,7 +73,7 @@ const SurveyTestPass = () => {
                 })
             }
             else {
-                setAnswers([...answers, { userId: "2", quizId: survey?.id, questionId: id, selectedAnswerIds: ans }])
+                setAnswers([...answers, { userId: localStorage.getItem('selectedUser') || '2', quizId: survey?.id, questionId: id, selectedAnswerIds: ans }])
             }
         }
     }
@@ -90,17 +93,45 @@ const SurveyTestPass = () => {
             <div className="flex flex-col items-center bg-[#E6E6FA] h-full overflow-y-auto gap-6 pt-3">
                 {!isTestPassed ?
                     (questions?.map((item) =>
-                        <CreateSurveyQuestion valid={valid} selectedAns={e => setselectedAns(e, item.id)} type="pass" questionP={item} key={item.key} />
+                        <CreateSurveyQuestion key={item.key} valid={valid} selectedAns={e => setselectedAns(e, item.id)} type="pass" questionP={item} />
                     )) :
                     <div style={{ fontFamily: 'Roboto' }}
                         className="bg-white rounded-[10px] border-1 p-5 flex flex-col gap-4 w-3/4 border-[#E6EBF1]"
                     >
-                        <div className="flex gap-2">
-                            <div className="flex justify-between gap-2 w-full text-[16px] text-[#455560] items-center">
-                                <div>Процент правильных ответов: {results?.percentage}%</div>
-                                <div>{results?.correctAnswers}/{results?.totalQuestions}</div>
+                        <div className="flex flex-col gap-2">
+                            <div className="flex justify-around gap-2 w-full text-[16px] text-[#455560] items-center">
+                                <Progress type="dashboard" percent={results?.percentage} />
+                                <div className="flex flex-col gap-5">
+                                    <div className="flex items-center">
+                                        <div className="w-full border-l-[1px] border-[#E6EBF1] pl-5 flex flex-col">
+                                            <div>{t('scored-points')}</div>
+                                            <div>{results?.correctAnswers}</div>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center">
+                                        <div className="w-full border-l-[1px] border-[#E6EBF1] pl-5 flex flex-col">
+                                            <div>{t('total-questions')}</div>
+                                            <div>{results?.totalQuestions}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col gap-5">
+                                    <div className="flex items-center">
+                                        <div className="w-full border-l-[1px] border-[#E6EBF1] pl-5 flex flex-col">
+                                            <div>{t('attempt-number')}</div>
+                                            <div>{results?.correctAnswers}</div>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center">
+                                        <div className="w-full border-l-[1px] border-[#E6EBF1] pl-5 flex flex-col">
+                                            <div>{t('pass-date')}</div>
+                                            <div>{results?.totalQuestions}</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <div onClick={() => { navigate(`/surveys-tests/${params.id}`, { state: { tab: 'user-result' } }) }} className="justify-end flex text-blue-500 items-center cursor-pointer hover:underline">{t('more-detailed') + '>>'}</div>
                     </div>
                 }
             </div>

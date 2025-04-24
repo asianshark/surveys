@@ -26,10 +26,12 @@ function App() {
     <I18nextProvider i18n={i18next}>
 
       <div className='flex h-full'>
-        <div className={'w-60 ' + (!isOpenTab && "hidden")}
+        <div className={'' + (!isOpenTab && "hidden")}
           style={{
             boxShadow: isOpenTab ? '1px 0 5px rgba(0, 0, 0, 0.05)' : 'none',
             zIndex: 10,
+            width:'208px',
+            minWidth: '208px'
           }}>
           <Tabs closeOpenTab={closeOpenTab} />
         </div>
@@ -41,7 +43,6 @@ function App() {
             <Routes>
               <Route path="/data2" element={<TextEditor />} />
               <Route path='/surveys-tests/:id' element={<SurveyResultsMain />} >
-
                 <Route path='result' element={<UserSurveyResult />} />
               </Route>
               <Route path='/surveys-tests' element={<Survey />} />

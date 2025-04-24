@@ -1,10 +1,10 @@
 import { Chart as ChartJS, CategoryScale, Title, LinearScale, BarElement, Legend, Tooltip } from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import AnalyticsCharts from "./AnalyticsCharts";
-import { useEffect, useState } from "react";
+import AnalyticsCharts from "../../widgets/graph-analytics/AnalyticsCharts";
+import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
-export type Question = {
+type QuestionChartMain = {
     questionId: number;
     questionNameRu: string;
     questionNameKz: string;
@@ -21,18 +21,28 @@ export type Question = {
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ChartDataLabels);
 const ChartMain = () => {
     const params = useParams();
-    const [questions, setQuestions] = useState<Question[]>([]);
+    const [questions, setQuestions] = useState<QuestionChartMain[]>([]);
+    const [yAxisMaxs, setYAxisMaxs] = useState<number[]>([]);
+     const max = useMemo(() => {
+        return questions.map(question => 
+            question.departments.reduce((accd, vald) => 
+                vald.choosenAnswers.reduce((acc, val) => acc + val, 0) + accd, 0
+            )
+        );
+    }, [questions]);
+    useEffect(() => {
+        console.log(max);
+        setYAxisMaxs(max)
+    }, [max])
     useEffect(()=>{
         axios.get(`/analytics/quizzes/${params.id}/answers-by-department`).then((res) => {
             setQuestions(res.data.questions)
-            console.log(res.data.questions);
-            
         })
     }, [])
     return (
         <div className="flex flex-col items-center gap-6">
-            {questions.map(item => (
-                <AnalyticsCharts question={item} />
+            {questions.map((item, i) => (
+                <AnalyticsCharts yMax={yAxisMaxs[i]} key={item.questionId} question={item} />
             ))}
         </div>
     );

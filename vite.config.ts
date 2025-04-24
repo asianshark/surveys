@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-const url = 'http://192.168.0.100:8080'
+const url = 'http://192.168.0.102:8080'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
@@ -38,6 +38,11 @@ export default defineConfig({
         secure: false
       },
       '/analytics/quizzes': {
+        target: url,
+        changeOrigin: true,
+        secure: false
+      },
+      '/users': {
         target: url,
         changeOrigin: true,
         secure: false

@@ -41,5 +41,14 @@
     "only-management-team": "Тек басқарушы команда",
     "choose": "Таңдаңыз",
     "employees-list": "Қызметкерлер тізімі",
-    "add-division": "Бөлім қосу"
+    "add-division": "Бөлім қосу",
+    "choose-user": "Пайдаланушыны таңдаңыз",
+    "pass-time": "Өту уақыты",
+    "pass-date": "Өту күні",
+    "scored-points": "Набранные баллы",
+    "total-questions": "Барлық сұрақтар",
+    "attempt-number": "Талпыныс нөмірі",
+    "more-detailed": "Толығырақ",
+    "percentage": "Процент",
+    "firstName": "Аты"
 }

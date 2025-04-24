@@ -1,5 +1,6 @@
 import { Space, Table, TableColumnsType } from "antd";
 import axios from "axios";
+import { t } from "i18next";
 import { useEffect, useState } from "react";
 
 type UserList = {
@@ -24,13 +25,13 @@ const UsersSurveyResultsList = ({ quizId, choosenResult }: {choosenResult: (user
   }
   const colums: TableColumnsType<UserList> = [
     {
-      title: 'lastName',
-      dataIndex: 'lastName',
-      key: 'lastName',
+      title: t('firstName'),
+      dataIndex: 'firstName',
+      key: 'firstName',
       ellipsis: true,
     },
     {
-      title: 'percentage',
+      title: t('percentage'),
       dataIndex: 'percentage',
       key: 'percentage',
       render: (_, record) =>
@@ -40,7 +41,7 @@ const UsersSurveyResultsList = ({ quizId, choosenResult }: {choosenResult: (user
       ellipsis: true,
     },
     {
-      title: 'Corrext Answers',
+      title: t('scored-points'),
       key: 'correctAnswers',
       render: (_, record) =>
         <Space>
@@ -48,10 +49,10 @@ const UsersSurveyResultsList = ({ quizId, choosenResult }: {choosenResult: (user
         </Space>
     },
     {
-      title: 'More',
+      title: t('more-detailed'),
       render: (_, record) =>
         <Space>
-          <p onClick={() => detailed(record.userId, record.attemptNumber)} className="text-blue-500 cursor-pointer">More</p>
+          <p onClick={() => detailed(record.userId, record.attemptNumber)} className="text-blue-500 cursor-pointer">{t('more-detailed')}</p>
         </Space>
     }
   ]

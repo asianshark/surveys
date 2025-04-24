@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import data from "../../assets/tabs.json"
 import ButtonTree from "../../shared/tabs/ButtonTree";
 import Icon from "../../shared/Icon";
 import { useLocation, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
+import { Select } from "antd";
+import axios from "axios";
 
 type MenuItem = {
     label: string;
@@ -13,10 +15,33 @@ type MenuItem = {
     key?: string;
     childs?: MenuItem[];
 };
+
+type User = {
+    id: string,
+    lastName: string,
+    firstName: string,
+    fatherName: string
+
+}
 const Tabs = ({ closeOpenTab }: any) => {
     const { t } = useTranslation();
     const params = useLocation()
-
+    const [selectedUser, setSelectedUser] = useState<string>(localStorage.getItem('selectedUser') || '')
+    const [users, setUsers] = useState<User[]>([])
+    useEffect(() => {
+        axios.get('/users').then((res) => {
+            setUsers(res.data.map((user: User) => {
+                return {
+                    value: user.id,
+                    label: user.lastName + ' ' + user.firstName + ' ' + user.fatherName
+                }
+            }))
+        })
+    }, [])
+    useEffect(() => {
+        if (selectedUser)
+            localStorage.setItem('selectedUser', selectedUser.toString())
+    }, [selectedUser])
     const [router, setRouter] = useState(params.pathname.split('/')[1])
     const navigate = useNavigate()
 
@@ -53,7 +78,8 @@ const Tabs = ({ closeOpenTab }: any) => {
                     ))}
                 </div>
             </div>
-            <div>
+            <div className="flex flex-col w-full gap-3">
+                <Select placeholder={t('choose-user')} options={users} value={selectedUser} onChange={setSelectedUser} />
                 <button className="px-4 justify-start w-full flex h-10 items-center border-t-1 border-[#F0F0F0]" onClick={closeTab}>
                     <Icon icon="arrow-right-start-on-rectangle"></Icon>
                 </button>

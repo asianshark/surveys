@@ -4,37 +4,41 @@ import { Survey } from "../../entities/Survey";
 import axios from "axios";
 import { useParams, useNavigate, Outlet, useLocation } from "react-router-dom";
 import UsersSurveyResultsList from "./UsersSurveyResultsList";
-import ChartMain from "../../widgets/graph-analytics/ChartMain";
+import ChartMain from "./ChartMain";
+import SpecificQuestionResult from "./SpecificQuestionResult";
 
 const SurveyResultsMain = () => {
-    const [currentTab, setCurrentTab] = useState<string>("analyse");
+    const location = useLocation();
+    const tab = location.state;
+    const [currentTab, setCurrentTab] = useState<string>(tab || 'analyse');
     const [survey, setSurvey] = useState<Survey>();
     const params = useParams();
     const navigate = useNavigate();
-    const location = useLocation();
-
     const items = [
-        { key: 'analyse', label: 'Сводка' },
-        { key: 'questions', label: 'Вопросы' },
-        { key: 'user-result', label: 'Отдельный пользователь' },
+        { key: 'analyse', label: 'Общая сводка' },
+        { key: 'specific-questions', label: 'По конкретному вопросу' },
+        { key: 'user-result', label: 'По отдельному пользователю' },
     ];
-
     const onChange = (key: string) => {
-        navigate(`/surveys-tests/${params.id}`);
+        if (isResultPage) {
+            navigate(`/surveys-tests/${params.id}`);
+        }
         setCurrentTab(key);
     };
-
     useEffect(() => {
         axios.get(`/quizzes/${params.id}`).then((res) => {
             setSurvey(res.data)
         })
     }, [params.id])
-
     const choosenResult = (userId: string, attemptNumber: number) => {
         navigate('result', { state: { userId, attemptNumber } });
     };
-
     const isResultPage = location.pathname.includes('result');
+    useEffect(() => {
+        if (isResultPage) {
+            setCurrentTab('user-result')
+        }
+    }, [isResultPage])
 
     return (
         <div className="flex flex-col h-full text-[#1A3353]">
@@ -50,6 +54,7 @@ const SurveyResultsMain = () => {
                 )}
                 {currentTab === 'analyse' && !isResultPage &&
                     <ChartMain />}
+                {currentTab === 'specific-questions' && !isResultPage && <SpecificQuestionResult questions={survey?.questions} />}
                 <Outlet context={{ questions: survey?.questions, quizId: params.id }} />
             </div>
         </div>

@@ -41,5 +41,14 @@
     "only-management-team": "Только руководящий состав",
     "choose": "Выберите",
     "employees-list": "Список сотрудников",
-    "add-division": "Добавить подразделение"
+    "add-division": "Добавить подразделение",
+    "choose-user": "Выберите пользователя",
+    "pass-time": "Время прохождения",
+    "pass-date": "Дата прохождения",
+    "scored-points": "Набранные баллы",
+    "total-questions": "Всего вопросов",
+    "attempt-number": "Номер попытки",
+    "more-detailed": "Подробнее",
+    "percentage": "Процент",
+    "firstName": "Имя"
 }
