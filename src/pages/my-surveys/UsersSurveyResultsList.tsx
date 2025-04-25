@@ -54,6 +54,14 @@ const UsersSurveyResultsList = ({ quizId, choosenResult }: { choosenResult: (use
         </Space>
     },
     {
+      title: t('attempt-number'),
+      key: 'attemptNumber',
+      render: (_, record) =>
+        <Space>
+          <p>{record.attemptNumber}</p>
+        </Space>
+    },
+    {
       title: t('more-detailed'),
       render: (_, record) =>
         <Space>

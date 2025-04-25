@@ -28,7 +28,7 @@ const CreateSurvey = ({ quizzType, settings, setSurveyQuestions, surveyQuestions
     }
     const addVariant = () => {
         setKeys(keys + 1)
-        setQuestions((prev) => [...prev, { key: keys, nameRu: "Неизвестный вопрос", nameKz: "Белгісіз сұрақ", required: false }])
+        setQuestions((prev) => [...prev, { key: keys, nameRu: "", nameKz: "", required: false }])
         setFocused(keys)
     }
     const deleteQuestion = (key: number | undefined) => {
@@ -43,7 +43,7 @@ const CreateSurvey = ({ quizzType, settings, setSurveyQuestions, surveyQuestions
             setQuestions((prev) => [...prev, { ...questions[ind], key: keys }])
     }
     useEffect(() => {
-        setSurveyQuestions({ questions: questions, nameRu: surveyName.nameRu, nameKz: surveyName.nameKz, description: surveyDescription })
+        setSurveyQuestions({ questions: questions, nameRu: surveyName.nameRu, nameKz: surveyName.nameKz })
     }, [questions, surveyName, surveyDescription])
     const quizName = (name: string) => {
         if (name === 'plaseholder')

@@ -37,8 +37,10 @@ const CreateSurveyQuestion: React.FC<CreateSurveyQuestionProps> = ({
     onClick,
 }) => {
     const [lang, setLang] = useState("Рус")
+    console.log(lang);
+    
     const [question, setQuestion] = useState<Question>(questionP)
-    const [answers, setAnswers] = useState<Answer[]>([{ nameRu: "Неизвестный ответ",nameKz: "Белгісіз жауап", correct: true, key: 0 }]);
+    const [answers, setAnswers] = useState<Answer[]>([{ nameRu: "", nameKz: "", correct: true, key: 0 }]);
     const [questionType, setQuestionType] = useState(questionP.multipleAns ? 'multiplechoices' : 'singlechoice')
     const [isRequired, setIsRequired] = useState(questionP.required)
     const [visible, setVisible] = useState(false)
@@ -101,15 +103,32 @@ const CreateSurveyQuestion: React.FC<CreateSurveyQuestionProps> = ({
         });
     }
     return (
-        <div onClick={() => onClick && onClick(question.key)} className={"bg-white rounded-[10px] border-1 p-5 flex flex-col gap-4 w-3/4 " + (valid && !valid?.valid && valid?.questionId === questionP.id ? 'border-red-500 border-2' : 'border-[#E6EBF1]')}>
+        <div
+            onClick={() => onClick && onClick(question.key)}
+            className={"bg-white rounded-[10px] border-1 p-5 flex flex-col gap-4 w-3/4 " +
+                (valid && !valid?.valid && valid?.questionId === questionP.id ? 'border-red-500 border-2' : 'border-[#E6EBF1]')}>
             <div className="flex gap-2">
                 <div className="flex gap-2 w-full text-[16px] text-[#455560] items-center">
                     {type === 'create' && !disabled ?
                         (lang === "Рус" ?
-                            <Input style={{ fontFamily: 'Roboto' }} size={'large'} value={question?.nameRu} placeholder="Вопрос" onChange={e => setQuestion({ nameRu: e.target.value, nameKz: question?.nameKz, required: question?.required, key: question.key })} /> :
-                            <Input style={{ fontFamily: 'Roboto' }} size={'large'} value={question?.nameKz} placeholder="Сұрақ" onChange={e => setQuestion({ nameRu: question?.nameRu, nameKz: e.target.value, required: question?.required, key: question.key })} />)
+                            <Input
+                                style={{ fontFamily: 'Roboto' }}
+                                size={'large'}
+                                value={question?.nameRu}
+                                placeholder="Вопрос"
+                                onChange={e => setQuestion({ nameRu: e.target.value, nameKz: question?.nameKz, required: question?.required, key: question.key })} /> :
+                            <Input
+                                style={{ fontFamily: 'Roboto' }}
+                                size={'large'}
+                                value={question?.nameKz}
+                                placeholder="Сұрақ"
+                                onChange={e => setQuestion({ nameRu: question?.nameRu, nameKz: e.target.value, required: question?.required, key: question.key })} />)
                         :
-                        <div className="flex gap-1">{lang === "Рус" ? question?.nameRu : question?.nameKz} <p className={isRequired ? 'text-red-500' : 'hidden'}>*</p></div>}
+                        <div className="flex gap-1">
+                            {lang === "Рус" ?
+                                (question?.nameRu?.length ? question?.nameRu : "Неизвестный вопрос")
+                                : (question?.nameKz?.length ? question?.nameKz : "Белгісіз сұрақ")}
+                            <p className={isRequired ? 'text-red-500' : 'hidden'}>*</p></div>}
                     <Select
                         style={{ width: '100%', display: (type !== 'create' || disabled) ? 'none' : 'block' }}
                         size={'large'}
@@ -133,7 +152,15 @@ const CreateSurveyQuestion: React.FC<CreateSurveyQuestionProps> = ({
             </div>
             {questionType === "text" ? <CreateSurveyOpenQuestion /> : (
                 questionType === "scale" ? <CreateSurveyScale /> :
-                    <CreateSurveyQuestionRadioCheckbox disabled={disabled} quizzType={quizzType} surveyType={type} setSelectedAns={selectedAns} answersP={question?.answers} lang={lang} type={questionType} getAnswer={setAnswers} />
+                    <CreateSurveyQuestionRadioCheckbox
+                        disabled={disabled}
+                        quizzType={quizzType}
+                        surveyType={type}
+                        setSelectedAns={selectedAns}
+                        answersP={question?.answers}
+                        lang={lang}
+                        type={questionType}
+                        getAnswer={setAnswers} />
             )}
             {
                 (type === 'create' && !disabled) &&

@@ -85,7 +85,7 @@ const UserSurveyResult: React.FC<UserSurveyResultProps> = () => {
                   </div>
                 );
               })}
-              {questionResult?.correct && questionResult?.correctAnswers.length > 0 && (
+              {questionResult?.correctAnswers && questionResult?.correctAnswers.length > 0 && (
                 <div className="text-sm text-[#455560]">
                   Правильный ответ: {getCorrectAnswersText(item.answers, questionResult?.correctAnswers || [])}
                 </div>

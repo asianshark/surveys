@@ -17,12 +17,13 @@ const CreateSurveyMain = () => {
     const [surveyQuestions, setSurveyQuestions] = useState<Survey>({
         nameRu: "",
         description: "",
-        questions: [{  nameRu: "Неизвестный вопрос",nameKz: "Белгісіз сұрақ", required: false, key: 0 }]
+        questions: [{  nameRu: "",nameKz: "", required: false, key: 0 }]
     })
     const [currentTab, setCurrentTab] = useState<string>('create')
     const [surveyCalendar, setSurveyCalendar] = useState<Calendar>()
     const [surveySettings, setSurveySettings] = useState<string[]>(['multilang', 'randomQuestions', 'type', 'feedback'])
     const [selectedJurisdiction, setSelectedJurisdiction] = useState<Jurisdiction>()
+    const dayOfWeek = surveyCalendar?.everyWeek ? {dayOfWeek : surveyCalendar?.dayOfWeek} : {}
     const sendRequest = () => {
         const error = checkValid(surveyQuestions?.questions, surveyQuestions?.nameRu, surveyQuestions.nameKz, surveySettings.includes('multilang'), quizzType)
         if (error.valid && checkValidCalendar(surveyCalendar) && checkValidSettings(selectedJurisdiction?.division))
@@ -37,10 +38,10 @@ const CreateSurveyMain = () => {
                 everyDay: surveyCalendar?.everyDay,
                 everyWeek: surveyCalendar?.everyWeek,
                 everyMonth: surveyCalendar?.everyMonth,
-                dayOfWeek: surveyCalendar?.dayOfWeek ? surveyCalendar?.dayOfWeek : "MONDAY",
                 divisions: [
                     selectedJurisdiction?.division
                 ],
+                ...dayOfWeek
             }
             ).then(response => {
                 console.log(response.data)

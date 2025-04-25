@@ -63,33 +63,34 @@ const SpecificQuestionResult = ({ quizId, questions }: { quizId: string | undefi
                     })}
                 </div>
                 {questionData && questionData.length && questionData[selectedQuestion - 1].answers.map((ans) => (
-                    ans.chosenBy.length ? <div key={ans.answerId} style={{ fontFamily: 'Roboto' }}
-                        className="bg-white rounded-[10px] mb-5 border-1 p-5 flex flex-col gap-4 w-3/4 border-[#E6EBF1]"
-                    >
-                        <div className="flex gap-2">
-                            <div className="flex gap-2 w-full text-[16px] text-[#455560] items-center">
-                                {/* {questions && questions[selectedQuestion - 1].multipleAns ?
+                    ans.chosenBy.length ?
+                        <div key={ans.answerId} style={{ fontFamily: 'Roboto' }}
+                            className="bg-white rounded-[10px] mb-5 border-1 p-5 flex flex-col gap-4 w-3/4 border-[#E6EBF1]"
+                        >
+                            <div className="flex gap-2">
+                                <div className="flex gap-2 w-full text-[16px] text-[#455560] items-center">
+                                    {/* {questions && questions[selectedQuestion - 1].multipleAns ?
                                     <div
                                         className={`w-4 h-4 rounded border border-gray-300 bg-white flex items-center justify-center mr-3`}
                                     >
                                         <div className="w-2 h-2 rounded-[1.5px] bg-gray-300" />
                                     </div> :
                                     } */}
-                                <div
-                                    className={`w-4 h-4 rounded-full border border-gray-300 bg-white flex items-center justify-center mr-3`}
-                                >
-                                    <div className="w-2 h-2 rounded-full bg-gray-300" />
+                                    <div
+                                        className={`w-4 h-4 rounded-full border border-gray-300 bg-white flex items-center justify-center mr-3`}
+                                    >
+                                        <div className="w-2 h-2 rounded-full bg-gray-300" />
+                                    </div>
+                                    {ans && ans.answerText}
                                 </div>
-                                {ans && ans.answerText}
                             </div>
-                        </div>
-                        <Select value={`${ans.chosenBy.length} ответа`}
-                            options={ans.chosenBy.map(user => ({
-                                label: `${user.firstName} ${user.lastName} (${user.divisionName})`,
-                                value: user.userId
-                            }))}
-                            onChange={() => { }} />
-                    </div> : ''
+                            <Select value={`${ans.chosenBy.length} ответа`}
+                                options={ans.chosenBy.map(user => ({
+                                    label: `${user.firstName} ${user.lastName} (${user.divisionName})`,
+                                    value: user.userId
+                                }))}
+                                onChange={() => { }} />
+                        </div> : ''
                 ))}
             </div>
         </div>

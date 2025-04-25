@@ -4,6 +4,7 @@ import AnalyticsCharts from "../../widgets/graph-analytics/AnalyticsCharts";
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
+import { t } from "i18next";
 type QuestionChartMain = {
     questionId: number;
     questionNameRu: string;
@@ -23,9 +24,9 @@ const ChartMain = () => {
     const params = useParams();
     const [questions, setQuestions] = useState<QuestionChartMain[]>([]);
     const [yAxisMaxs, setYAxisMaxs] = useState<number[]>([]);
-     const max = useMemo(() => {
-        return questions.map(question => 
-            question.departments.reduce((accd, vald) => 
+    const max = useMemo(() => {
+        return questions.map(question =>
+            question.departments.reduce((accd, vald) =>
                 vald.choosenAnswers.reduce((acc, val) => acc + val, 0) + accd, 0
             )
         );
@@ -34,16 +35,17 @@ const ChartMain = () => {
         console.log(max);
         setYAxisMaxs(max)
     }, [max])
-    useEffect(()=>{
+    useEffect(() => {
         axios.get(`/analytics/quizzes/${params.id}/answers-by-department`).then((res) => {
             setQuestions(res.data.questions)
         })
     }, [])
     return (
         <div className="flex flex-col items-center gap-6">
-            {questions.map((item, i) => (
-                <AnalyticsCharts yMax={yAxisMaxs[i]} key={item.questionId} question={item} />
-            ))}
+            {questions.length === 0 ? <div className="text-[16px] text-[#455560]">{t('Нет данных для отображения')}</div> :
+                questions.map((item, i) => (
+                    <AnalyticsCharts yMax={yAxisMaxs[i]} key={item.questionId} question={item} />
+                ))}
         </div>
     );
 };

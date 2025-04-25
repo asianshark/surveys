@@ -94,7 +94,7 @@ const SurveyTestPass = () => {
             <div className="flex flex-col items-center bg-[#E6E6FA] h-full overflow-y-auto gap-6 pt-3">
                 {!isTestPassed ?
                     (questions?.map((item) =>
-                        <CreateSurveyQuestion key={item.key} valid={valid} selectedAns={e => setselectedAns(e, item.id)} type="pass" questionP={item} />
+                        <CreateSurveyQuestion settings={(questions[0].nameKz && questions[0].nameKz.length ? ['multilang'] : [])} key={item.key} valid={valid} selectedAns={e => setselectedAns(e, item.id)} type="pass" questionP={item} />
                     )) :
                     <div style={{ fontFamily: 'Roboto' }}
                         className="bg-white rounded-[10px] border-1 p-5 flex flex-col gap-4 w-3/4 border-[#E6EBF1]"
@@ -126,7 +126,7 @@ const SurveyTestPass = () => {
                                     <div className="flex items-center">
                                         <div className="w-full border-l-[1px] border-[#E6EBF1] pl-5 flex flex-col">
                                             <div>{t('pass-date')}</div>
-                                            <div>{results?.finishedAt ? new Date('2025-04-24T09:16:34.965Z').toLocaleDateString('ru-RU', {
+                                            <div>{results?.finishedAt ? new Date(results?.finishedAt).toLocaleDateString('ru-RU', {
                                                 day: '2-digit',
                                                 month: 'short',
                                                 year: 'numeric',

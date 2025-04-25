@@ -146,9 +146,17 @@ const Table = ({ dataP, total, changeFilter }: { total: number, dataP: Quiz[], a
                 ) : null,
         },
         {
-            title: t('calendar'),
-            dataIndex: 'dayOfWeek',
-            key: "date"
+            title: t('deadline'),
+            dataIndex: 'endDate',
+            key: "date",
+            render: (_, record) =>
+                <Space key={record.id}>
+                    <p>{record.endDate ? new Date(record.endDate).toLocaleDateString('ru-RU', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                    }) : record.dayOfWeek}</p>
+                </Space>
         },
         {
             title: t('more-detailed'),
