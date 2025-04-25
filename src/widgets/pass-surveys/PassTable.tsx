@@ -5,6 +5,8 @@ import { FilterDropdownProps } from 'antd/es/table/interface';
 import { SearchOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router';
 import { Quiz } from '../../entities/Survey';
+import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 
 type OnChange = NonNullable<TableProps<Quiz>['onChange']>;
@@ -18,6 +20,8 @@ type DataIndex = keyof Quiz;
 const PassTable = ({ dataP, total, changeFilter }: { total: number, dataP: Quiz[], changeFilter: OnChange }) => {
     const [sort, setSort] = useState<Sorts>({})
     const [filter, setFilter] = useState<Filters>({})
+    const { i18n } = useTranslation();
+    const lang = i18n.language;
     const searchInput = useRef<InputRef>(null);
     const [pagination, setPagination] = useState<TablePaginationConfig>({
         current: 1,
@@ -96,8 +100,8 @@ const PassTable = ({ dataP, total, changeFilter }: { total: number, dataP: Quiz[
     }
     const columns: TableColumnsType<Quiz> = [
         {
-            title: "Название",
-            dataIndex: 'nameRu',
+            title: t('title'),
+            dataIndex: lang === 'ru' ? 'nameRu' : 'nameKz',
             key: 'name',
             ...getColumnSearchProps('nameRu'),
             filteredValue: filter.name || null,
@@ -106,12 +110,12 @@ const PassTable = ({ dataP, total, changeFilter }: { total: number, dataP: Quiz[
             ellipsis: true,
         },
         {
-            title: "Тип",
+            title: t('type'),
             dataIndex: 'type',
             key: 'type',
             filters: [
-                { text: 'Открытый', value: true },
-                { text: 'Анонимный', value: false },
+                { text: t('opened'), value: true },
+                { text: t('anonymous'), value: false },
             ],
             filteredValue: filter.type || null,
             onFilter: () => true,
@@ -121,12 +125,12 @@ const PassTable = ({ dataP, total, changeFilter }: { total: number, dataP: Quiz[
             render: (_, record) =>
                 dataP.length >= 1 ? (
                     <Space key={record.id}>
-                        <p>{record.type ? "Открытый" : "Анонимный"}</p>
+                        <p>{record.type ? t('opened') : t('anonymous')}</p>
                     </Space>
                 ) : null,
         },
         {
-            title: "Крайний срок",
+            title: t('deadline'),
             dataIndex: 'endDate',
             key: "date",
             render: (_, record) =>
@@ -141,12 +145,12 @@ const PassTable = ({ dataP, total, changeFilter }: { total: number, dataP: Quiz[
                 ) : null,
         },
         {
-            title: 'Действия',
+            title: t('actions'),
             dataIndex: 'operation',
             render: (_, record) =>
                 dataP.length >= 1 ? (
                     <Space key={record.id}>
-                        <a onClick={() => handleChoose(record.id)}>Начать тестирование</a>
+                        <a onClick={() => handleChoose(record.id)}>{t('start-testing')}</a>
                     </Space>
                 ) : null,
         },

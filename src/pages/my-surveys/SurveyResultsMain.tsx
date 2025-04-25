@@ -6,18 +6,22 @@ import { useParams, useNavigate, Outlet, useLocation } from "react-router-dom";
 import UsersSurveyResultsList from "./UsersSurveyResultsList";
 import ChartMain from "./ChartMain";
 import SpecificQuestionResult from "./SpecificQuestionResult";
+import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 const SurveyResultsMain = () => {
     const location = useLocation();
     const tab = location.state;
     const [currentTab, setCurrentTab] = useState<string>(tab?.tab || 'analyse');
     const [survey, setSurvey] = useState<Survey>();
+    const { i18n } = useTranslation();
+    const lang = i18n.language;
     const params = useParams();
     const navigate = useNavigate();
     const items = [
-        { key: 'analyse', label: 'Общая сводка' },
-        { key: 'specific-questions', label: 'По конкретному вопросу' },
-        { key: 'user-result', label: 'По отдельному пользователю' },
+        { key: 'analyse', label: t('general-summary') },
+        { key: 'specific-questions', label: t('specific-issue') },
+        { key: 'user-result', label: t('by-individual-user') },
     ];
     const onChange = (key: string) => {
         if (isResultPage) {
@@ -44,7 +48,7 @@ const SurveyResultsMain = () => {
         <div className="flex flex-col h-full text-[#1A3353]">
             <div className="px-6 pt-4 bg-white z-10">
                 <div className="flex justify-between">
-                    <p className="text-xl font-medium">{survey?.nameRu}</p>
+                    <p className="text-xl font-medium">{lang === 'ru' ? survey?.nameRu : survey?.nameKz}</p>
                 </div>
                 <Tabs style={{ marginBottom: '-16px' }} activeKey={currentTab} items={items} onChange={onChange} />
             </div>
@@ -54,7 +58,7 @@ const SurveyResultsMain = () => {
                 )}
                 {currentTab === 'analyse' && !isResultPage &&
                     <ChartMain />}
-                {currentTab === 'specific-questions' && !isResultPage && <SpecificQuestionResult questions={survey?.questions} />}
+                {currentTab === 'specific-questions' && !isResultPage && <SpecificQuestionResult quizId={params.id} questions={survey?.questions} />}
                 <Outlet context={{ questions: survey?.questions, quizId: params.id }} />
             </div>
         </div>

@@ -19,7 +19,7 @@ const CreateSurveyMain = () => {
         description: "",
         questions: [{  nameRu: "Неизвестный вопрос",nameKz: "Белгісіз сұрақ", required: false, key: 0 }]
     })
-    const [currentTab, setCurrentTab] = useState<string>("settings")
+    const [currentTab, setCurrentTab] = useState<string>('create')
     const [surveyCalendar, setSurveyCalendar] = useState<Calendar>()
     const [surveySettings, setSurveySettings] = useState<string[]>(['multilang', 'randomQuestions', 'type', 'feedback'])
     const [selectedJurisdiction, setSelectedJurisdiction] = useState<Jurisdiction>()

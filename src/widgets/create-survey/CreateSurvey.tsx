@@ -28,7 +28,7 @@ const CreateSurvey = ({ quizzType, settings, setSurveyQuestions, surveyQuestions
     }
     const addVariant = () => {
         setKeys(keys + 1)
-        setQuestions((prev) => [...prev, { key: keys, nameRu: "Неизвестный вопрос",nameKz: "Белгісіз сұрақ", required: false }])
+        setQuestions((prev) => [...prev, { key: keys, nameRu: "Неизвестный вопрос", nameKz: "Белгісіз сұрақ", required: false }])
         setFocused(keys)
     }
     const deleteQuestion = (key: number | undefined) => {
@@ -70,7 +70,7 @@ const CreateSurvey = ({ quizzType, settings, setSurveyQuestions, surveyQuestions
                 </div>
             </div>
             {questions.map((item, i) =>
-                <CreateSurveyQuestion onClick={e => e!== undefined ? setFocused(e) : setFocused(keys)} disabled={i !== focused} quizzType={quizzType} duplicateQuestion={() => duplicateQuestion(item.key)} settings={settings} type="create" questionP={item} key={item.key} deleteQuestionP={() => deleteQuestion(item.key)} setQuestionP={e => setQuestion(e, item.key)} />
+                <CreateSurveyQuestion onClick={e => e !== undefined ? setFocused(e) : setFocused(keys)} disabled={i !== focused} quizzType={quizzType} duplicateQuestion={() => duplicateQuestion(item.key)} settings={settings} type="create" questionP={item} key={item.key} deleteQuestionP={() => deleteQuestion(item.key)} setQuestionP={e => setQuestion(e, item.key)} />
             )}
             <div className="pb-4">
                 <button onClick={addVariant} className="text-2xl text-[#72849A] p-5 rounded-[10px] bg-white flex border-[#E6EBF1] border-1"><PlusCircleOutlined /></button>

@@ -47,6 +47,11 @@ export default defineConfig({
         changeOrigin: true,
         secure: false
       },
+      '/analytics': {
+        target: url,
+        changeOrigin: true,
+        secure: false
+      },
     }
   }
 })

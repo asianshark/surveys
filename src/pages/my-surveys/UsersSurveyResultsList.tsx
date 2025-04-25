@@ -71,7 +71,7 @@ const UsersSurveyResultsList = ({ quizId, choosenResult }: { choosenResult: (use
         rowClassName="editable-row"
         dataSource={usersList}
         pagination={pagination}
-        rowKey={(record, index) => `${record.userId}-${record.attemptNumber ?? index}`}
+        rowKey={(record) => `${record.userId}-${record.attemptNumber}`}
         onChange={handleChange}
       />
     </div>

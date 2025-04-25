@@ -99,7 +99,7 @@ const CreateSurveyQuestionRadioCheckbox = ({ disabled, quizzType, setSelectedAns
                     options={answers.map((item) => ({
                         value: item.key !== undefined ? item.key : item.id,
                         label: (
-                            (surveyType !== 'create' || disabled) ? <div style={{ fontFamily: 'Roboto' }}>{lang === "Рус" ? item?.nameRu : item?.nameKz}</div> :
+                            (surveyType !== 'create' || disabled) ? <div style={{ color: '#1A3353', fontFamily: 'Roboto' }}>{lang === "Рус" ? item?.nameRu : item?.nameKz}</div> :
                                 <div key={item.key} className="flex w-full items-center justify-between gap-4">
                                     <TextArea
                                         rows={1}
@@ -107,7 +107,7 @@ const CreateSurveyQuestionRadioCheckbox = ({ disabled, quizzType, setSelectedAns
                                         key={item.key}
                                         onChange={e => changeInput(e.target.value, item.key)}
                                         placeholder={lang === "Рус" ? 'Введите ответ' : 'Жауабын енгізіңіз'}
-                                        style={{ width: '100%', fontFamily: 'Roboto', fontSize: '14px' }}
+                                        style={{ width: '100%', color: '#1A3353', fontFamily: 'Roboto', fontSize: '14px' }}
                                     />
                                     <div className="flex items-center" onClick={() => deleteOption(item.key)}>
                                         <CloseCircleOutlined />
@@ -124,7 +124,7 @@ const CreateSurveyQuestionRadioCheckbox = ({ disabled, quizzType, setSelectedAns
                     options={answers.map((item) => ({
                         value: item.id !== undefined ? item.id : item.key,
                         label: (
-                            surveyType !== 'create' ? <div>{lang === "Рус" ? item?.nameRu : item?.nameKz}</div> :
+                            surveyType !== 'create' ? <div style={{ color: '#1A3353', fontFamily: 'Roboto' }}>{lang === "Рус" ? item?.nameRu : item?.nameKz}</div> :
                                 <div className="flex w-full items-center justify-between gap-4" key={item.key}>
                                     <TextArea
                                         rows={1}
@@ -132,7 +132,7 @@ const CreateSurveyQuestionRadioCheckbox = ({ disabled, quizzType, setSelectedAns
                                         key={item.key}
                                         onChange={e => changeInput(e.target.value, item.key)}
                                         placeholder={lang === "Рус" ? 'Пожалуйста введите ответ' : 'Жауабын енгізіңіз'}
-                                        style={{ width: '100%', fontFamily: 'Roboto', fontSize: '14px' }}
+                                        style={{ width: '100%', color: "#1A3353", fontFamily: 'Roboto', fontSize: '14px' }}
                                     />
                                     <div className={(surveyType !== 'create' ? 'hidden' : '') + " flex items-center"} onClick={() => deleteOption(item.key)}>
                                         <CloseCircleOutlined />
@@ -141,20 +141,20 @@ const CreateSurveyQuestionRadioCheckbox = ({ disabled, quizzType, setSelectedAns
                         )
                     }))} />
             }
-            {type === "singlechoice" ?
-                (correctAnswerRadio === undefined && quizzType !== 'survey' && <div className="text-[12px] text-[#1A3353]">
+            {surveyType === 'create' && quizzType !== 'survey' && (type === "singlechoice" ?
+                (correctAnswerRadio === undefined && <div className="text-[12px] text-[#1A3353]">
                     {lang === "Рус" ?
                         <p>Выберите правильный ответ из вышесозданных</p> :
                         <p>Жоғарыдағылардан дұрыс жауапты таңдаңыз</p>
                     }
                 </div>)
                 :
-                (correctAnswerCheckbox.length <= 0 && quizzType !== 'survey' && <div className="text-[12px] text-[#1A3353]">
+                (correctAnswerCheckbox.length <= 0 && <div className="text-[12px] text-[#1A3353]">
                     {lang === "Рус" ?
                         <p>Выберите один или более правильный ответ из вышесозданных</p> :
                         <p>Жоғарыдағылардың ішінен бір немесе одан да көп дұрыс жауапты таңдаңыз</p>
                     }
-                </div>)}
+                </div>))}
             <div className={(surveyType !== 'create' || disabled) ? 'hidden' : 'text-[14px]'}>
                 {lang === "Рус" ?
                     <p><a onClick={() => addVariant(true)} className="text-[#366EF6] cursor-pointer">Добавить вариант</a>  или  <a className="text-[#366EF6] cursor-pointer" onClick={() => addVariant(false)}>добавить вариант “Затрудняюсь ответить”</a></p>

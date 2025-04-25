@@ -106,8 +106,8 @@ const CreateSurveyQuestion: React.FC<CreateSurveyQuestionProps> = ({
                 <div className="flex gap-2 w-full text-[16px] text-[#455560] items-center">
                     {type === 'create' && !disabled ?
                         (lang === "Рус" ?
-                            <Input style={{ fontFamily: 'Roboto' }} size={'large'} value={question?.nameRu} placeholder="Вопрос" onChange={e => setQuestion({ nameRu: e.target.value, nameKz: question?.nameKz, required: question?.required })} /> :
-                            <Input style={{ fontFamily: 'Roboto' }} size={'large'} value={question?.nameKz} placeholder="Сұрақ" onChange={e => setQuestion({ nameRu: question?.nameRu, nameKz: e.target.value, required: question?.required })} />)
+                            <Input style={{ fontFamily: 'Roboto' }} size={'large'} value={question?.nameRu} placeholder="Вопрос" onChange={e => setQuestion({ nameRu: e.target.value, nameKz: question?.nameKz, required: question?.required, key: question.key })} /> :
+                            <Input style={{ fontFamily: 'Roboto' }} size={'large'} value={question?.nameKz} placeholder="Сұрақ" onChange={e => setQuestion({ nameRu: question?.nameRu, nameKz: e.target.value, required: question?.required, key: question.key })} />)
                         :
                         <div className="flex gap-1">{lang === "Рус" ? question?.nameRu : question?.nameKz} <p className={isRequired ? 'text-red-500' : 'hidden'}>*</p></div>}
                     <Select
