@@ -67,12 +67,19 @@ const UserSurveyResult: React.FC<UserSurveyResultProps> = () => {
                 return (
                   <div key={ans.id} className="space-y-4">
                     <label className="flex items-center cursor-pointer">
-                      <div
-                        className={`w-4 h-4 rounded-full border ${isSelected ? "border-[#3b82f6] bg-white" : "border-gray-300 bg-white"
-                          } flex items-center justify-center mr-3`}
-                      >
-                        {isSelected && <div className="w-2 h-2 rounded-full bg-[#3b82f6]" />}
-                      </div>
+                      {item.multipleAns ?
+                        <div
+                          className={`w-4 h-4 rounded-[3px] border ${isSelected ? "border-[#3b82f6] bg-white" : "border-gray-300 bg-white"
+                            } flex items-center justify-center mr-3`}
+                        >
+                          {isSelected && <div className="w-2 h-2 rounded-[1.5px] bg-[#3b82f6]" />}
+                        </div> :
+                        <div
+                          className={`w-4 h-4 rounded-full border ${isSelected ? "border-[#3b82f6] bg-white" : "border-gray-300 bg-white"
+                            } flex items-center justify-center mr-3`}
+                        >
+                          {isSelected && <div className="w-2 h-2 rounded-full bg-[#3b82f6]" />}
+                        </div>}
                       <span className="text-[#2d3e50]">{ans.nameRu}</span>
                     </label>
                   </div>

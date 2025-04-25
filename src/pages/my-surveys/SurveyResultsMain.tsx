@@ -10,7 +10,7 @@ import SpecificQuestionResult from "./SpecificQuestionResult";
 const SurveyResultsMain = () => {
     const location = useLocation();
     const tab = location.state;
-    const [currentTab, setCurrentTab] = useState<string>(tab || 'analyse');
+    const [currentTab, setCurrentTab] = useState<string>(tab?.tab || 'analyse');
     const [survey, setSurvey] = useState<Survey>();
     const params = useParams();
     const navigate = useNavigate();

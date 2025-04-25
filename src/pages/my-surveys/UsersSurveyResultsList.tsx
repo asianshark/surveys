@@ -1,4 +1,4 @@
-import { Space, Table, TableColumnsType } from "antd";
+import { Space, Table, TableColumnsType, TablePaginationConfig, TableProps } from "antd";
 import axios from "axios";
 import { t } from "i18next";
 import { useEffect, useState } from "react";
@@ -12,9 +12,14 @@ type UserList = {
   correctAnswers: number;
   percentage: number;
 };
+type OnChange = NonNullable<TableProps<UserList>['onChange']>;
 
-const UsersSurveyResultsList = ({ quizId, choosenResult }: {choosenResult: (userId: string, attemptNumber: number)=> void, quizId: string | undefined }) => {
+const UsersSurveyResultsList = ({ quizId, choosenResult }: { choosenResult: (userId: string, attemptNumber: number) => void, quizId: string | undefined }) => {
   const [usersList, setUsersList] = useState<UserList[]>([]);
+  const [pagination, setPagination] = useState<TablePaginationConfig>({
+    current: 1,
+    pageSize: 7
+  });
   useEffect(() => {
     axios.get('/responses/result/response_list', { params: { 'quizId': quizId } }).then((res) => {
       setUsersList(res.data);
@@ -56,13 +61,18 @@ const UsersSurveyResultsList = ({ quizId, choosenResult }: {choosenResult: (user
         </Space>
     }
   ]
+  const handleChange: OnChange = (pagination) => {
+    setPagination(pagination)
+  };
   return (
     <div className="p-5 rounded-[10px] bg-white h-full">
       <Table
         columns={colums}
         rowClassName="editable-row"
         dataSource={usersList}
-        rowKey={(record) => `${record.userId}-${record.attemptNumber}`}
+        pagination={pagination}
+        rowKey={(record, index) => `${record.userId}-${record.attemptNumber ?? index}`}
+        onChange={handleChange}
       />
     </div>
   );

@@ -12,6 +12,7 @@ interface Result {
     percentage: number;
     totalQuestions: number,
     correctAnswers: number,
+    finishedAt: string,
     questionResults: {
         questionId: number;
         selectedAnswers: number[];
@@ -100,7 +101,7 @@ const SurveyTestPass = () => {
                     >
                         <div className="flex flex-col gap-2">
                             <div className="flex justify-around gap-2 w-full text-[16px] text-[#455560] items-center">
-                                <Progress strokeColor="#366EF6" type="dashboard" percent={results?.percentage} format={(percent) => <span style={{ color: "rgba(0, 0, 0, 0.88)" }}>{`${percent}%`}</span>}/>
+                                <Progress strokeColor="#366EF6" type="dashboard" percent={results?.percentage} format={(percent) => <span style={{ color: "rgba(0, 0, 0, 0.88)" }}>{`${percent}%`}</span>} />
                                 <div className="flex flex-col gap-5">
                                     <div className="flex items-center">
                                         <div className="w-full border-l-[1px] border-[#E6EBF1] pl-5 flex flex-col">
@@ -119,13 +120,20 @@ const SurveyTestPass = () => {
                                     <div className="flex items-center">
                                         <div className="w-full border-l-[1px] border-[#E6EBF1] pl-5 flex flex-col">
                                             <div>{t('attempt-number')}</div>
-                                            <div>{results?.correctAnswers}</div>
+                                            <div>{results?.attemptNumber}</div>
                                         </div>
                                     </div>
                                     <div className="flex items-center">
                                         <div className="w-full border-l-[1px] border-[#E6EBF1] pl-5 flex flex-col">
                                             <div>{t('pass-date')}</div>
-                                            <div>{results?.totalQuestions}</div>
+                                            <div>{results?.finishedAt ? new Date('2025-04-24T09:16:34.965Z').toLocaleDateString('ru-RU', {
+                                                day: '2-digit',
+                                                month: 'short',
+                                                year: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit',
+                                                hour12: false,
+                                            }) : results?.finishedAt}</div>
                                         </div>
                                     </div>
                                 </div>
