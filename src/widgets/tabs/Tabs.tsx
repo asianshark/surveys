@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import data from "../../assets/tabs.json"
 import ButtonTree from "../../shared/tabs/ButtonTree";
 import Icon from "../../shared/Icon";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Select } from "antd";
 import axios from "axios";
@@ -29,7 +29,8 @@ const Tabs = ({ closeOpenTab }: any) => {
     const [selectedUser, setSelectedUser] = useState<string>(localStorage.getItem('selectedUser') || '')
     const [users, setUsers] = useState<User[]>([])
     useEffect(() => {
-        axios.get('/users').then((res) => {
+        console.log('API URL:', import.meta.env.VITE_API_BASE_URL);
+        axios.get(`${import.meta.env.VITE_API_BASE_URL}/users`).then((res) => {
             setUsers(res.data.map((user: User) => {
                 return {
                     value: user.id,

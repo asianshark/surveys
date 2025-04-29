@@ -2,8 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-const url = 'http://192.168.0.102:8080'
-// https://vite.dev/config/
+const url = process.env.VITE_API_BASE_URL || 'http://192.168.0.102:8080'
 export default defineConfig({
   plugins: [
     react(),

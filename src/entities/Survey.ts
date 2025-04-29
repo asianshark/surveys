@@ -64,24 +64,6 @@ export interface Division {
     divisionName: string | undefined;
     quizIds?: number[] | null;
 }
-export interface Quiz {
-    id: number;
-    nameRu: string;
-    nameKz: string;
-    status: "DRAFT" | "PUBLISHED" | "CLOSED"; // Можно уточнить возможные статусы
-    createdAt: string; // ISO формат даты
-    updatedAt: string;
-    authorId: number | null;
-    type: boolean;
-    startDate: string;
-    endDate: string;
-    everyDay: boolean;
-    everyWeek: boolean;
-    everyMonth: boolean;
-    dayOfWeek: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY"; // Ограничение на дни недели
-    questions: Question[] | null; // Можно уточнить, если известна структура вопросов
-    divisions: Division[];
-}
 
 export interface Jurisdiction {
     division?: Division | undefined,

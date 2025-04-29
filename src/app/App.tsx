@@ -10,12 +10,12 @@ import Home from '../pages/home/Home';
 import { I18nextProvider } from "react-i18next";
 import i18next from "../i18n/i18n";
 import TabBar from '../widgets/tabs/TabBar';
-import Survey from '../pages/surveys/Survey';
-import CreateSurveyMain from '../pages/surveys/CreateSurveyMain';
-import SurveyTestPass from '../pages/pass-surveys/SurveyTestPass';
-import SurveyResultsMain from '../pages/my-surveys/SurveyResultsMain';
-import SurveysPassMain from '../pages/pass-surveys/SurveysPassMain';
-import UserSurveyResult from '../pages/my-surveys/UserSurveyResult';
+import Survey from '../pages/SurveysTests/Survey';
+import CreateSurveyMain from '../pages/SurveysTests/ui/CreateSurvey/CreateSurveyMain';
+import SurveyTestPass from '../pages/MySurveysTests/ui/SurveyTestPass';
+import SurveyResultsMain from '../pages/SurveysTests/ui/SurveysTestsResults/SurveyResultsMain';
+import SurveysPassMain from '../pages/MySurveysTests/SurveysPassMain';
+import UserSurveyResult from '../widgets/SurveysTests/ui/SurveysTestsResults/SurveysTestsResultByUsers/UserSurveyResult';
 
 function App() {
   const [isOpenTab, setIsOpenTab] = useState(false)

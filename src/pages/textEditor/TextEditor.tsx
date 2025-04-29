@@ -3,29 +3,29 @@ import { Quill } from "react-quill"
 import Editor from "../../widgets/editor/Editor"
 import TextEditerTabBar from "../../shared/editor/TextEditerTabBar"
 
-type Text = {
-    ops: [
-        {
-            attributes?: {
-                header?: number,
-                color?: string,
-                bold?: boolean,
-                link?: string,
-                underline? : boolean,
-                strike? : boolean,
-                font? : string,
-                size? : string,
-                background? : string,
-                blockquote? : boolean,
-                'code-block'? : boolean,
-                list? : string,
-                indent? : number,
-                token? : string
-            }
-            insert: string | { image: string },
-        }
-    ]
-}
+// type Text = {
+//     ops: [
+//         {
+//             attributes?: {
+//                 header?: number,
+//                 color?: string,
+//                 bold?: boolean,
+//                 link?: string,
+//                 underline? : boolean,
+//                 strike? : boolean,
+//                 font? : string,
+//                 size? : string,
+//                 background? : string,
+//                 blockquote? : boolean,
+//                 'code-block'? : boolean,
+//                 list? : string,
+//                 indent? : number,
+//                 token? : string
+//             }
+//             insert: string | { image: string },
+//         }
+//     ]
+// }
 const TextEditor = () => {
     const tabButtonStyle = {
         fontFamily: 'Roboto',
@@ -39,9 +39,10 @@ const TextEditor = () => {
     const [range, setRange] = useState();
     const [lastChange, setLastChange] = useState();
     const [readOnly, setReadOnly] = useState(false);
-
+    console.log(range,lastChange, setReadOnly);
+    
     // Use a ref to access the quill instance directly
-    const quillRef = useRef();
+    const quillRef = useRef(null);
     const Delta = Quill.import('delta');
     const getContent = (value: string) => {
         setContent(value)
