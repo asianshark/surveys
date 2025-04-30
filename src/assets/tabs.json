@@ -21,8 +21,8 @@
             },
             {
                 "icon": "list-bullet",
-                "label": "vacancy",
-                "key": "vacancy"
+                "label": "vacancies",
+                "key": "vacancies"
             }
         ]
     }

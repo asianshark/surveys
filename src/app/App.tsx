@@ -16,7 +16,7 @@ import SurveyTestPass from '../pages/MySurveysTests/ui/SurveyTestPass';
 import SurveyResultsMain from '../pages/SurveysTests/ui/SurveysTestsResults/SurveyResultsMain';
 import SurveysPassMain from '../pages/MySurveysTests/SurveysPassMain';
 import UserSurveyResult from '../widgets/SurveysTests/ui/SurveysTestsResults/SurveysTestsResultByUsers/UserSurveyResult';
-import VacancyMain from '../pages/Vacancy/ui/VacancyMain';
+import VacanciesMain from '../pages/Vacancy/ui/VacanciesMain';
 
 function App() {
   const [isOpenTab, setIsOpenTab] = useState(false)
@@ -46,7 +46,7 @@ function App() {
               <Route path='/surveys-tests/:id' element={<SurveyResultsMain />} >
                 <Route path='result' element={<UserSurveyResult />} />
               </Route>
-              <Route path='/vacancy' element={<VacancyMain/>}/>
+              <Route path='/vacancies' element={<VacanciesMain/>}/>
               <Route path='/surveys-tests' element={<Survey />} />
               <Route path='/create/:type' element={<CreateSurveyMain />} />
               <Route path="/" element={<Home />} />
