@@ -5,7 +5,7 @@ import axios from "axios"
 import SurveySettings from "./CreateSurveySettings/SurveySettings"
 import SurveyCalendar from "./CreateSurveyCalendar/SurveyCalendar"
 import { checkValid, checkValidCalendar, checkValidSettings } from "../../hooks/CheckValidCreatedSyrvey"
-import { useNavigate, useParams } from "react-router"
+import { useNavigate, useParams } from "react-router-dom"
 import { useTranslation } from "react-i18next";
 import { Calendar } from "../../../../entities/SurveysTests/Quiz/CalendarSchema"
 import { Survey } from "../../../../entities/SurveysTests/Quiz/SurveySchema"

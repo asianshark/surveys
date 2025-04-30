@@ -3,7 +3,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import AnalyticsCharts from "../../../../../widgets/graph-analytics/AnalyticsCharts";
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import { t } from "i18next";
 type QuestionChartMain = {
     questionId: number;

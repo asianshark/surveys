@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button, Progress } from "antd";
 import { checkValidPass } from "../hooks/CheckPassValid";

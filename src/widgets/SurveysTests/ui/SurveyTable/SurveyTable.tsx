@@ -3,7 +3,7 @@ import type { InputRef, TableColumnsType, TableColumnType, TablePaginationConfig
 import { Button, Input, Space, Table as TableAntd } from 'antd';
 import { FilterDropdownProps } from 'antd/es/table/interface';
 import { SearchOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { Quiz } from '../../../../entities/SurveysTests/Quiz/QuizSchema';

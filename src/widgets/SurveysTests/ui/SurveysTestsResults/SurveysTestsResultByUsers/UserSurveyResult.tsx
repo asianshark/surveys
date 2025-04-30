@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Answer, Question } from "../../../../../entities/Survey";
-import { useLocation, useOutletContext } from "react-router";
+import { useLocation, useOutletContext } from "react-router-dom";
 
 interface UserSurveyResultProps {
   quizId?: string | undefined;

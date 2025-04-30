@@ -3,7 +3,7 @@ import { Select, type TablePaginationConfig, type TableProps } from 'antd';
 import axios from "axios"
 import { FilterValue, SorterResult } from "antd/es/table/interface";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { Quiz } from "../../../../entities/SurveysTests/Quiz/QuizSchema";
 import SurveyTable from "../../../../widgets/SurveysTests/ui/SurveyTable/SurveyTable";
 import SurveyTableTab from "../../../../shared/surveys/SurveyTableTab";

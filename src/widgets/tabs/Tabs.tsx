@@ -29,7 +29,6 @@ const Tabs = ({ closeOpenTab }: any) => {
     const [selectedUser, setSelectedUser] = useState<string>(localStorage.getItem('selectedUser') || '')
     const [users, setUsers] = useState<User[]>([])
     useEffect(() => {
-        console.log('API URL:', import.meta.env.VITE_API_BASE_URL);
         axios.get(`${import.meta.env.VITE_API_BASE_URL}/users`).then((res) => {
             setUsers(res.data.map((user: User) => {
                 return {
