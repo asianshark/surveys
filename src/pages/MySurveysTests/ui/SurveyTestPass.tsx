@@ -6,9 +6,9 @@ import { t } from "i18next";
 import { Result } from "../../../entities/SurveysTests/MySurveysTests/SurveyTestPass";
 import { Question } from "../../../entities/SurveysTests/Quiz/QuestionSchema";
 import { Survey } from "../../../entities/SurveysTests/Quiz/SurveySchema";
-import { getDetailedResult, getQuizById, sendBatchResponses } from "../services/passTestSurvey";
-import { Quiz } from "../../../entities/SurveysTests/Quiz/QuizSchema";
+import { getDetailedResult, sendBatchResponses } from "../services/passTestSurvey";
 import CreateSurveyQuestion from "../../../shared/Survey/CreateSurveyQuestion";
+import { getQuizById } from "../../../shared/services/surveyServices";
 
 const SurveyTestPass = () => {
     const navigate = useNavigate();
@@ -26,7 +26,7 @@ const SurveyTestPass = () => {
     }[] | undefined>()
     const [valid, setValid] = useState<{ valid: boolean, questionId: number | undefined }>({ valid: true, questionId: undefined })
     useEffect(() => {
-        getQuizById(Number(params.id)).then((res: Quiz) => {
+        getQuizById(Number(params.id)).then((res: Survey) => {
             setQuestions(res.questions)
             setSurvey(res)
         })
@@ -51,7 +51,12 @@ const SurveyTestPass = () => {
     const setselectedAns = (ans: number[], id: number | undefined) => {
         let ind
         if (!answers)
-            setAnswers([{ userId: localStorage.getItem('selectedUser') || '2', quizId: survey?.id, questionId: id, selectedAnswerIds: ans }])
+            setAnswers([{
+                userId: localStorage.getItem('selectedUser') || '2',
+                quizId: survey?.id,
+                questionId: id,
+                selectedAnswerIds: ans
+            }])
         else {
             ind = answers.find(ans => ans.questionId === id)
             if (ind) {
@@ -64,7 +69,12 @@ const SurveyTestPass = () => {
                 })
             }
             else {
-                setAnswers([...answers, { userId: localStorage.getItem('selectedUser') || '2', quizId: survey?.id, questionId: id, selectedAnswerIds: ans }])
+                setAnswers([...answers, {
+                    userId: localStorage.getItem('selectedUser') || '2',
+                    quizId: survey?.id,
+                    questionId: id,
+                    selectedAnswerIds: ans
+                }])
             }
         }
     }
@@ -83,15 +93,25 @@ const SurveyTestPass = () => {
             </div>
             <div className="flex flex-col items-center bg-[#E6E6FA] h-full overflow-y-auto gap-6 pt-3">
                 {!isTestPassed ?
-                    (questions?.map((item) =>
-                        <CreateSurveyQuestion settings={(questions[0].nameKz && questions[0].nameKz.length ? ['multilang'] : [])} key={item.key} valid={valid} selectedAns={e => setselectedAns(e, item.id)} type="pass" questionP={item} />
+                    (questions?.map((item, index) =>
+                        <CreateSurveyQuestion
+                            settings={(questions[0].nameKz && questions[0].nameKz.length ? ['multilang'] : [])}
+                            key={item.key ? item.key : index}
+                            valid={valid}
+                            selectedAns={e => setselectedAns(e, item.id)}
+                            type="pass"
+                            questionP={item} />
                     )) :
                     <div style={{ fontFamily: 'Roboto' }}
                         className="bg-white rounded-[10px] border-1 p-5 flex flex-col gap-4 w-3/4 border-[#E6EBF1]"
                     >
                         <div className="flex flex-col gap-2">
                             <div className="flex justify-around gap-2 w-full text-[16px] text-[#455560] items-center">
-                                <Progress strokeColor="#366EF6" type="dashboard" percent={results?.percentage} format={(percent) => <span style={{ color: "rgba(0, 0, 0, 0.88)" }}>{`${percent}%`}</span>} />
+                                <Progress
+                                    strokeColor="#366EF6"
+                                    type="dashboard"
+                                    percent={results?.percentage}
+                                    format={(percent) => <span style={{ color: "rgba(0, 0, 0, 0.88)" }}>{`${percent}%`}</span>} />
                                 <div className="flex flex-col gap-5">
                                     <div className="flex items-center">
                                         <div className="w-full border-l-[1px] border-[#E6EBF1] pl-5 flex flex-col">

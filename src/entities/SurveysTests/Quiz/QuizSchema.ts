@@ -7,6 +7,7 @@ export const QuizSchema = z.object({
     nameRu: z.string(),
     nameKz: z.string(),
     status: z.enum(["DRAFT", "PUBLISHED", "CLOSED"]),
+    test: z.boolean(),
     createdAt: z.string(),
     updatedAt: z.string(),
     authorId: z.string().optional(),
@@ -26,7 +27,7 @@ export const QuizSchema = z.object({
         "SUNDAY",
     ]),
     questions: z.array(QuestionSchema),
-    divisions: z.array(DivisionSchema),
+    divisions: z.array(DivisionSchema.optional()),
 });
 
 export type Quiz = z.infer<typeof QuizSchema>;

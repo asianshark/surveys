@@ -1,7 +1,6 @@
 import { Button, Tabs } from "antd"
 import CreateSurvey from "./CreateSurvey/CreateSurvey"
 import { useState } from "react"
-import axios from "axios"
 import SurveySettings from "./CreateSurveySettings/SurveySettings"
 import SurveyCalendar from "./CreateSurveyCalendar/SurveyCalendar"
 import { checkValid, checkValidCalendar, checkValidSettings } from "../../hooks/CheckValidCreatedSyrvey"
@@ -10,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { Calendar } from "../../../../entities/SurveysTests/Quiz/CalendarSchema"
 import { Survey } from "../../../../entities/SurveysTests/Quiz/SurveySchema"
 import { Jurisdiction } from "../../../../entities/SurveysTests/Quiz/SettingsSchema"
+import { createQuizzesV2 } from "../../services/surveysTests"
 
 const CreateSurveyMain = () => {
     const { t } = useTranslation();
@@ -19,34 +19,33 @@ const CreateSurveyMain = () => {
     const [surveyQuestions, setSurveyQuestions] = useState<Survey>({
         nameRu: "",
         description: "",
-        questions: [{  nameRu: "",nameKz: "", required: false, key: 0 }]
+        questions: [{ nameRu: "", nameKz: "", required: false, key: 0 }]
     })
     const [currentTab, setCurrentTab] = useState<string>('create')
     const [surveyCalendar, setSurveyCalendar] = useState<Calendar>()
     const [surveySettings, setSurveySettings] = useState<string[]>(['multilang', 'randomQuestions', 'type', 'feedback'])
     const [selectedJurisdiction, setSelectedJurisdiction] = useState<Jurisdiction>()
-    const dayOfWeek = surveyCalendar?.everyWeek ? {dayOfWeek : surveyCalendar?.dayOfWeek} : {}
+    const dayOfWeek = surveyCalendar?.everyWeek ? { dayOfWeek: surveyCalendar?.dayOfWeek } : {}
     const sendRequest = () => {
         const error = checkValid(surveyQuestions?.questions, surveyQuestions?.nameRu, surveyQuestions.nameKz, surveySettings.includes('multilang'), quizzType)
         if (error.valid && checkValidCalendar(surveyCalendar) && checkValidSettings(selectedJurisdiction?.division))
-            axios.post(`${import.meta.env.VITE_API_BASE_URL}/quizzes/v2`, {
+            createQuizzesV2({
                 ...surveyQuestions,
                 status: "DRAFT",
                 authorId: "1",
                 test: quizzType === 'test',
                 type: true,
-                startDate: surveyCalendar?.startDate,
-                endDate: surveyCalendar?.endDate,
-                everyDay: surveyCalendar?.everyDay,
-                everyWeek: surveyCalendar?.everyWeek,
-                everyMonth: surveyCalendar?.everyMonth,
+                startDate: surveyCalendar ? surveyCalendar.startDate : new Date().toISOString(),
+                endDate: surveyCalendar ? surveyCalendar.endDate : new Date().toISOString(),
+                everyDay: surveyCalendar?.everyDay || false,
+                everyWeek: surveyCalendar?.everyWeek || false,
+                everyMonth: surveyCalendar?.everyMonth || false,
                 divisions: [
-                    selectedJurisdiction?.division
+                    selectedJurisdiction && selectedJurisdiction.division
                 ],
                 ...dayOfWeek
-            }
-            ).then(response => {
-                console.log(response.data)
+            }).then(response => {
+                console.log(response)
                 navigate('/surveys-tests')
             }
             )

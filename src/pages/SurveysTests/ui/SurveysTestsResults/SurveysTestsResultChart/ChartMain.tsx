@@ -2,9 +2,9 @@ import { Chart as ChartJS, CategoryScale, Title, LinearScale, BarElement, Legend
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import AnalyticsCharts from "../../../../../widgets/graph-analytics/AnalyticsCharts";
 import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import { t } from "i18next";
+import { getSurveysResCharts } from "../../../services/surveysTests";
 type QuestionChartMain = {
     questionId: number;
     questionNameRu: string;
@@ -35,9 +35,10 @@ const ChartMain = () => {
         setYAxisMaxs(max)
     }, [max])
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_API_BASE_URL}/analytics/quizzes/${params.id}/answers-by-department`).then((res) => {
-            setQuestions(res.data.questions)
-        })
+        if (params.id)
+            getSurveysResCharts(params.id).then((res) => {
+                setQuestions(res.questions)
+            })
     }, [])
     return (
         <div className="flex flex-col items-center gap-6">

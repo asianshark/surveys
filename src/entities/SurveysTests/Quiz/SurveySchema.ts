@@ -7,9 +7,12 @@ export const SurveySchema = z.object({
     nameRu: z.string(),
     description: z.string().optional(),
     nameKz: z.string().optional(),
+    test: z.boolean().optional(),
     authorId: z.string().optional(),
     status: z.enum(["DRAFT", "PUBLISHED", "CLOSED"]).optional(),
     type: z.boolean().optional(),
+    startDate: z.string().optional(),
+    endDate: z.string().optional(),
     everyDay: z.boolean().optional(),
     everyWeek: z.boolean().optional(),
     everyMonth: z.boolean().optional(),
@@ -23,7 +26,7 @@ export const SurveySchema = z.object({
         "SUNDAY",
     ]).optional(),
     questions: z.array(QuestionSchema),
-    divisions: z.array(DivisionSchema).optional(),
+    divisions: z.array(DivisionSchema.optional()).optional(),
 });
 
 export type Survey = z.infer<typeof SurveySchema>;

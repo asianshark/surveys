@@ -141,7 +141,7 @@ const SurveyTable = ({ dataP, total, changeFilter }: { total: number, dataP: Qui
             render: (_, record) =>
                 dataP.length >= 1 ? (
                     <Space key={record.id}>
-                        <p>{record.divisions[0].divisionName}</p>
+                        <p>{record.divisions[0]?.divisionName}</p>
                     </Space>
                 ) : null,
         },

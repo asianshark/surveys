@@ -7,7 +7,7 @@ import Icon from "../../shared/Icon";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Select } from "antd";
-import axios from "axios";
+import { getUsers } from "../../shared/services/surveyServices";
 
 type MenuItem = {
     label: string;
@@ -29,8 +29,8 @@ const Tabs = ({ closeOpenTab }: any) => {
     const [selectedUser, setSelectedUser] = useState<string>(localStorage.getItem('selectedUser') || '')
     const [users, setUsers] = useState<User[]>([])
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_API_BASE_URL}/users`).then((res) => {
-            setUsers(res.data.map((user: User) => {
+        getUsers().then((res) => {
+            setUsers(res.map((user: User) => {
                 return {
                     value: user.id,
                     label: user.lastName + ' ' + user.firstName + ' ' + user.fatherName

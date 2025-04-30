@@ -12,7 +12,7 @@ export type Settings = z.infer<typeof SettingsSchema>;
 export const DivisionSchema = z.object({
     id: z.number().optional(),
     divisionName: z.string().optional(), // string | undefined
-    quizIds: z.array(z.number()).nullable().optional(), // number[] | null | undefined
+    quizIds: z.array(z.number()).optional(), // number[] | null | undefined
 });
 export type Division = z.infer<typeof DivisionSchema>;
 

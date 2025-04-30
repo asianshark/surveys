@@ -1,7 +1,7 @@
 import { Space, Table, TableColumnsType, TablePaginationConfig, TableProps } from "antd";
-import axios from "axios";
 import { t } from "i18next";
 import { useEffect, useState } from "react";
+import { getUsersSurveyResList } from "../../../services/surveysTests";
 
 type UserList = {
   userId: string;
@@ -21,9 +21,10 @@ const UsersSurveyResultsList = ({ quizId, choosenResult }: { choosenResult: (use
     pageSize: 7
   });
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_API_BASE_URL}/responses/result/response_list`, { params: { 'quizId': quizId } }).then((res) => {
-      setUsersList(res.data);
-    });
+    if (quizId)
+      getUsersSurveyResList(quizId).then((res) => {
+        setUsersList(res);
+      });
   }, [])
   const detailed = (userId: string, attemptNumber: number) => {
     choosenResult(userId, attemptNumber)

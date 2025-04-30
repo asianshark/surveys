@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import type { TableProps } from 'antd';
 import PassTable from "./PassTable";
-import { getQuizzes } from "../services/passTestSurvey";
 import { GetQuizzesParamsSchema, GetQuizzesResponse } from "../../../shared/schemas/getQuizzesData";
 import { Quiz } from "../../../entities/SurveysTests/Quiz/QuizSchema";
 import { FilterState } from "../../../shared/schemas/FilterStateSchema";
+import { getQuizzes } from "../../../shared/services/surveyServices";
 type OnChange = NonNullable<TableProps<Quiz>['onChange']>;
 
 const PassSurveyTable = () => {

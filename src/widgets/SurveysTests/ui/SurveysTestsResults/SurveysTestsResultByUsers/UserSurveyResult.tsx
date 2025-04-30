@@ -1,7 +1,7 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Answer, Question } from "../../../../../entities/Survey";
 import { useLocation, useOutletContext } from "react-router-dom";
+import { getUserResultByAttempt } from "../../../../../shared/services/surveyServices";
 
 interface UserSurveyResultProps {
   quizId?: string | undefined;
@@ -26,10 +26,8 @@ const UserSurveyResult: React.FC<UserSurveyResultProps> = () => {
 
   useEffect(() => {
     if (quizId) {
-      axios.get(`${import.meta.env.VITE_API_BASE_URL}/responses/result/attempt`, {
-        params: { userId: userId, quizId, attempt: attemptNumber },
-      }).then((res) => {
-        setResults(res.data);
+      getUserResultByAttempt({userId, quizId, attemptNumber}).then((res: Result) => {
+        setResults(res);
       });
     }
   }, [quizId]);

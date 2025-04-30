@@ -18,6 +18,11 @@
                 "icon": "list-bullet",
                 "label": "surveys-tests",
                 "key": "surveys-tests"
+            },
+            {
+                "icon": "list-bullet",
+                "label": "vacancy",
+                "key": "vacancy"
             }
         ]
     }

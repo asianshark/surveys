@@ -1,13 +1,13 @@
 import { Tabs } from "antd";
 import { useEffect, useState } from "react";
-import { Survey } from "../../../../entities/Survey";
-import axios from "axios";
 import { useParams, useNavigate, Outlet, useLocation } from "react-router-dom";
 import UsersSurveyResultsList from "./SurveysTestsResultByUsers/UsersSurveyResultsList";
 import ChartMain from "./SurveysTestsResultChart/ChartMain";
 import SpecificQuestionResult from "./SurveysTestsResultByQuestion/SpecificQuestionResult";
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
+import { getQuizById } from "../../../../shared/services/surveyServices";
+import { Survey } from "../../../../entities/SurveysTests/Quiz/SurveySchema";
 
 const SurveyResultsMain = () => {
     const location = useLocation();
@@ -30,9 +30,10 @@ const SurveyResultsMain = () => {
         setCurrentTab(key);
     };
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_API_BASE_URL}/quizzes/${params.id}`).then((res) => {
-            setSurvey(res.data)
-        })
+        if (params.id)
+            getQuizById(Number(params.id)).then((res: Survey) => {
+                setSurvey(res)
+            })
     }, [params.id])
     const choosenResult = (userId: string, attemptNumber: number) => {
         navigate('result', { state: { userId, attemptNumber } });

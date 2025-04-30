@@ -1,9 +1,9 @@
 import { Button, Card, Checkbox, Select, Tag } from "antd"
-import axios from "axios";
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next";
 import { CloseOutlined } from "@ant-design/icons";
 import { Jurisdiction } from "../../../../../entities/SurveysTests/Quiz/SettingsSchema";
+import { getDivisions } from "../../../services/surveysTests";
 const style: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
@@ -56,9 +56,9 @@ const SurveySettings = ({ quizzType, selectedJurisdiction, setSelectedJurisdicti
     const [jurisdiction, setJurisdiction] = useState<string | undefined>(selectedJurisdiction?.jurisdiction)
     const [selectedOfficialPosition, setSelectedOfficialPosition] = useState<string | undefined>(selectedJurisdiction?.officialPosition)
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_API_BASE_URL}/divisions`).then((res) => {
+        getDivisions().then((res) => {
             const opt: { value: string, label: string }[] = []
-            res.data.content.map((item: { id: string | number; divisionName: string; }) => {
+            res.map((item: { id: string | number; divisionName: string; }) => {
                 opt.push({ value: item.id.toString(), label: item.divisionName })
             })
             setDivisions(opt)

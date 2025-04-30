@@ -1,23 +1,5 @@
 import { instance } from "../../../shared/api/instance";
-import { GetQuizzesParams } from "../../../shared/schemas/getQuizzesData";
-import { GetQuizzesResponse } from "../../../shared/schemas/getQuizzesData";
-import { Quiz } from "../../../entities/SurveysTests/Quiz/QuizSchema";
 import { Result } from "../../../entities/SurveysTests/MySurveysTests/SurveyTestPass";
-
-export const getQuizzes = ({ page, size }: GetQuizzesParams) =>
-    instance
-        .get(`/quizzes`, {
-            params: {
-                page: page,
-                size: size
-            }
-        })
-        .then((response: { data: GetQuizzesResponse }) => response.data);
-
-export const getQuizById = (id: number) =>
-    instance
-        .get(`/quizzes/${id}`)
-        .then((response: { data: Quiz }) => response.data);
 
 export const sendBatchResponses = (answers: {
     userId: string | undefined,

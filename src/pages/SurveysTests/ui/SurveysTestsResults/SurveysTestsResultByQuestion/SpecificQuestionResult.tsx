@@ -1,8 +1,8 @@
 import { Pagination, Select } from "antd";
 import { Question } from "../../../../../entities/Survey";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { t } from "i18next";
+import { getSpecQuestionResult } from "../../../services/surveysTests";
 type Answer = {
     answerId: number;
     answerText: string;
@@ -23,11 +23,10 @@ const SpecificQuestionResult = ({ quizId, questions }: { quizId: string | undefi
     const [selectedQuestion, setSelectedQuestion] = useState<number>(1);
     const [questionData, setQuestionData] = useState<QuestionSpecific[]>([]);
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_API_BASE_URL}/analytics/${quizId}/questions/users/latest`).then((response) => {
-            console.log(response.data);
-
-            setQuestionData(response.data);
-        });
+        if (quizId)
+            getSpecQuestionResult(quizId).then((response) => {
+                setQuestionData(response.data);
+            });
     }, [])
     return (
         <div className="flex flex-col h-full">

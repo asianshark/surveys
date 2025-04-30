@@ -38,8 +38,6 @@ const CreateSurveyQuestion: React.FC<CreateSurveyQuestionProps> = ({
     onClick,
 }) => {
     const [lang, setLang] = useState("Рус")
-    console.log(lang);
-    
     const [question, setQuestion] = useState<Question>(questionP)
     const [answers, setAnswers] = useState<Answer[]>([{ nameRu: "", nameKz: "", correct: true, key: 0 }]);
     const [questionType, setQuestionType] = useState(questionP.multipleAns ? 'multiplechoices' : 'singlechoice')

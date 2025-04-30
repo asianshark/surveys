@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react"
 import { Select, type TablePaginationConfig, type TableProps } from 'antd';
-import axios from "axios"
 import { FilterValue, SorterResult } from "antd/es/table/interface";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Quiz } from "../../../../entities/SurveysTests/Quiz/QuizSchema";
 import SurveyTable from "../../../../widgets/SurveysTests/ui/SurveyTable/SurveyTable";
 import SurveyTableTab from "../../../../shared/surveys/SurveyTableTab";
+import { GetQuizzesParamsSchema, GetQuizzesResponse } from "../../../../shared/schemas/getQuizzesData";
+import { getQuizzes } from "../../../../shared/services/surveyServices";
 
 type OnChange = NonNullable<TableProps<Quiz>['onChange']>;
 interface FilterState {
@@ -45,14 +46,18 @@ const SurveyTableMain = () => {
         console.log(filter);
     }
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_API_BASE_URL}/quizzes`, {
-            params: {
-                page: filter?.pagination.current ? filter.pagination.current - 1 : 0,
-                size: filter?.pagination ? filter.pagination.pageSize : 10
-            }
-        }).then((e) => {
-            setData(e.data.content)
-            setTotal(e.data.totalElements)
+        const params = {
+            page: filter?.pagination.current ? filter.pagination.current - 1 : 0,
+            size: filter?.pagination ? filter.pagination.pageSize : 10
+        };
+        const result = GetQuizzesParamsSchema.safeParse(params);
+        if (!result.success) {
+            console.error('Ошибка валидации параметров:', result.error.format());
+            return;
+        }
+        getQuizzes(params).then((response: GetQuizzesResponse) => {
+            setData(response.content)
+            setTotal(response.totalElements)
         })
     }, [filter])
     const createQuizzes = (value: string) => {
@@ -75,7 +80,7 @@ const SurveyTableMain = () => {
                     }))}
                     onChange={createQuizzes} />
             </div>
-            <SurveyTable dataP={data} total={total} activeTab={activeTab} changeFilter={changeFilter}/>
+            <SurveyTable dataP={data} total={total} activeTab={activeTab} changeFilter={changeFilter} />
 
         </div>
     )
