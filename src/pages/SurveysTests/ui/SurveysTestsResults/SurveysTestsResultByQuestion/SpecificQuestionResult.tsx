@@ -39,7 +39,7 @@ const SpecificQuestionResult = ({ quizId, questions }: { quizId: string | undefi
                     className="bg-white mb-5 rounded-[10px] border-1 p-5 flex flex-col gap-4 w-3/4 border-[#E6EBF1]"
                 >
                     <div className="flex gap-2">
-                        <div className="flex gap-2 w-full text-[16px] text-[#455560] items-center">{questions && questions[selectedQuestion - 1].nameRu}</div>
+                        <div className="flex gap-2 w-full text-[16px] text-[#455560] items-center">{questionData && questionData[selectedQuestion - 1]?.questionText}</div>
                     </div>
                     {questionData && questionData[selectedQuestion - 1]?.answers?.map((ans) => {
                         return (

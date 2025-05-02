@@ -63,5 +63,7 @@
     "anonymous": "Анонимный",
     "start-testing": "Начать тестирование",
     "question": "Вопрос",
-    "vacancies": "Вакансии"
+    "vacancies": "Вакансии",
+    "department": "Департамент",
+    "filter": "Фильтр"
 }
