@@ -65,5 +65,7 @@
     "question": "Вопрос",
     "vacancies": "Вакансии",
     "department": "Департамент",
-    "filter": "Фильтр"
+    "filter": "Фильтр",
+    "yes": "Да",
+    "no": "Нет"
 }

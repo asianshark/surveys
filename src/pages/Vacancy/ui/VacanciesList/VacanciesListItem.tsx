@@ -30,17 +30,21 @@ const VacanciesListItem = () => {
                     <div><Button size="large" style={{ borderRadius: "10px" }} type="primary"
                         onClick={() => {
                             Modal.confirm({
-                                icon: <ExclamationCircleOutlined />,
+                                icon: <ExclamationCircleOutlined style={{ color: "#FC5555" }} />,
                                 title:
                                     <p>Вы действительно хотите предложить собственные квалификационные требования на данную должность?</p>,
                                 content: <>
                                     <p className="text-[#1A3353]">Вы действительно хотите предложить собственную кандидатуру на должность “Начальник четвертого Департамента СГО”?</p>
                                 </>,
                                 footer: () => (
-                                    <>
-                                        <Button onClick={()=> Modal.destroyAll()}>No</Button>
-                                        <Button onClick={()=> Modal.destroyAll()} type="primary">Yes</Button>
-                                    </>
+                                    <div className="mt-5">
+                                        <Button size="large" onClick={() => Modal.destroyAll()}>
+                                            <p className="px-4">{t('no')}</p>
+                                        </Button>
+                                        <Button size="large" onClick={() => Modal.destroyAll()} type="primary">
+                                            <p className="px-4">{t('yes')}</p>
+                                        </Button>
+                                    </div>
                                 ),
                             });
                         }}>
