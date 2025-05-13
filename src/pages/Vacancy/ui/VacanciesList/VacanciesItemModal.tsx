@@ -15,9 +15,7 @@ const VacanciesItemModal = ({isModalOpen, onClose}: {isModalOpen: boolean, onClo
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <p>Some contents...</p>
-      <p>Some contents...</p>
-      <p>Some contents...</p>
+      <p className="text-[#1A3353] font-[400]">Вы действительно хотите предложить собственную кандидатуру на должность “Начальник четвертого Департамента СГО”?</p>
     </Modal>
   )
 }

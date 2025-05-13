@@ -29,7 +29,7 @@ const ButtonTree = ({ item, routTo, openChild }: { item: MenuItem, routTo: any, 
             <div className={"px-4 justify-between w-full flex h-10 items-center " + className}>
                 <button onClick={() => toRouter(item.key)}
                     className="flex w-full items-center">
-                    {item.icon && (<Icon icon={item.icon}></Icon>)}
+                    {item.icon && (<Icon icon={item.icon}/>)}
                     <p className={"text-sm font-medium " + (item.icon ? "pl-2.5" : "pl-[30px]")} >{t(item.label)}</p>
                 </button>
                 {item.childs && (

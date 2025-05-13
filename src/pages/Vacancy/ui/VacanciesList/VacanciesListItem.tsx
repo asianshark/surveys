@@ -1,14 +1,8 @@
-import { Button } from "antd"
+import { Button, Modal } from "antd"
 import { t } from "i18next"
-import VacanciesItemModal from "./VacanciesItemModal"
-import { useState } from "react";
+import { ExclamationCircleOutlined } from "@ant-design/icons"
 
 const VacanciesListItem = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const showModal = () => {
-        setIsModalOpen(true);
-      };
     return (
         <div className="rounded-[10px] bg-white py-6 px-5 border-1 border-[#E6EBF1] flex gap-7 items-center">
             <div className="gap-2 flex flex-col w-1/2">
@@ -33,10 +27,25 @@ const VacanciesListItem = () => {
                     <div className="flex gap-1 text-[14px] text-[#455560]">{t('Предельное звание:')} <span className="text-[#366EF6]">Gjkrjdybr</span></div>
                 </div>
                 <div className="flex flex-col gap-2">
-                    <div><Button size="large" style={{ borderRadius: "10px" }} onClick={showModal} type="primary">
+                    <div><Button size="large" style={{ borderRadius: "10px" }} type="primary"
+                        onClick={() => {
+                            Modal.confirm({
+                                icon: <ExclamationCircleOutlined />,
+                                title:
+                                    <p>Вы действительно хотите предложить собственные квалификационные требования на данную должность?</p>,
+                                content: <>
+                                    <p className="text-[#1A3353]">Вы действительно хотите предложить собственную кандидатуру на должность “Начальник четвертого Департамента СГО”?</p>
+                                </>,
+                                footer: () => (
+                                    <>
+                                        <Button onClick={()=> Modal.destroyAll()}>No</Button>
+                                        <Button onClick={()=> Modal.destroyAll()} type="primary">Yes</Button>
+                                    </>
+                                ),
+                            });
+                        }}>
                         {t('Предложить кандидатуру')}
                     </Button></div>
-                    <VacanciesItemModal isModalOpen={isModalOpen} onClose={(e) => setIsModalOpen(e)}/>
                     <div><Button size="large" style={{ borderRadius: "10px" }} type="primary">
                         {t('Просмотр кандидатов')} (10)
                     </Button></div>

@@ -4,8 +4,8 @@
         "icon": "",
         "childs": [
             {
-                "icon": "archive-box",
-                "label": "pass-test",
+                "icon": "FileDoneOutlined",
+                "label": "Мои опросы и тесты",
                 "key": "surveys"
             }
         ]
@@ -15,12 +15,12 @@
         "label":"menegment",
         "childs":[
             {
-                "icon": "list-bullet",
+                "icon": "EditOutlined",
                 "label": "surveys-tests",
                 "key": "surveys-tests"
             },
             {
-                "icon": "list-bullet",
+                "icon": "UserSwitchOutlined",
                 "label": "vacancies",
                 "key": "vacancies"
             }

@@ -5,9 +5,9 @@ const VacanciesMain = () => {
     return (
         <div className="flex flex-col h-full text-[#1A3353]">
 
-            <div className="px-6 pt-4 bg-white z-10">
+            <div className="px-6 pt-4 pb-2 bg-white z-10">
                 <div className="flex justify-between">
-                    <p className="text-xl font-medium">VacanciesMain</p>
+                    <p className="text-xl font-medium">Vacancies Main</p>
                 </div>
             </div>
             <div className="flex p-5 gap-5 w-full h-full">
